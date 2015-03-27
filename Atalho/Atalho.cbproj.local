@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2015/03/26 11:27:58.530,=C:\Users\Mauro\Documents\Embarcadero\Studio\Projects\Project1PCH1.h</Transaction>
+    <Transaction>2015/03/26 11:27:58.704,=C:\Users\Mauro\Documents\Embarcadero\Studio\Projects\File1.cpp</Transaction>
+    <Transaction>2015/03/26 11:33:58.399,C:\Users\Mauro\Documents\GitHub\Ninterpres\Atalho\Atalho.cpp=C:\Users\Mauro\Documents\Embarcadero\Studio\Projects\File1.cpp</Transaction>
+    <Transaction>2015/03/26 11:34:01.778,C:\Users\Mauro\Documents\GitHub\Ninterpres\Atalho\Project1PCH1.h=C:\Users\Mauro\Documents\Embarcadero\Studio\Projects\Project1PCH1.h</Transaction>
+    <Transaction>2015/03/26 11:34:08.208,C:\Users\Mauro\Documents\GitHub\Ninterpres\Atalho\AtalhoPCH1.h=C:\Users\Mauro\Documents\GitHub\Ninterpres\Atalho\Project1PCH1.h</Transaction>
+    <Transaction>2015/03/26 11:34:08.330,C:\Users\Mauro\Documents\GitHub\Ninterpres\Atalho\Atalho.cbproj=C:\Users\Mauro\Documents\Embarcadero\Studio\Projects\Project1.cbproj</Transaction>
+  </Transactions>
+</BorlandProject>

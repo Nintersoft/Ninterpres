@@ -1,0 +1,20 @@
+//---------------------------------------------------------------------------
+
+#ifndef Ajuda_OnlineH
+#define Ajuda_OnlineH
+//---------------------------------------------------------------------------
+#include <System.Classes.hpp>
+#include <FMX.Controls.hpp>
+#include <FMX.Forms.hpp>
+//---------------------------------------------------------------------------
+class TfrmAjudaOnline : public TForm
+{
+__published:	// IDE-managed Components
+private:	// User declarations
+public:		// User declarations
+	__fastcall TfrmAjudaOnline(TComponent* Owner);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TfrmAjudaOnline *frmAjudaOnline;
+//---------------------------------------------------------------------------
+#endif

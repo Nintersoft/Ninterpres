@@ -1,0 +1,62 @@
+object frmImgConf: TfrmImgConf
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = Single
+  Caption = 'Configura'#231#245'es de imagem'
+  ClientHeight = 83
+  ClientWidth = 583
+  Fill.Color = claOrange
+  Fill.Kind = Solid
+  Position = MainFormCenter
+  FormStyle = Popup
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop, iPhone, iPad]
+  OnClose = FormClose
+  DesignerMobile = False
+  DesignerWidth = 0
+  DesignerHeight = 0
+  DesignerDeviceName = ''
+  DesignerOrientation = 0
+  DesignerOSVersion = ''
+  object lblImgLeg: TLabel
+    StyledSettings = [Family, Style]
+    Height = 33.000000000000000000
+    Position.X = 16.000000000000000000
+    Position.Y = 8.000000000000000000
+    TextSettings.Font.Size = 22.000000000000000000
+    TextSettings.FontColor = claWhite
+    TextSettings.VertAlign = Leading
+    Text = 'Legenda/descri'#231#227'o da imagem usada'
+    Width = 441.000000000000000000
+  end
+  object edtImgLeg: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    TabOrder = 2
+    TextSettings.Font.Size = 14.000000000000000000
+    Position.X = 16.000000000000000000
+    Position.Y = 48.000000000000000000
+    Width = 441.000000000000000000
+    Height = 25.000000000000000000
+    StyledSettings = [Family, Style, FontColor]
+  end
+  object btSalvar: TRoundRect
+    Corners = [TopRight, BottomRight]
+    Fill.Color = claMediumblue
+    Height = 65.000000000000000000
+    Position.X = 480.000000000000000000
+    Position.Y = 8.000000000000000000
+    Width = 89.000000000000000000
+    object lblBtSalvar: TLabel
+      StyledSettings = [Family, Style]
+      Height = 49.000000000000000000
+      Position.Y = 8.000000000000000000
+      TextSettings.Font.Size = 22.000000000000000000
+      TextSettings.FontColor = claWhite
+      TextSettings.HorzAlign = Center
+      Text = 'Salvar'
+      Width = 72.000000000000000000
+    end
+  end
+end

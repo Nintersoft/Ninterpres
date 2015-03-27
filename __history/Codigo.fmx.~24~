@@ -1,0 +1,63 @@
+object frmCodigo: TfrmCodigo
+  Left = 0
+  Top = 0
+  Caption = 'Codigo - Ninterpres'
+  ClientHeight = 504
+  ClientWidth = 710
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop, iPhone, iPad]
+  OnCreate = FormCreate
+  DesignerMobile = False
+  DesignerWidth = 0
+  DesignerHeight = 0
+  DesignerDeviceName = ''
+  DesignerOrientation = 0
+  DesignerOSVersion = ''
+  object mmCodigo: TMemo
+    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    Height = 473.000000000000000000
+    TabOrder = 1
+    Width = 713.000000000000000000
+    Lines.Strings = (
+      'Apresenta'#231#227'o sem t'#237'tulo'
+      'Nintersoft'
+      '0'
+      '!='
+      '!='
+      '0'
+      
+        '//-------------------N'#195'O EDITE ACIMA DESTA LINHA----------------' +
+        '-'
+      '$CAPA'
+      '*.*'
+      '*.*'
+      '!(FDT)'
+      
+        '//------------------N'#195'O EDITE ABAIXO DESTA LINHA----------------' +
+        '-'
+      'NSDT'
+      'NSPR'
+      'NSFN')
+    ReadOnly = True
+    TextSettings.Font.Family = 'Arial'
+    TextSettings.Font.Size = 16.000000000000000000
+    StyledSettings = [FontColor]
+  end
+  object bmPrincipal: TRectangle
+    Anchors = [akLeft, akRight, akBottom]
+    Fill.Color = claOrange
+    Height = 33.000000000000000000
+    Position.Y = 472.000000000000000000
+    Stroke.Color = claOrange
+    Width = 713.000000000000000000
+    object btAlterar: TSpeedButton
+      Anchors = [akLeft, akTop, akBottom]
+      Height = 33.000000000000000000
+      Position.X = 8.000000000000000000
+      Text = 'Visualizar'
+      Width = 65.000000000000000000
+    end
+  end
+end

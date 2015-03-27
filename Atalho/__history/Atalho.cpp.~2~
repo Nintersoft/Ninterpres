@@ -1,0 +1,20 @@
+#include <iostream>
+#include <time.h>
+#include <conio.h>
+
+using namespace std;
+
+int main(){
+	try {
+		cout<<"Abrindo programa de apresentação";
+		Sleep(2000);
+		ShellExecuteA( NULL, "open", "BIN\\Ninterpres-a.exe", NULL, NULL, SW_SHOW );
+		Sleep(2000);
+	} catch (...) {
+		System()
+		cout<<"Erro na abertura do programa. certifique-se de que o executável encontra-se em BIN";
+		getch();
+	}
+
+	return 0;
+}

@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{D3F41729-1A03-423C-8ADB-C5B70261E8D8}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Apresentador\Ninterpres-a.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Ninterpres.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Ninterpres-a">
+        <MSBuild Projects="Apresentador\Ninterpres-a.cbproj"/>
+    </Target>
+    <Target Name="Ninterpres-a:Clean">
+        <MSBuild Projects="Apresentador\Ninterpres-a.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Ninterpres-a:Make">
+        <MSBuild Projects="Apresentador\Ninterpres-a.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Ninterpres">
+        <MSBuild Projects="Ninterpres.cbproj"/>
+    </Target>
+    <Target Name="Ninterpres:Clean">
+        <MSBuild Projects="Ninterpres.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Ninterpres:Make">
+        <MSBuild Projects="Ninterpres.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Ninterpres-a;Ninterpres"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Ninterpres-a:Clean;Ninterpres:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Ninterpres-a:Make;Ninterpres:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

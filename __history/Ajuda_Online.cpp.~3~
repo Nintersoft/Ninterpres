@@ -1,0 +1,32 @@
+//---------------------------------------------------------------------------
+
+#include <fmx.h>
+#pragma hdrstop
+
+#include "Ajuda_Online.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma link "ceffmx"
+#pragma resource "*.fmx"
+TfrmAjudaOnline *frmAjudaOnline;
+//---------------------------------------------------------------------------
+__fastcall TfrmAjudaOnline::TfrmAjudaOnline(TComponent* Owner)
+	: TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TfrmAjudaOnline::FormShow(TObject *Sender)
+{
+	navegador->InitializeBrowser();
+	navegador->Load("http://www.nintersoft.ml/");
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmAjudaOnline::navegadorLoadError(TObject *Sender, const ICefBrowser *browser,
+          const ICefFrame *frame, int errorCode, const ustring errorText,
+          const ustring failedUrl)
+{
+	ShowMessage("Falha ao carregar a central de ajuda online.\nPor favor, tente novamente mais tarde.");
+}
+//---------------------------------------------------------------------------
+

@@ -1,0 +1,27 @@
+//---------------------------------------------------------------------------
+
+#ifndef ConfiguracoesH
+#define ConfiguracoesH
+//---------------------------------------------------------------------------
+#include <System.Classes.hpp>
+#include <FMX.Controls.hpp>
+#include <FMX.Forms.hpp>
+#include <FMX.ListBox.hpp>
+#include <FMX.StdCtrls.hpp>
+#include <FMX.Types.hpp>
+//---------------------------------------------------------------------------
+class TfrmConfig : public TForm
+{
+__published:	// IDE-managed Components
+	TLabel *Label1;
+	TLabel *Label2;
+	TCornerButton *CornerButton1;
+	TCornerButton *CornerButton2;
+private:	// User declarations
+public:		// User declarations
+	__fastcall TfrmConfig(TComponent* Owner);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TfrmConfig *frmConfig;
+//---------------------------------------------------------------------------
+#endif

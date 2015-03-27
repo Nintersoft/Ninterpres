@@ -1,0 +1,284 @@
+//---------------------------------------------------------------------------
+
+#ifndef PrincipalH
+#define PrincipalH
+//---------------------------------------------------------------------------
+#include <System.Classes.hpp>
+#include <FMX.Controls.hpp>
+#include <FMX.Forms.hpp>
+#include <FMX.Layouts.hpp>
+#include <FMX.ListBox.hpp>
+#include <FMX.Objects.hpp>
+#include <FMX.StdCtrls.hpp>
+#include <FMX.Types.hpp>
+#include <FMX.Dialogs.hpp>
+#include <FMX.Edit.hpp>
+#include <FMX.Memo.hpp>
+#include <FMX.TabControl.hpp>
+#include <FMX.ListView.hpp>
+#include <FMX.ListView.Types.hpp>
+#include <FMX.Colors.hpp>
+#include <FMX.Ani.hpp>
+//---------------------------------------------------------------------------
+class TfrmPrincipal : public TForm
+{
+__published:	// IDE-managed Components
+	THorzScrollBox *brEditar;
+	TStatusBar *bsPrincipal;
+	THorzScrollBox *btTranspTipo;
+	TImage *tpTipo1;
+	TImage *tpTipo2;
+	TImage *tpTipo3;
+	TImage *tpTipo4;
+	TImage *tpTipo5;
+	TImage *tpTipo6;
+	TImage *tpTipo7;
+	TRectangle *spTipoSelec;
+	TLabel *lblTranspTipo;
+	TLabel *lblEdtTranspTitulo;
+	TLabel *lblEdtTranspImg;
+	TLabel *lblEdtTranspCont;
+	TSpeedButton *btSelecImagem;
+	TEdit *edTranspTitulo;
+	TEdit *edCamTranspImg;
+	TMemo *mmTranspCont;
+	TOpenDialog *daImagem;
+	TLabel *lblApreTitulo;
+	TEdit *edtApresTitulo;
+	TLabel *lblApreAutor;
+	TEdit *edtApresAutor;
+	TLine *vpLinha;
+	TSpeedButton *btAjudaAutor;
+	TTabControl *Abas;
+	TRectangle *BarraNav;
+	TTabItem *AbaArquivo;
+	TTabItem *AbaEditar;
+	TTabItem *AbaVisualizar;
+	TTabItem *AbaAjuda;
+	TRectangle *CorAbaEditar;
+	TRectangle *FundoAbaArquivo;
+	TRectangle *FundoAbaSelec;
+	TSpeedButton *btSelecEditar;
+	TSpeedButton *btSelecArquivo;
+	TSpeedButton *btSelecVisualizar;
+	TSpeedButton *btSelecAjuda;
+	TRectangle *CorAbaVisualizar;
+	TRectangle *corAbaAjuda;
+	THorzScrollBox *brVisualizar;
+	THorzScrollBox *brAjuda;
+	THorzScrollBox *brArquivo;
+	TRectangle *CorAbaArquivo;
+	TScrollBox *brTransp;
+	TListView *SelecTransp;
+	TRectangle *vsTransp;
+	TImage *btMinimizar;
+	TImage *btMaximizar;
+	TImage *btFechar;
+	TRoundRect *btSalvarDados;
+	TLabel *lblBtSalvarDados;
+	TRoundRect *btLimpDados;
+	TLabel *lblBtLimpDados;
+	TRoundRect *btModTransp;
+	TRoundRect *btCriarTransp;
+	TLabel *lblBtModTransp;
+	TLabel *lblBtCriarTransp;
+	TLabel *lblTituloForm;
+	TLabel *lblTamPrevTransp;
+	TListBox *listaPrevTransp;
+	TLine *vpLinha2;
+	TColorListBox *listaCorApresenta;
+	TLabel *lblCorTansp;
+	TLine *vpVisualizar;
+	TRoundRect *btVisualizarCodigo;
+	TLabel *lblBtVisualizacao;
+	TSpeedButton *btOpImgTransp;
+	TLabel *lblTitulo;
+	TImage *imgTransp;
+	TText *lblTranspTexto;
+	TRectangle *btAjudaOnline;
+	TCheckBox *cbBorda;
+	TCheckBox *cbTodos;
+	TLine *vpApres;
+	TColorListBox *listaCorTexto;
+	TCheckBox *cbFonte;
+	TLabel *lblListaCorTexto;
+	TLine *vpLinha3;
+	TLabel *lblAjudaOnline;
+	TRectangle *btDocWiki;
+	TRectangle *btCentralSup;
+	TRectangle *btEmail;
+	TLine *vpLinha4;
+	TRectangle *btSobre;
+	TRoundRect *btConfig;
+	TLabel *lblBtSobre;
+	TTabItem *tbTeste;
+	TLabel *lblImgLeg;
+	TLabel *lblBtAjudaOnline;
+	TLabel *lblBtCentralSup;
+	TLabel *lblBtDocWiki;
+	TLabel *lblBtEmail;
+	TCheckBox *opMostrarNSTransp;
+	TCheckBox *opMostrarLogoNS;
+	TCheckBox *opMostrarDataAtual;
+	TLine *vpLinha5;
+	TImage *btSalvarProj;
+	TImage *btAbrirProj;
+	TImage *btNovoProj;
+	TLabel *lblBtConfig;
+	TLine *vpLinha6;
+	TCircle *btExcluirTransp;
+	TLabel *lblBtExcluirTransp;
+	TSpeedButton *btExcluidados;
+	TLine *vpLinha7;
+	TLabel *lblAjustesAdicionais;
+	TTrackBar *baTamFonte;
+	TLabel *lblTamFonte;
+	TNumberBox *edtTamFonte;
+	TColorAnimation *ColorAnimation1;
+	TSaveDialog *dsExportar;
+	TRectangle *spClique;
+	TSaveDialog *dsSalvarProj;
+	TLang *Idioma;
+	void __fastcall btTranspTipoMouseEnter(TObject *Sender);
+	void __fastcall btTranspTipoMouseLeave(TObject *Sender);
+	void __fastcall tpTipo2Click(TObject *Sender);
+	void __fastcall tpTipo1Click(TObject *Sender);
+	void __fastcall tpTipo3Click(TObject *Sender);
+	void __fastcall tpTipo4Click(TObject *Sender);
+	void __fastcall tpTipo5Click(TObject *Sender);
+	void __fastcall tpTipo6Click(TObject *Sender);
+	void __fastcall tpTipo7Click(TObject *Sender);
+	void __fastcall btSelecImagemClick(TObject *Sender);
+	void __fastcall btAjudaAutorClick(TObject *Sender);
+	void __fastcall edtApresTituloExit(TObject *Sender);
+	void __fastcall lblTranspTipoMouseEnter(TObject *Sender);
+	void __fastcall lblTranspTipoMouseLeave(TObject *Sender);
+	void __fastcall btSelecVisualizarClick(TObject *Sender);
+	void __fastcall btSelecEditarClick(TObject *Sender);
+	void __fastcall btSelecAjudaClick(TObject *Sender);
+	void __fastcall btSelecArquivoClick(TObject *Sender);
+	void __fastcall FormShow(TObject *Sender);
+	void __fastcall btFecharClick(TObject *Sender);
+	void __fastcall btSalvarDadosClick(TObject *Sender);
+	void __fastcall btLimpDadosClick(TObject *Sender);
+	void __fastcall brTranspResize(TObject *Sender);
+	void __fastcall FormCreate(TObject *Sender);
+	void __fastcall CorAbaEditarMouseLeave(TObject *Sender);
+	void __fastcall CorAbaEditarMouseEnter(TObject *Sender);
+	void __fastcall btVisualizarCodigoClick(TObject *Sender);
+	void __fastcall edtApresAutorTyping(TObject *Sender);
+	void __fastcall edTranspTituloTyping(TObject *Sender);
+	void __fastcall btOpImgTranspClick(TObject *Sender);
+	void __fastcall btModTranspClick(TObject *Sender);
+	void __fastcall btCriarTranspClick(TObject *Sender);
+	void __fastcall edtApresTituloTyping(TObject *Sender);
+	void __fastcall edtApresTituloClick(TObject *Sender);
+	void __fastcall edTranspTituloExit(TObject *Sender);
+	void __fastcall listaCorApresentaChange(TObject *Sender);
+	void __fastcall btAjudaOnlineClick(TObject *Sender);
+	void __fastcall cbBordaChange(TObject *Sender);
+	void __fastcall cbTodosChange(TObject *Sender);
+	void __fastcall cbFonteChange(TObject *Sender);
+	void __fastcall btSobreClick(TObject *Sender);
+	void __fastcall listaCorTextoChange(TObject *Sender);
+	void __fastcall btEmailClick(TObject *Sender);
+	void __fastcall btDocWikiClick(TObject *Sender);
+	void __fastcall btCentralSupClick(TObject *Sender);
+	void __fastcall btMinimizarClick(TObject *Sender);
+	void __fastcall edtApresAutorExit(TObject *Sender);
+	void __fastcall SelecTranspItemClick(const TObject *Sender, const TListViewItem *AItem);
+	void __fastcall btConfigClick(TObject *Sender);
+	void __fastcall opMostrarNSTranspChange(TObject *Sender);
+	void __fastcall opMostrarLogoNSChange(TObject *Sender);
+	void __fastcall opMostrarDataAtualChange(TObject *Sender);
+	void __fastcall mmTranspContExit(TObject *Sender);
+	void __fastcall mmTranspContKeyUp(TObject *Sender, WORD &Key, System::WideChar &KeyChar,
+		  TShiftState Shift);
+	void __fastcall btExcluirTranspClick(TObject *Sender);
+	void __fastcall mmTranspContClick(TObject *Sender);
+	void __fastcall btExcluidadosClick(TObject *Sender);
+	void __fastcall btMaximizarClick(TObject *Sender);
+	void __fastcall FormResize(TObject *Sender);
+	void __fastcall baTamFonteTracking(TObject *Sender);
+	void __fastcall CorAbaArquivoMouseEnter(TObject *Sender);
+	void __fastcall CorAbaArquivoMouseLeave(TObject *Sender);
+	void __fastcall edtTamFonteChange(TObject *Sender);
+	void __fastcall btSalvarDadosMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btSalvarDadosMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btModTranspMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btModTranspMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btCriarTranspMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btCriarTranspMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btLimpDadosMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btLimpDadosMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
+	void __fastcall btCriarTranspMouseLeave(TObject *Sender);
+	void __fastcall btModTranspMouseLeave(TObject *Sender);
+	void __fastcall btSalvarDadosMouseLeave(TObject *Sender);
+	void __fastcall btLimpDadosMouseLeave(TObject *Sender);
+	void __fastcall btAjudaOnlineMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btAjudaOnlineMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btAjudaOnlineMouseLeave(TObject *Sender);
+	void __fastcall btCentralSupMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btCentralSupMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btCentralSupMouseLeave(TObject *Sender);
+	void __fastcall btEmailMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btEmailMouseLeave(TObject *Sender);
+	void __fastcall btEmailMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btDocWikiMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btDocWikiMouseLeave(TObject *Sender);
+	void __fastcall btDocWikiMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btSobreMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btSobreMouseLeave(TObject *Sender);
+	void __fastcall btSobreMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btSalvarProjMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btSalvarProjMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btSalvarProjMouseLeave(TObject *Sender);
+	void __fastcall btAbrirProjMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btAbrirProjMouseLeave(TObject *Sender);
+	void __fastcall btAbrirProjMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btNovoProjMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btNovoProjMouseLeave(TObject *Sender);
+	void __fastcall btNovoProjMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btSalvarProjClick(TObject *Sender);
+
+
+private:	// User declarations
+public:		// User declarations
+	__fastcall TfrmPrincipal(TComponent* Owner);
+	void MudarTransp (int , int);
+	void ModificarDados (int);
+	void CriarTransp ();
+	void CarregarTransp (int);
+	void RearranjoTransp (int);
+	bool comentario (String);
+	String Extensao(String);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TfrmPrincipal *frmPrincipal;
+//---------------------------------------------------------------------------
+#endif

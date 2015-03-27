@@ -1,0 +1,25 @@
+//---------------------------------------------------------------------------
+
+#ifndef Ajuda_OnlineH
+#define Ajuda_OnlineH
+//---------------------------------------------------------------------------
+#include <System.Classes.hpp>
+#include <FMX.Controls.hpp>
+#include <FMX.Forms.hpp>
+#include "ceffmx.hpp"
+#include <FMX.Types.hpp>
+#include <FMX.Types.hpp>
+#include "cefvcl.hpp"
+//---------------------------------------------------------------------------
+class TfrmAjudaOnline : public TForm
+{
+__published:	// IDE-managed Components
+	TChromiumFMX *navegador;
+private:	// User declarations
+public:		// User declarations
+	__fastcall TfrmAjudaOnline(TComponent* Owner);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TfrmAjudaOnline *frmAjudaOnline;
+//---------------------------------------------------------------------------
+#endif

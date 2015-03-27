@@ -1,0 +1,34 @@
+//---------------------------------------------------------------------------
+
+#ifndef SobreH
+#define SobreH
+//---------------------------------------------------------------------------
+#include <System.Classes.hpp>
+#include <FMX.Controls.hpp>
+#include <FMX.Forms.hpp>
+#include <FMX.Objects.hpp>
+#include <FMX.StdCtrls.hpp>
+#include <FMX.Types.hpp>
+//---------------------------------------------------------------------------
+class TfrmSobre : public TForm
+{
+__published:	// IDE-managed Components
+	TLabel *lblProg;
+	TLabel *lblNomeProg;
+	TLabel *lblVersao;
+	TLabel *lblVersaoProg;
+	TLabel *lblDesenvolvedor;
+	TLabel *lblDesenvolvedorProg;
+	TRoundRect *RoundRect1;
+	TRoundRect *RoundRect2;
+	TRectangle *Rectangle1;
+	TLabel *lblLicenc;
+	TLabel *lblLicencProg;
+private:	// User declarations
+public:		// User declarations
+	__fastcall TfrmSobre(TComponent* Owner);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TfrmSobre *frmSobre;
+//---------------------------------------------------------------------------
+#endif
