@@ -2297,3 +2297,15 @@ void __fastcall TfrmPrincipal::btNovoProjClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TfrmPrincipal::CorAbaVisualizarMouseEnter(TObject *Sender)
+{
+	brVisualizar->ShowScrollBars = true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::CorAbaVisualizarMouseLeave(TObject *Sender)
+{
+	brVisualizar->ShowScrollBars = false;
+}
+//---------------------------------------------------------------------------
+

@@ -269,6 +269,8 @@ __published:	// IDE-managed Components
 	void __fastcall btSalvarProjClick(TObject *Sender);
 	void __fastcall btAbrirProjClick(TObject *Sender);
 	void __fastcall btNovoProjClick(TObject *Sender);
+	void __fastcall CorAbaVisualizarMouseEnter(TObject *Sender);
+	void __fastcall CorAbaVisualizarMouseLeave(TObject *Sender);
 
 
 private:	// User declarations
