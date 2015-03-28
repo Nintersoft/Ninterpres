@@ -16,10 +16,10 @@ object frmCodigo: TfrmCodigo
   DesignerOSVersion = ''
   object mmCodigo: TMemo
     Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
-    Anchors = [akLeft, akTop, akRight, akBottom]
-    Height = 473.000000000000000000
+    Align = Client
+    Height = 471.000000000000000000
     TabOrder = 1
-    Width = 713.000000000000000000
+    Width = 710.000000000000000000
     Lines.Strings = (
       'Apresenta'#231#227'o sem t'#237'tulo'
       'Nintersoft'
@@ -48,12 +48,12 @@ object frmCodigo: TfrmCodigo
     StyledSettings = [FontColor]
   end
   object bmPrincipal: TRectangle
-    Anchors = [akLeft, akRight, akBottom]
+    Align = MostBottom
     Fill.Color = claOrange
     Height = 33.000000000000000000
-    Position.Y = 472.000000000000000000
+    Position.Y = 471.000000000000000000
     Stroke.Color = claOrange
-    Width = 713.000000000000000000
+    Width = 710.000000000000000000
     object btAlterar: TSpeedButton
       Anchors = [akLeft, akTop, akBottom]
       Enabled = False

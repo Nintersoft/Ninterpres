@@ -21,6 +21,7 @@ __published:	// IDE-managed Components
 	void __fastcall btSalvarClick(TObject *Sender);
 	void __fastcall edtImgLegKeyDown(TObject *Sender, WORD &Key, System::WideChar &KeyChar,
           TShiftState Shift);
+	void __fastcall FormShow(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TfrmImgConf(TComponent* Owner);

@@ -156,7 +156,7 @@ object frmCarregar: TfrmCarregar
   end
   object AniIndicator1: TAniIndicator
     Align = Center
-    Cursor = crHourGlass
+    Cursor = crAppStart
     Enabled = True
     Height = 113.000000000000000000
     Style = Circular

@@ -293,6 +293,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			imgTransp->Position->Y = 0;
 			imgTransp->Width = LargTransp;
 			imgTransp->Height = AltTransp;
+			imgTransp->WrapMode = TImageWrapMode::iwStretch;
 
 			lblImgLeg->Width = LargTransp - 32;
 			lblImgLeg->Position->X = 24;
@@ -336,6 +337,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			imgTransp->Position->X = LargTransp / 2 + 8;
 			imgTransp->Height = AltTransp - 112 - lblImgLeg->Height - 32;
 			imgTransp->Position->Y = 106;
+			imgTransp->WrapMode = TImageWrapMode::iwFit;
 
 			lblImgLeg->TextSettings->HorzAlign = 0x0;
 			lblImgLeg->Width = LargTransp/2 - 32;
@@ -386,6 +388,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			imgTransp->Position->X = 24;
 			imgTransp->Height = AltTransp - 112 - lblImgLeg->Height - 32;
 			imgTransp->Position->Y = 106;
+			imgTransp->WrapMode = TImageWrapMode::iwFit;
 
 			lblImgLeg->TextSettings->HorzAlign = 0x0;
 			lblImgLeg->Width = LargTransp/2 - 32;
@@ -436,6 +439,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			imgTransp->Position->X = LargTransp / 2 + 8;
 			imgTransp->Height = AltTransp - 112 - lblImgLeg->Height - 32;
 			imgTransp->Position->Y = 24;
+			imgTransp->WrapMode = TImageWrapMode::iwFit;
 
 			lblImgLeg->TextSettings->HorzAlign = 0x0;
 			lblImgLeg->Width = LargTransp/2 - 32;
@@ -486,6 +490,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			imgTransp->Position->X = 24;
 			imgTransp->Height = AltTransp - 112 - lblImgLeg->Height - 32;
 			imgTransp->Position->Y = 24;
+			imgTransp->WrapMode = TImageWrapMode::iwFit;
 
 			lblImgLeg->TextSettings->HorzAlign = 0x0;
 			lblImgLeg->Width = LargTransp/2 - 32;
@@ -585,6 +590,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			imgTransp->Position->X = 24;
 			imgTransp->Height = AltTransp - 112 - lblImgLeg->Height - 32;
 			imgTransp->Position->Y = 106;
+			imgTransp->WrapMode = TImageWrapMode::iwFit;
 
 			lblImgLeg->Width = LargTransp - 48;
 			lblImgLeg->Position->X = 24;
@@ -635,6 +641,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			imgTransp->Position->X = 24;
 			imgTransp->Height = AltTransp - 112 - lblImgLeg->Height - 32;
 			imgTransp->Position->Y = 24;
+			imgTransp->WrapMode = TImageWrapMode::iwFit;
 
 			lblImgLeg->Width = LargTransp - 48;
 			lblImgLeg->Position->X = 24;

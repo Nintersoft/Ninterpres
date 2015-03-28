@@ -8,7 +8,6 @@
 
 #include "Carregar.h"
 #include "Principal.h"
-#include "Min.h"
 #include "Codigo.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)

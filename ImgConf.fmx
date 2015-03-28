@@ -12,6 +12,7 @@ object frmImgConf: TfrmImgConf
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop, iPhone, iPad]
+  OnShow = FormShow
   DesignerMobile = False
   DesignerWidth = 0
   DesignerHeight = 0

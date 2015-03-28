@@ -141,6 +141,7 @@ __published:	// IDE-managed Components
 	TLang *Idioma;
 	TOpenDialog *daAbrirProj;
 	TTimer *tmCopiaSeg;
+	TLine *vpLinha8;
 	void __fastcall btTranspTipoMouseEnter(TObject *Sender);
 	void __fastcall btTranspTipoMouseLeave(TObject *Sender);
 	void __fastcall tpTipo2Click(TObject *Sender);

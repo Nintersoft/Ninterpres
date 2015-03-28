@@ -11,7 +11,6 @@
 #include "Configuracoes.h"
 #include "ImgConf.h"
 #include "Sobre.h"
-#include "Min.h"
 #include "Carregar.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -281,7 +280,6 @@ void __fastcall TfrmPrincipal::btSalvarDadosClick(TObject *Sender)
 	}
 	else {
 		ModificarDados(Transp);
-		CarregarTransp(Transp);
 	}
 }
 //---------------------------------------------------------------------------
@@ -640,7 +638,7 @@ bool res = true;
 //---------------------------------------------------------------------------
 void __fastcall TfrmPrincipal::btMinimizarClick(TObject *Sender)
 {
-	frmPrincipal->WindowState = frmMin->WindowState;
+	frmPrincipal->WindowState = TWindowState::wsMinimized;
 }
 //---------------------------------------------------------------------------
 
@@ -919,20 +917,22 @@ void TfrmPrincipal::CarregarTransp (int indice)
 			else if (pos == 3 && frmCodigo->mmCodigo->Lines->Strings[loc] != "*.*") {
 				frmPrincipal->lblImgLeg->Text = frmCodigo->mmCodigo->Lines->Strings[loc];
 				frmImgConf->edtImgLeg->Text = frmCodigo->mmCodigo->Lines->Strings[loc];
+				primVar = true;
 				loc++;
 				pos++;
 			}
 			else if (pos == 3 && frmCodigo->mmCodigo->Lines->Strings[loc] == "*.*") {
 				frmPrincipal->lblImgLeg->Text = "";
 				frmImgConf->edtImgLeg->Text = "";
+				primVar = true;
 				loc++;
 				pos++;
 			}
 			else if (pos == 4 && frmCodigo->mmCodigo->Lines->Strings[loc] != "*.*") {
 
 				if (primVar) {
-					frmPrincipal->mmTranspCont->Lines->Clear();
 					frmPrincipal->mmTranspCont->BeginUpdate();
+					frmPrincipal->mmTranspCont->Lines->Clear();
 					primVar = false;
 				}
 
@@ -952,6 +952,8 @@ void TfrmPrincipal::CarregarTransp (int indice)
 				}while (frmCodigo->mmCodigo->Lines->Strings[loc] != "!(FDT)");
 
 				frmPrincipal->mmTranspCont->EndUpdate();
+				frmPrincipal->mmTranspCont->Repaint();
+				frmPrincipal->mmTranspCont->GoToTextEnd();
 				frmPrincipal->lblTranspTexto->Text = frmPrincipal->mmTranspCont->Text;
 				pos++;
 
@@ -1159,6 +1161,9 @@ void TfrmPrincipal::ModificarDados (int transp)
 						loc++;
 					}
 					frmCodigo->mmCodigo->Lines->Delete(loc);
+					while (comentario(frmCodigo->mmCodigo->Lines->Strings[loc])){
+						loc++;
+					}
 				}
 				frmCodigo->mmCodigo->Lines->Insert(loc, "*.*");
 				frmCodigo->mmCodigo->EndUpdate();
@@ -1170,6 +1175,9 @@ void TfrmPrincipal::ModificarDados (int transp)
 						loc++;
 					}
 					frmCodigo->mmCodigo->Lines->Delete(loc);
+					while (comentario(frmCodigo->mmCodigo->Lines->Strings[loc])){
+						loc++;
+					}
 				}
 				frmCodigo->mmCodigo->EndUpdate();
 
@@ -1180,7 +1188,6 @@ void TfrmPrincipal::ModificarDados (int transp)
 					frmCodigo->mmCodigo->Lines->Insert(loc, frmPrincipal->mmTranspCont->Lines->Strings[i]);
 				}
 				frmCodigo->mmCodigo->EndUpdate();
-
 			}
 			pos++;
 		}
@@ -1191,6 +1198,8 @@ void TfrmPrincipal::ModificarDados (int transp)
 		}
 
 	} while (frmCodigo->mmCodigo->Lines->Strings[loc] != "!(FDT)");
+
+	CarregarTransp(Transp);
 
 }
 //---------------------------------------------------------------------------
@@ -1283,6 +1292,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			frmPrincipal->imgTransp->Position->Y = 0;
 			frmPrincipal->imgTransp->Width = LargTransp;
 			frmPrincipal->imgTransp->Height = AltTransp;
+			frmPrincipal->imgTransp->WrapMode = TImageWrapMode::iwStretch;
 
 			frmPrincipal->lblImgLeg->Width = LargTransp - 32;
 			frmPrincipal->lblImgLeg->Position->X = 24;
@@ -1326,6 +1336,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			frmPrincipal->imgTransp->Position->X = LargTransp / 2 + 8;
 			frmPrincipal->imgTransp->Height = AltTransp - 112 - frmPrincipal->lblImgLeg->Height - 32;
 			frmPrincipal->imgTransp->Position->Y = 106;
+			frmPrincipal->imgTransp->WrapMode = TImageWrapMode::iwFit;
 
 			frmPrincipal->lblImgLeg->TextSettings->HorzAlign = 0x0;
 			frmPrincipal->lblImgLeg->Width = LargTransp/2 - 32;
@@ -1376,6 +1387,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			frmPrincipal->imgTransp->Position->X = 24;
 			frmPrincipal->imgTransp->Height = AltTransp - 112 - frmPrincipal->lblImgLeg->Height - 32;
 			frmPrincipal->imgTransp->Position->Y = 106;
+			frmPrincipal->imgTransp->WrapMode = TImageWrapMode::iwFit;
 
 			frmPrincipal->lblImgLeg->TextSettings->HorzAlign = 0x0;
 			frmPrincipal->lblImgLeg->Width = LargTransp/2 - 32;
@@ -1426,6 +1438,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			frmPrincipal->imgTransp->Position->X = LargTransp / 2 + 8;
 			frmPrincipal->imgTransp->Height = AltTransp - 112 - frmPrincipal->lblImgLeg->Height - 32;
 			frmPrincipal->imgTransp->Position->Y = 24;
+			frmPrincipal->imgTransp->WrapMode = TImageWrapMode::iwFit;
 
 			frmPrincipal->lblImgLeg->TextSettings->HorzAlign = 0x0;
 			frmPrincipal->lblImgLeg->Width = LargTransp/2 - 32;
@@ -1476,6 +1489,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			frmPrincipal->imgTransp->Position->X = 24;
 			frmPrincipal->imgTransp->Height = AltTransp - 112 - frmPrincipal->lblImgLeg->Height - 32;
 			frmPrincipal->imgTransp->Position->Y = 24;
+			frmPrincipal->imgTransp->WrapMode = TImageWrapMode::iwFit;
 
 			frmPrincipal->lblImgLeg->TextSettings->HorzAlign = 0x0;
 			frmPrincipal->lblImgLeg->Width = LargTransp/2 - 32;
@@ -1575,6 +1589,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			frmPrincipal->imgTransp->Position->X = 24;
 			frmPrincipal->imgTransp->Height = AltTransp - 112 - frmPrincipal->lblImgLeg->Height - 32;
 			frmPrincipal->imgTransp->Position->Y = 106;
+			frmPrincipal->imgTransp->WrapMode = TImageWrapMode::iwFit;
 
 			frmPrincipal->lblImgLeg->Width = LargTransp - 48;
 			frmPrincipal->lblImgLeg->Position->X = 24;
@@ -1625,6 +1640,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			frmPrincipal->imgTransp->Position->X = 24;
 			frmPrincipal->imgTransp->Height = AltTransp - 112 - frmPrincipal->lblImgLeg->Height - 32;
 			frmPrincipal->imgTransp->Position->Y = 24;
+			frmPrincipal->imgTransp->WrapMode = TImageWrapMode::iwFit;
 
 			frmPrincipal->lblImgLeg->Width = LargTransp - 48;
 			frmPrincipal->lblImgLeg->Position->X = 24;

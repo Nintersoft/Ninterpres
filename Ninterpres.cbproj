@@ -130,8 +130,9 @@
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <ILINK_LibraryPath>..\..\..\..\Public\Documents\Embarcadero\Studio\14.0\DCP\;$(BDS)\lib\win32\release\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <LinkPackageStatics>rtl.lib;fmx.lib;DCEF_XE5.lib;xmlrtl.lib;vclx.lib;vcl.lib;vclactnband.lib</LinkPackageStatics>
-        <Icon_MainIcon>Logo\NPS_Logo_50.ico</Icon_MainIcon>
+        <Icon_MainIcon>IMGS\Logo\NPS_Logo_50.ico</Icon_MainIcon>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <UsePackages>false</UsePackages>
         <DynamicRTL>false</DynamicRTL>
@@ -174,12 +175,6 @@
             <DependentOn>ImgConf.h</DependentOn>
             <BuildOrder>5</BuildOrder>
         </CppCompile>
-        <CppCompile Include="Min.cpp">
-            <Form>frmMin</Form>
-            <FormType>fmx</FormType>
-            <DependentOn>Min.h</DependentOn>
-            <BuildOrder>7</BuildOrder>
-        </CppCompile>
         <CppCompile Include="Ninterpres.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
@@ -198,7 +193,6 @@
             <DependentOn>Sobre.h</DependentOn>
             <BuildOrder>6</BuildOrder>
         </CppCompile>
-        <FormResources Include="Min.fmx"/>
         <FormResources Include="Sobre.fmx"/>
         <FormResources Include="Principal.fmx"/>
         <FormResources Include="Codigo.fmx"/>

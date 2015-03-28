@@ -76,3 +76,9 @@ void TfrmImgConf::SalvarDepend ()
 	}
 }
 //---------------------------------------------------------------------------
+void __fastcall TfrmImgConf::FormShow(TObject *Sender)
+{
+	edtImgLeg->GoToTextEnd();
+}
+//---------------------------------------------------------------------------
+

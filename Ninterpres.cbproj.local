@@ -9,14 +9,14 @@
     <Transaction>2015/02/13 19:43:52.000.160,C:\Users\Mauro\Documents\Embarcadero\Studio\Projects\Ninterpres.cbproj=C:\Users\Mauro\Documents\Embarcadero\Studio\Projects\Project1.cbproj</Transaction>
     <Transaction>2015/02/13 19:43:52.000.155,C:\Users\Mauro\Documents\Embarcadero\Studio\Projects\NinterpresPCH1.h=C:\Users\Mauro\Documents\Embarcadero\Studio\Projects\Project1PCH1.h</Transaction>
     <Transaction>2015/02/13 21:32:33.000.666,C:\Users\Mauro\Documents\GitHub\Ninterpres\Principal.fmx=C:\Users\Mauro\Documents\Embarcadero\Studio\Projects\Principal.fmx</Transaction>
-    <Transaction>2015/02/13 21:32:33.000.666,C:\Users\Mauro\Documents\GitHub\Ninterpres\Principal.h=C:\Users\Mauro\Documents\Embarcadero\Studio\Projects\Principal.h</Transaction>
     <Transaction>2015/02/13 21:32:33.000.666,C:\Users\Mauro\Documents\GitHub\Ninterpres\Principal.cpp=C:\Users\Mauro\Documents\Embarcadero\Studio\Projects\Principal.cpp</Transaction>
+    <Transaction>2015/02/13 21:32:33.000.666,C:\Users\Mauro\Documents\GitHub\Ninterpres\Principal.h=C:\Users\Mauro\Documents\Embarcadero\Studio\Projects\Principal.h</Transaction>
     <Transaction>2015/02/13 21:32:38.000.928,C:\Users\Mauro\Documents\GitHub\Ninterpres\NinterpresPCH1.h=C:\Users\Mauro\Documents\Embarcadero\Studio\Projects\NinterpresPCH1.h</Transaction>
     <Transaction>2015/02/13 21:32:44.000.043,C:\Users\Mauro\Documents\GitHub\Ninterpres\Ninterpres.cbproj=C:\Users\Mauro\Documents\Embarcadero\Studio\Projects\Ninterpres.cbproj</Transaction>
     <Transaction>2015/02/14 15:55:03.000.212,=C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.cpp</Transaction>
     <Transaction>2015/02/14 15:55:32.000.156,C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.h=C:\Users\Mauro\Documents\GitHub\Ninterpres\Codigo.h</Transaction>
-    <Transaction>2015/02/14 15:55:32.000.156,C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.fmx=C:\Users\Mauro\Documents\GitHub\Ninterpres\Codigo.fmx</Transaction>
     <Transaction>2015/02/14 15:55:32.000.156,C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.cpp=C:\Users\Mauro\Documents\GitHub\Ninterpres\Codigo.cpp</Transaction>
+    <Transaction>2015/02/14 15:55:32.000.156,C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.fmx=C:\Users\Mauro\Documents\GitHub\Ninterpres\Codigo.fmx</Transaction>
     <Transaction>2015/02/15 23:38:53.000.793,=C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.cpp</Transaction>
     <Transaction>2015/02/15 23:41:06.000.107,C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.h=C:\Users\Mauro\Documents\GitHub\Ninterpres\Configuracoes.h</Transaction>
     <Transaction>2015/02/15 23:41:06.000.107,C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.fmx=C:\Users\Mauro\Documents\GitHub\Ninterpres\Configuracoes.fmx</Transaction>
@@ -27,8 +27,8 @@
     <Transaction>2015/03/01 14:14:42.000.941,C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.h=C:\Users\Mauro\Documents\GitHub\Ninterpres\Ajuda_Online.h</Transaction>
     <Transaction>2015/03/01 15:36:38.000.813,C:\Users\Mauro\Documents\GitHub\Ninterpres\Ajuda_Online.cpp=</Transaction>
     <Transaction>2015/03/01 16:12:11.000.316,=C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.cpp</Transaction>
-    <Transaction>2015/03/01 16:12:56.000.226,C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.cpp=C:\Users\Mauro\Documents\GitHub\Ninterpres\Img_Conf.cpp</Transaction>
     <Transaction>2015/03/01 16:12:56.000.226,C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.h=C:\Users\Mauro\Documents\GitHub\Ninterpres\Img_Conf.h</Transaction>
+    <Transaction>2015/03/01 16:12:56.000.226,C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.cpp=C:\Users\Mauro\Documents\GitHub\Ninterpres\Img_Conf.cpp</Transaction>
     <Transaction>2015/03/01 16:12:56.000.226,C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.fmx=C:\Users\Mauro\Documents\GitHub\Ninterpres\Img_Conf.fmx</Transaction>
     <Transaction>2015/03/03 21:32:22.000.754,=C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.cpp</Transaction>
     <Transaction>2015/03/03 21:32:31.000.660,C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.h=C:\Users\Mauro\Documents\GitHub\Ninterpres\Sobre.h</Transaction>
@@ -40,10 +40,43 @@
     <Transaction>2015/03/08 18:42:21.000.510,C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.fmx=C:\Users\Mauro\Documents\GitHub\Ninterpres\Min.fmx</Transaction>
     <Transaction>2015/03/08 19:18:27.000.292,=C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.cpp</Transaction>
     <Transaction>2015/03/08 19:26:30.000.230,C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.h=C:\Users\Mauro\Documents\GitHub\Ninterpres\Carregar.h</Transaction>
-    <Transaction>2015/03/08 19:26:30.000.230,C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.cpp=C:\Users\Mauro\Documents\GitHub\Ninterpres\Carregar.cpp</Transaction>
     <Transaction>2015/03/08 19:26:30.000.230,C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.fmx=C:\Users\Mauro\Documents\GitHub\Ninterpres\Carregar.fmx</Transaction>
+    <Transaction>2015/03/08 19:26:30.000.230,C:\Users\Mauro\Documents\GitHub\Ninterpres\Unit1.cpp=C:\Users\Mauro\Documents\GitHub\Ninterpres\Carregar.cpp</Transaction>
     <Transaction>2015/03/12 21:24:34.000.546,C:\Users\Mauro\Documents\GitHub\Ninterpres\Img_Conf.h=C:\Users\Mauro\Documents\GitHub\Ninterpres\ImgConf.h</Transaction>
-    <Transaction>2015/03/12 21:24:34.000.546,C:\Users\Mauro\Documents\GitHub\Ninterpres\Img_Conf.fmx=C:\Users\Mauro\Documents\GitHub\Ninterpres\ImgConf.fmx</Transaction>
     <Transaction>2015/03/12 21:24:34.000.511,C:\Users\Mauro\Documents\GitHub\Ninterpres\Img_Conf.cpp=C:\Users\Mauro\Documents\GitHub\Ninterpres\ImgConf.cpp</Transaction>
-  </Transactions>
+    <Transaction>2015/03/12 21:24:34.000.546,C:\Users\Mauro\Documents\GitHub\Ninterpres\Img_Conf.fmx=C:\Users\Mauro\Documents\GitHub\Ninterpres\ImgConf.fmx</Transaction>
+    <Transaction>2015/03/27 23:59:34.909,C:\Users\Mauro\Documents\GitHub\Ninterpres\Min.cpp=</Transaction>
+  </Transactions>  <ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="Idiomas"/>
+    <File Path="Idiomas\Tradutor.cpp"/>
+    <File Path="Idiomas\Tradutor.cpp"/>
+    <File Path="Idiomas\Tradutor.fmx"/>
+    <File Path="Idiomas\Tradutor.h"/>
+    <File Path="Carregar.cpp"/>
+    <File Path="Carregar.cpp"/>
+    <File Path="Carregar.fmx"/>
+    <File Path="Carregar.h"/>
+    <File Path="Codigo.cpp"/>
+    <File Path="Codigo.cpp"/>
+    <File Path="Codigo.fmx"/>
+    <File Path="Codigo.h"/>
+    <File Path="Configuracoes.cpp"/>
+    <File Path="Configuracoes.cpp"/>
+    <File Path="Configuracoes.fmx"/>
+    <File Path="Configuracoes.h"/>
+    <File Path="ImgConf.cpp"/>
+    <File Path="ImgConf.cpp"/>
+    <File Path="ImgConf.fmx"/>
+    <File Path="ImgConf.h"/>
+    <File Path="Ninterpres.cpp"/>
+    <File Path="NinterpresPCH1.h"/>
+    <File Path="Principal.cpp"/>
+    <File Path="Principal.cpp"/>
+    <File Path="Principal.fmx"/>
+    <File Path="Principal.h"/>
+    <File Path="Sobre.cpp"/>
+    <File Path="Sobre.cpp"/>
+    <File Path="Sobre.fmx"/>
+    <File Path="Sobre.h"/>
+  </ProjectSortOrder>
 </BorlandProject>
