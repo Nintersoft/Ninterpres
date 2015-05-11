@@ -1,0 +1,104 @@
+//---------------------------------------------------------------------------
+
+#include <fmx.h>
+#include <FMX.Platform.Win.hpp>
+#include <System.IOUtils.hpp>
+#pragma hdrstop
+
+#include "Atualizar.h"
+#include "Sobre.h"
+#include "Carregar.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.fmx"
+#pragma resource ("*.Windows.fmx", _PLAT_MSWINDOWS)
+
+String novo, arq;
+int tempo, temp = 0;
+TfrmAtualizar *frmAtualizar;
+//---------------------------------------------------------------------------
+__fastcall TfrmAtualizar::TfrmAtualizar(TComponent* Owner)
+	: TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TfrmAtualizar::FormCreate(TObject *Sender)
+{
+	HWND hWnd = Fmx::Platform::Win::FormToHWND(frmCarregar);
+	if (hWnd != NULL)
+	{
+		LONG Style = GetWindowLong(hWnd, GWL_EXSTYLE);
+		SetWindowLong(hWnd, GWL_EXSTYLE, Style | WS_EX_APPWINDOW);
+	}
+	verat = 1;
+	novo = "Adquirindo ";
+	arq = "";
+}
+//---------------------------------------------------------------------------
+bool TfrmAtualizar::Atualizado()
+{
+	String ver, linha = mmDados->Lines->Strings[0];
+	int num = 0;
+	for (int i = 0; i < linha.Length(); i++) {
+		if (num < 4) {
+			if (linha.c_str()[i] == '=') {
+				num ++;
+			}
+		}
+		else {
+			ver = ver + linha.c_str()[i];
+		}
+	}
+	if (StrToInt(ver) <= verat)	return true;
+	else return false;
+}
+//---------------------------------------------------------------------------
+void __fastcall TfrmAtualizar::FormShow(TObject *Sender)
+{
+	lblEstado->Text = "Verificando atualizações...";
+	Controle->Enabled = true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmAtualizar::gerAtualizacaoWorkBegin(TObject *ASender, TWorkMode AWorkMode,
+		  __int64 AWorkCountMax)
+{
+	barraEstado->Value = 0;
+	barraEstado->Max = AWorkCountMax;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmAtualizar::gerAtualizacaoWork(TObject *ASender, TWorkMode AWorkMode,
+		  __int64 AWorkCount)
+{
+	barraEstado->Value = AWorkCount;
+	Application->ProcessMessages();
+}
+//---------------------------------------------------------------------------
+void TfrmAtualizar::AdquirirNomes()
+{
+	String linha = mmDados->Lines->Strings[0];
+	int num = 0;
+	for (int i = 0; i < linha.Length(); i++) {
+		if (num < 1) {
+			if (linha.c_str()[i] == '=') {
+				num ++;
+			}
+			else {
+				novo = novo + linha.c_str()[i];
+			}
+		}
+		else if (num >= 1 && num < 4) {
+			if (linha.c_str()[i] == '=') {
+				num++;
+				if (num < 4) {
+					arq = arq + linha.c_str()[i];
+				}
+			}
+			else {
+				arq = arq + linha.c_str()[i];
+			}
+		}
+	}
+}
+//---------------------------------------------------------------------------

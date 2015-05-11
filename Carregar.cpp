@@ -15,7 +15,6 @@
 TfrmCarregar *frmCarregar;
 //---------------------------------------------------------------------------
 int cont = 0;
-String NSNPLOC;
 //---------------------------------------------------------------------------
 __fastcall TfrmCarregar::TfrmCarregar(TComponent* Owner)
 	: TForm(Owner)
@@ -30,10 +29,10 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 	{
 		String NSNPTEMP = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres\\TEMP");
 		NSNPLOC = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres");
+		NSNPLOCATL = System::Ioutils::TPath::Combine(NSNPLOC, L"NSNPATL");
 
-		if (!TDirectory::Exists(NSNPTEMP)) {
-			TDirectory::CreateDirectory(NSNPTEMP);
-		}
+		if (!TDirectory::Exists(NSNPTEMP)) TDirectory::CreateDirectory(NSNPTEMP);
+		if (!TDirectory::Exists(NSNPLOCATL)) TDirectory::CreateDirectory(NSNPLOCATL);
 
 		String NSNA = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSTEMP.nps");
 		if (TFile::Exists(NSNA)){
@@ -61,8 +60,8 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 	}
 	else {
 		Application->MainForm->Show();
-		frmCarregar->DestroyComponents();
-		frmCarregar->Destroying();
+		tmConfigurar->Enabled = false;
+		frmCarregar->Close();
 	}
 }
 //---------------------------------------------------------------------------

@@ -83,3 +83,9 @@ void __fastcall TfrmConfig::FormCreate(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TfrmConfig::btAjudaEstiloClick(TObject *Sender)
+{
+	ShowMessage("Escolha o estilo da borda da aplicação.");
+}
+//---------------------------------------------------------------------------
+

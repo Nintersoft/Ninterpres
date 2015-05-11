@@ -8,18 +8,14 @@ object frmCodigo: TfrmCodigo
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop, iPhone, iPad]
   OnCreate = FormCreate
-  DesignerMobile = False
-  DesignerWidth = 0
-  DesignerHeight = 0
-  DesignerDeviceName = ''
-  DesignerOrientation = 0
-  DesignerOSVersion = ''
+  DesignerMasterStyle = 0
   object mmCodigo: TMemo
     Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
     Align = Client
-    Height = 471.000000000000000000
+    Size.Width = 710.000000000000000000
+    Size.Height = 471.000000000000000000
+    Size.PlatformDefault = False
     TabOrder = 1
-    Width = 710.000000000000000000
     Lines.Strings = (
       'Apresenta'#231#227'o sem t'#237'tulo'
       'Nintersoft'
@@ -50,17 +46,19 @@ object frmCodigo: TfrmCodigo
   object bmPrincipal: TRectangle
     Align = MostBottom
     Fill.Color = claOrange
-    Height = 33.000000000000000000
     Position.Y = 471.000000000000000000
+    Size.Width = 710.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
     Stroke.Color = claOrange
-    Width = 710.000000000000000000
     object btAlterar: TSpeedButton
       Anchors = [akLeft, akTop, akBottom]
       Enabled = False
-      Height = 33.000000000000000000
       Position.X = 8.000000000000000000
+      Size.Width = 65.000000000000000000
+      Size.Height = 33.000000000000000000
+      Size.PlatformDefault = False
       Text = 'Atualizar'
-      Width = 65.000000000000000000
     end
   end
 end

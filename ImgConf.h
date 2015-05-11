@@ -10,6 +10,7 @@
 #include <FMX.StdCtrls.hpp>
 #include <FMX.Types.hpp>
 #include <FMX.Objects.hpp>
+#include <FMX.Controls.Presentation.hpp>
 //---------------------------------------------------------------------------
 class TfrmImgConf : public TForm
 {

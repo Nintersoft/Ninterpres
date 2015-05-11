@@ -4,13 +4,13 @@
 #pragma hdrstop
 #include <tchar.h>
 //---------------------------------------------------------------------------
+USEFORM("ImgConf.cpp", frmImgConf);
 USEFORM("Sobre.cpp", frmSobre);
 USEFORM("Principal.cpp", frmPrincipal);
-USEFORM("Codigo.cpp", frmCodigo);
 USEFORM("Carregar.cpp", frmCarregar);
-USEFORM("Configuracoes.cpp", frmConfig);
-USEFORM("ImgConf.cpp", frmImgConf);
+USEFORM("Codigo.cpp", frmCodigo);
 USEFORM("Idiomas\Tradutor.cpp", frmTradutor);
+USEFORM("Configuracoes.cpp", frmConfig);
 //---------------------------------------------------------------------------
 extern "C" int FMXmain()
 {

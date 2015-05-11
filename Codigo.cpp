@@ -18,7 +18,7 @@ __fastcall TfrmCodigo::TfrmCodigo(TComponent* Owner)
 
 void __fastcall TfrmCodigo::FormCreate(TObject *Sender)
 {
-	HWND hWnd = FormToHWND(frmCodigo);
+	HWND hWnd = Fmx::Platform::Win::FormToHWND(frmCodigo);
 	if (hWnd != NULL)
 	{
 		LONG Style = GetWindowLong(hWnd, GWL_EXSTYLE);

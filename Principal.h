@@ -19,6 +19,10 @@
 #include <FMX.ListView.Types.hpp>
 #include <FMX.Colors.hpp>
 #include <FMX.Ani.hpp>
+#include <FMX.Controls.Presentation.hpp>
+#include <FMX.EditBox.hpp>
+#include <FMX.NumberBox.hpp>
+#include <FMX.Layouts.hpp>
 //---------------------------------------------------------------------------
 class TfrmPrincipal : public TForm
 {

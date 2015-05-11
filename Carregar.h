@@ -24,6 +24,8 @@ __published:	// IDE-managed Components
 private:	// User declarations
 public:		// User declarations
 	__fastcall TfrmCarregar(TComponent* Owner);
+	String NSNPLOC;
+	String NSNPLOCATL;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TfrmCarregar *frmCarregar;

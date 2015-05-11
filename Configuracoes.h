@@ -13,6 +13,7 @@
 #include <FMX.Edit.hpp>
 #include <FMX.Layouts.hpp>
 #include <FMX.Memo.hpp>
+#include <FMX.Controls.Presentation.hpp>
 //---------------------------------------------------------------------------
 class TfrmConfig : public TForm
 {
@@ -38,6 +39,9 @@ __published:	// IDE-managed Components
 	TLabel *lblIntervalo;
 	TCheckBox *btApresTemp;
 	TListBox *lsSelecInter;
+	TLabel *lblEstilo;
+	TComboBox *csEstilo;
+	TSpeedButton *btAjudaEstilo;
 	void __fastcall btAjudaCorClick(TObject *Sender);
 	void __fastcall btAjudaAppDataClick(TObject *Sender);
 	void __fastcall btAjudaCopiaClick(TObject *Sender);
@@ -46,6 +50,7 @@ __published:	// IDE-managed Components
 	void __fastcall btSalvarClick(TObject *Sender);
 	void __fastcall cbAtivarEditorChange(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
+	void __fastcall btAjudaEstiloClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TfrmConfig(TComponent* Owner);

@@ -13,22 +13,18 @@ object frmImgConf: TfrmImgConf
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop, iPhone, iPad]
   OnShow = FormShow
-  DesignerMobile = False
-  DesignerWidth = 0
-  DesignerHeight = 0
-  DesignerDeviceName = ''
-  DesignerOrientation = 0
-  DesignerOSVersion = ''
+  DesignerMasterStyle = 0
   object lblImgLeg: TLabel
     StyledSettings = [Family, Style]
-    Height = 33.000000000000000000
     Position.X = 16.000000000000000000
     Position.Y = 8.000000000000000000
+    Size.Width = 441.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
     TextSettings.Font.Size = 22.000000000000000000
     TextSettings.FontColor = claWhite
     TextSettings.VertAlign = Leading
     Text = 'Legenda/descri'#231#227'o da imagem usada'
-    Width = 441.000000000000000000
   end
   object edtImgLeg: TEdit
     Touch.InteractiveGestures = [LongTap, DoubleTap]
@@ -36,30 +32,33 @@ object frmImgConf: TfrmImgConf
     TextSettings.Font.Size = 14.000000000000000000
     Position.X = 16.000000000000000000
     Position.Y = 40.000000000000000000
-    Width = 441.000000000000000000
-    Height = 25.000000000000000000
+    Size.Width = 441.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
     StyledSettings = [Family, Style, FontColor]
     OnKeyDown = edtImgLegKeyDown
   end
   object btSalvar: TRoundRect
     Corners = [TopRight]
     Fill.Color = claMediumblue
-    Height = 49.000000000000000000
     Position.X = 480.000000000000000000
     Position.Y = 16.000000000000000000
-    Width = 89.000000000000000000
+    Size.Width = 89.000000000000000000
+    Size.Height = 49.000000000000000000
+    Size.PlatformDefault = False
     OnClick = btSalvarClick
     object lblBtSalvar: TLabel
       StyledSettings = [Family, Style]
-      Height = 33.000000000000000000
       Position.X = 8.000000000000000000
       Position.Y = 8.000000000000000000
+      Size.Width = 72.000000000000000000
+      Size.Height = 33.000000000000000000
+      Size.PlatformDefault = False
       TextSettings.Font.Size = 22.000000000000000000
       TextSettings.FontColor = claWhite
       TextSettings.HorzAlign = Center
       TextSettings.VertAlign = Leading
       Text = 'Salvar'
-      Width = 72.000000000000000000
       OnClick = btSalvarClick
     end
   end
