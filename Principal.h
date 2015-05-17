@@ -283,6 +283,7 @@ public:		// User declarations
 	__fastcall TfrmPrincipal(TComponent* Owner);
 	void MudarTransp (int , int);
 	void ModificarDados (int);
+	void ExcluirTransp (int);
 	void CriarTransp ();
 	void CarregarTransp (int);
 	void RearranjoTransp (int);

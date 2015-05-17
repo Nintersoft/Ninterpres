@@ -1080,7 +1080,7 @@ void __fastcall TfrmPrincipal::btExcluirTranspClick(TObject *Sender)
 {
 	int LimpConf = MessageBox (0, L"Você está certo disso?\nEsta ação não pode ser desfeita.\nEsta transparência não poderá ser reposta!", L"Ninterpres - Aviso", MB_YESNO+MB_ICONQUESTION);
 	if (LimpConf == 6) {
-		SelecTransp->Items->Delete(SelecTransp->Selected->Index);
+		ExcluirTransp(SelecTransp->Selected->Index);
 	}
 }
 //---------------------------------------------------------------------------
@@ -2322,6 +2322,50 @@ void __fastcall TfrmPrincipal::CorAbaVisualizarMouseEnter(TObject *Sender)
 void __fastcall TfrmPrincipal::CorAbaVisualizarMouseLeave(TObject *Sender)
 {
 	brVisualizar->ShowScrollBars = false;
+}
+//---------------------------------------------------------------------------
+void TfrmPrincipal::ExcluirTransp(int LOC)
+{
+	SelecTransp->Items->Delete(LOC);
+
+	int loc, pos = LOC + 1, tam = frmCodigo->mmCodigo->Lines->Count;
+
+	for (int i = 0; i < tam; i++) {
+		if (frmCodigo->mmCodigo->Lines->Strings[i] == "$TRANSP" + IntToStr(LOC)) {
+			loc = i;
+			i = tam;
+		}
+	}
+
+	while (frmCodigo->mmCodigo->Lines->Strings[loc] != "!(FDT)"){
+		frmCodigo->mmCodigo->BeginUpdate();
+		frmCodigo->mmCodigo->Lines->Delete(loc);
+		frmCodigo->mmCodigo->EndUpdate();
+	}
+
+	frmCodigo->mmCodigo->Lines->Delete(loc);
+	tam = frmCodigo->mmCodigo->Lines->Count;
+	frmCodigo->mmCodigo->BeginUpdate();
+
+	for (int i = 0; i < tam; i++) {
+		if (frmCodigo->mmCodigo->Lines->Strings[i] == "$TRANSP" + IntToStr(pos)){
+			frmCodigo->mmCodigo->Lines->Strings[i] = "$TRANSP" + IntToStr(pos - 1);
+			pos++;
+		}
+	}
+
+	frmCodigo->mmCodigo->EndUpdate();
+
+	for (int i = 0; i < SelecTransp->Items->Count; i++) {
+		if (SelecTransp->Items->Item[i]->Index != 0) {
+			SelecTransp->BeginUpdate();
+			SelecTransp->Items->Item[i]->Text = "TRANSP" + IntToStr(SelecTransp->Items->Item[i]->Index);
+			SelecTransp->EndUpdate();
+		}
+	}
+
+	CarregarTransp(LOC);
+
 }
 //---------------------------------------------------------------------------
 
