@@ -1,38 +1,4 @@
 inherited frmSobre_Windows: TfrmSobre_Windows
   ClientHeight = 198
   DesignerMasterStyle = 0
-  inherited lblProg: TLabel [0]
-  end
-  inherited lblNomeProg: TLabel [1]
-  end
-  inherited lblVersao: TLabel [2]
-  end
-  inherited lblVersaoProg: TLabel [3]
-  end
-  inherited lblDesenvolvedor: TLabel [4]
-  end
-  inherited lblDesenvolvedorProg: TLabel [5]
-  end
-  inherited btAtualizar: TRoundRect [6]
-  end
-  inherited btFacebook: TRoundRect [7]
-  end
-  inherited btSite: TRectangle [8]
-  end
-  inherited lblLicenc: TLabel [9]
-  end
-  inherited lblLicencProg: TLabel [10]
-  end
-  inherited imgLogo: TImage [11]
-  end
-  inherited Indicador: TAniIndicator [12]
-  end
-  inherited lblEstado: TLabel [13]
-  end
-  inherited Controle: TTimer [15]
-  end
-  inherited gerWebArq: TIdHTTP [16]
-  end
-  inherited gerSegSSL: TIdSSLIOHandlerSocketOpenSSL [17]
-  end
 end

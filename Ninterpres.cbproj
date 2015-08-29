@@ -5,7 +5,7 @@
         <FrameworkType>FMX</FrameworkType>
         <MainSource>Ninterpres.cpp</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -223,12 +223,11 @@
             <DependentOn>Sobre.h</DependentOn>
             <BuildOrder>6</BuildOrder>
         </CppCompile>
-        <FormResources Include="ImgConf.fmx"/>
         <FormResources Include="Sobre.fmx"/>
-        <FormResources Include="Sobre.Windows.fmx"/>
         <FormResources Include="Principal.fmx"/>
-        <FormResources Include="Carregar.fmx"/>
+        <FormResources Include="ImgConf.fmx"/>
         <FormResources Include="Codigo.fmx"/>
+        <FormResources Include="Carregar.fmx"/>
         <FormResources Include="Idiomas\Tradutor.fmx"/>
         <FormResources Include="Configuracoes.fmx"/>
         <BuildConfiguration Include="Release">
@@ -708,14 +707,14 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
             </Deployment>
             <Platforms>
                 <Platform value="Android">False</Platform>

@@ -73,7 +73,6 @@ __published:	// IDE-managed Components
 	THorzScrollBox *brArquivo;
 	TRectangle *CorAbaArquivo;
 	TScrollBox *brTransp;
-	TListView *SelecTransp;
 	TRectangle *vsTransp;
 	TImage *btMinimizar;
 	TImage *btMaximizar;
@@ -146,6 +145,7 @@ __published:	// IDE-managed Components
 	TOpenDialog *daAbrirProj;
 	TTimer *tmCopiaSeg;
 	TLine *vpLinha8;
+	TListView *SelecTransp;
 	void __fastcall btTranspTipoMouseEnter(TObject *Sender);
 	void __fastcall btTranspTipoMouseLeave(TObject *Sender);
 	void __fastcall tpTipo2Click(TObject *Sender);

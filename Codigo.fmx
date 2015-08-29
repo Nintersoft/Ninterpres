@@ -8,6 +8,7 @@ object frmCodigo: TfrmCodigo
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop, iPhone, iPad]
   OnCreate = FormCreate
+  OnShow = FormShow
   DesignerMasterStyle = 0
   object mmCodigo: TMemo
     Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
@@ -42,6 +43,7 @@ object frmCodigo: TfrmCodigo
     TextSettings.Font.Family = 'Arial'
     TextSettings.Font.Size = 16.000000000000000000
     StyledSettings = [FontColor]
+    OnChange = mmCodigoChange
   end
   object bmPrincipal: TRectangle
     Align = MostBottom

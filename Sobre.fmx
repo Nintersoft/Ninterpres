@@ -362,6 +362,13 @@ object frmSobre: TfrmSobre
     TabOrder = 6
     Visible = False
   end
+  object Controle: TTimer
+    Enabled = False
+    Interval = 2000
+    OnTimer = ControleTimer
+    Left = 472
+    Top = 80
+  end
   object gerWebArq: TIdHTTP
     IOHandler = gerSegSSL
     OnWork = gerWebArqWork
@@ -379,6 +386,7 @@ object frmSobre: TfrmSobre
     Request.Ranges.Units = 'bytes'
     Request.Ranges = <>
     HTTPOptions = [hoForceEncodeParams]
+    CookieManager = gerWebAt
     Left = 472
     Top = 176
   end
@@ -392,11 +400,8 @@ object frmSobre: TfrmSobre
     Left = 472
     Top = 128
   end
-  object Controle: TTimer
-    Enabled = False
-    Interval = 2000
-    OnTimer = ControleTimer
+  object gerWebAt: TIdCookieManager
     Left = 472
-    Top = 80
+    Top = 32
   end
 end

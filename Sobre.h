@@ -21,6 +21,7 @@
 #include <IdSSLOpenSSL.hpp>
 #include <FMX.Layouts.hpp>
 #include <FMX.Memo.hpp>
+#include <IdCookieManager.hpp>
 //---------------------------------------------------------------------------
 class TfrmSobre : public TForm
 {
@@ -46,6 +47,7 @@ __published:	// IDE-managed Components
 	TIdSSLIOHandlerSocketOpenSSL *gerSegSSL;
 	TMemo *mmDados;
 	TTimer *Controle;
+	TIdCookieManager *gerWebAt;
 	void __fastcall btAtualizarClick(TObject *Sender);
 	void __fastcall btSiteClick(TObject *Sender);
 	void __fastcall btFacebookClick(TObject *Sender);

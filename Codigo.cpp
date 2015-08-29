@@ -27,3 +27,15 @@ void __fastcall TfrmCodigo::FormCreate(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TfrmCodigo::FormShow(TObject *Sender)
+{
+	mmCodigo->Repaint();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmCodigo::mmCodigoChange(TObject *Sender)
+{
+	mmCodigo->Repaint();
+}
+//---------------------------------------------------------------------------
+

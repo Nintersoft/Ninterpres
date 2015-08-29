@@ -633,6 +633,7 @@ bool res = true;
 				frmCodigo->mmCodigo->Lines->Insert(pos, "$TRANSP" + IntToStr(num));
 				Transp = num;
 				frmPrincipal->mmTranspCont->ReadOnly = false;
+				SelecTransp->Selected = SelecTransp->Items->Item[Transp];
 				CarregarTransp (Transp);
 }
 //---------------------------------------------------------------------------
@@ -1078,9 +1079,14 @@ void __fastcall TfrmPrincipal::mmTranspContKeyUp(TObject *Sender, WORD &Key, Sys
 
 void __fastcall TfrmPrincipal::btExcluirTranspClick(TObject *Sender)
 {
-	int LimpConf = MessageBox (0, L"Você está certo disso?\nEsta ação não pode ser desfeita.\nEsta transparência não poderá ser reposta!", L"Ninterpres - Aviso", MB_YESNO+MB_ICONQUESTION);
-	if (LimpConf == 6) {
-		ExcluirTransp(SelecTransp->Selected->Index);
+	if (Transp == 0){
+		throw Exception("Você não pode excluir a capa. Caso esta função seja realmente necessária, por favor, contate a equipe de desenvolvimento.");
+	}
+	else{
+		int LimpConf = MessageBox (0, L"Você está certo disso?\nEsta ação não pode ser desfeita.\nEsta transparência não poderá ser reposta!", L"Ninterpres - Aviso", MB_YESNO+MB_ICONQUESTION);
+		if (LimpConf == 6) {
+			ExcluirTransp(Transp);
+		}
 	}
 }
 //---------------------------------------------------------------------------
@@ -1811,7 +1817,6 @@ void __fastcall TfrmPrincipal::FormClose(TObject *Sender, TCloseAction &Action)
 			}
 		}
 	}
-
 	Application->Terminate();
 }
 //---------------------------------------------------------------------------
@@ -2121,6 +2126,7 @@ void __fastcall TfrmPrincipal::btAbrirProjClick(TObject *Sender)
 		frmCodigo->mmCodigo->Lines->Clear();
 		frmCodigo->mmCodigo->BeginUpdate();
 		frmCodigo->mmCodigo->Lines->LoadFromFile(daAbrirProj->FileName);
+		TFile::OpenWrite(daAbrirProj->FileName);
 		frmCodigo->mmCodigo->EndUpdate();
 		salvo = true;
 		SelecTransp->Items->Clear();
@@ -2326,35 +2332,38 @@ void __fastcall TfrmPrincipal::CorAbaVisualizarMouseLeave(TObject *Sender)
 //---------------------------------------------------------------------------
 void TfrmPrincipal::ExcluirTransp(int LOC)
 {
-	SelecTransp->Items->Delete(LOC);
 
-	int loc, pos = LOC + 1, tam = frmCodigo->mmCodigo->Lines->Count;
+	SelecTransp->BeginUpdate();
+	SelecTransp->Items->Delete(LOC);
+	SelecTransp->EndUpdate();
+
+	int pos = LOC + 1, tam = frmCodigo->mmCodigo->Lines->Count;
 
 	for (int i = 0; i < tam; i++) {
 		if (frmCodigo->mmCodigo->Lines->Strings[i] == "$TRANSP" + IntToStr(LOC)) {
-			loc = i;
-			i = tam;
+			while (frmCodigo->mmCodigo->Lines->Strings[i] != "!(FDT)"){
+				frmCodigo->mmCodigo->BeginUpdate();
+				frmCodigo->mmCodigo->Lines->Delete(i);
+				frmCodigo->mmCodigo->EndUpdate();
+			}
+
+			frmCodigo->mmCodigo->BeginUpdate();
+			frmCodigo->mmCodigo->Lines->Delete(i);
+			frmCodigo->mmCodigo->EndUpdate();
+			break;
 		}
 	}
 
-	while (frmCodigo->mmCodigo->Lines->Strings[loc] != "!(FDT)"){
-		frmCodigo->mmCodigo->BeginUpdate();
-		frmCodigo->mmCodigo->Lines->Delete(loc);
-		frmCodigo->mmCodigo->EndUpdate();
-	}
-
-	frmCodigo->mmCodigo->Lines->Delete(loc);
 	tam = frmCodigo->mmCodigo->Lines->Count;
-	frmCodigo->mmCodigo->BeginUpdate();
 
 	for (int i = 0; i < tam; i++) {
 		if (frmCodigo->mmCodigo->Lines->Strings[i] == "$TRANSP" + IntToStr(pos)){
+			frmCodigo->mmCodigo->BeginUpdate();
 			frmCodigo->mmCodigo->Lines->Strings[i] = "$TRANSP" + IntToStr(pos - 1);
+			frmCodigo->mmCodigo->EndUpdate();
 			pos++;
 		}
 	}
-
-	frmCodigo->mmCodigo->EndUpdate();
 
 	for (int i = 0; i < SelecTransp->Items->Count; i++) {
 		if (SelecTransp->Items->Item[i]->Index != 0) {
@@ -2364,8 +2373,15 @@ void TfrmPrincipal::ExcluirTransp(int LOC)
 		}
 	}
 
-	CarregarTransp(LOC);
+	if (SelecTransp->Items->Count > LOC) {
+		Transp = LOC;
+	}
+	else {
+		Transp = LOC - 1;
+	}
 
+	SelecTransp->Selected = SelecTransp->Items->Item[Transp];
+	CarregarTransp(Transp);
 }
 //---------------------------------------------------------------------------
 

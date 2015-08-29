@@ -19,6 +19,8 @@ __published:	// IDE-managed Components
 	TRectangle *bmPrincipal;
 	TSpeedButton *btAlterar;
 	void __fastcall FormCreate(TObject *Sender);
+	void __fastcall FormShow(TObject *Sender);
+	void __fastcall mmCodigoChange(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TfrmCodigo(TComponent* Owner);
