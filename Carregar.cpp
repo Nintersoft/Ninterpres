@@ -9,6 +9,8 @@
 #include "Carregar.h"
 #include "Principal.h"
 #include "Codigo.h"
+#include "Configuracoes.h"
+#include "Sobre.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.fmx"
@@ -24,6 +26,9 @@ __fastcall TfrmCarregar::TfrmCarregar(TComponent* Owner)
 void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 {
 	if (cont == 0) {
+
+	lblEstado->Text = "Lendo arquivos...";
+
 	PWSTR pszPath;
 	if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pszPath)))
 	{
@@ -39,7 +44,7 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 			TFile::Delete(NSNA);
 		}
 
-		String NSNPCONF = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres\\Config");
+		NSNPCONF = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres\\Config");
 		CoTaskMemFree(pszPath);
 
 		if (!TDirectory::Exists(NSNPCONF)) {
@@ -47,21 +52,62 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 		}
 
 	}
-	 cont ++;
+
+		cont ++;
+
 	}
 	else if (cont == 1) {
+
+		lblEstado->Text = "Gerando arquivo inicial...";
 
 		String arq = System::Ioutils::TPath::Combine(NSNPLOC, L"NSNV");
 
 		if (!TFile::Exists(arq+".nps")) {
 			frmCodigo->mmCodigo->Lines->SaveToFile(arq+".nps");
 		}
+
 		cont++;
+
 	}
+
+	else if (cont == 2) {
+
+		lblEstado->Text = "Aplicando configurações do usuário...";
+
+		String NSNPARQCONF = System::Ioutils::TPath::Combine(NSNPCONF, L"CONF");
+
+		if (TFile::Exists(NSNPARQCONF+".conf")) {
+
+			frmConfig->mmConfig->Lines->LoadFromFile(NSNPARQCONF+".conf");
+
+			if (frmConfig->mmConfig->Lines->Count < 15) {
+				ShowMessage("ERRO 001000: Arquivo de configuração corrompido excluído.\nConfigurações padrões serão utilizadas.\nOperação de carregamento de configurações cancelada.");
+				falha:
+				TFile::Delete(NSNPARQCONF+".conf");
+			}
+			else {
+				try {
+					TfrmCarregar::AplicarConfig();
+				} catch (...) {
+					ShowMessage("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
+					goto falha;
+				}
+			}
+
+		}
+
+		cont++;
+
+	}
+
 	else {
+
+		lblEstado->Text = "Carregando...";
+
 		Application->MainForm->Show();
 		tmConfigurar->Enabled = false;
 		frmCarregar->Close();
+
 	}
 }
 //---------------------------------------------------------------------------
@@ -79,5 +125,46 @@ void __fastcall TfrmCarregar::FormCreate(TObject *Sender)
 		SetWindowLong(hWnd, GWL_EXSTYLE, Style | WS_EX_APPWINDOW);
 	}
 */
+}
+//---------------------------------------------------------------------------
+void TfrmCarregar::AplicarConfig()
+{
+
+	//---------------------------- Editor -----------------------------------
+
+	if (frmConfig->mmConfig->Lines->Strings[0] == "NSEDT") {
+		frmConfig->cbAtivarEditor->IsChecked = true;
+		frmCodigo->mmCodigo->ReadOnly = false;
+	}
+	else if (frmConfig->mmConfig->Lines->Strings[0] == "!NSEDT") {
+		frmConfig->cbAtivarEditor->IsChecked = false;
+		frmCodigo->mmCodigo->ReadOnly = true;
+	}
+	else {
+		throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
+	}
+
+	//---------------------------- Nome ------------------------------------
+
+	frmConfig->edtNomeLicen->Text = frmConfig->mmConfig->Lines->Strings[13];
+	frmSobre->lblLicencProg->Text = frmConfig->mmConfig->Lines->Strings[13];
+
+	//--------------------------- Idioma -----------------------------------
+
+	int Idioma = StrToInt(frmConfig->mmConfig->Lines->Strings[14]);
+	frmConfig->cbSelecIdioma->ItemIndex = Idioma;
+
+	if (Idioma == 0) {
+		frmPrincipal->Idioma->Lang = "pt";
+	}
+	else {
+		throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
+	}
+
+	//--------------------------- Marcação ---------------------------------
+
+	frmConfig->env = true;
+	frmConfig->cbDefPad->IsChecked = true;
+
 }
 //---------------------------------------------------------------------------

@@ -146,6 +146,12 @@ __published:	// IDE-managed Components
 	TTimer *tmCopiaSeg;
 	TLine *vpLinha8;
 	TListView *SelecTransp;
+	TLabel *lblTitTranspPos;
+	TLabel *lblTranspAtual;
+	TLabel *lblQtdTransp;
+	TLabel *lblDeTransp;
+	TRoundRect *btInformacoes;
+	TLabel *lblBtInformacoes;
 	void __fastcall btTranspTipoMouseEnter(TObject *Sender);
 	void __fastcall btTranspTipoMouseLeave(TObject *Sender);
 	void __fastcall tpTipo2Click(TObject *Sender);
@@ -211,71 +217,94 @@ __published:	// IDE-managed Components
 	void __fastcall CorAbaArquivoMouseLeave(TObject *Sender);
 	void __fastcall edtTamFonteChange(TObject *Sender);
 	void __fastcall btSalvarDadosMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btSalvarDadosMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btModTranspMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btModTranspMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btCriarTranspMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btCriarTranspMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btLimpDadosMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btLimpDadosMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 	void __fastcall btCriarTranspMouseLeave(TObject *Sender);
 	void __fastcall btModTranspMouseLeave(TObject *Sender);
 	void __fastcall btSalvarDadosMouseLeave(TObject *Sender);
 	void __fastcall btLimpDadosMouseLeave(TObject *Sender);
 	void __fastcall btAjudaOnlineMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btAjudaOnlineMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btAjudaOnlineMouseLeave(TObject *Sender);
 	void __fastcall btCentralSupMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btCentralSupMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btCentralSupMouseLeave(TObject *Sender);
 	void __fastcall btEmailMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btEmailMouseLeave(TObject *Sender);
 	void __fastcall btEmailMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btDocWikiMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btDocWikiMouseLeave(TObject *Sender);
 	void __fastcall btDocWikiMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btSobreMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btSobreMouseLeave(TObject *Sender);
 	void __fastcall btSobreMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btSalvarProjMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btSalvarProjMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btSalvarProjMouseLeave(TObject *Sender);
 	void __fastcall btAbrirProjMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btAbrirProjMouseLeave(TObject *Sender);
 	void __fastcall btAbrirProjMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btNovoProjMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btNovoProjMouseLeave(TObject *Sender);
 	void __fastcall btNovoProjMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          float X, float Y);
+		  float X, float Y);
 	void __fastcall btSalvarProjClick(TObject *Sender);
 	void __fastcall btAbrirProjClick(TObject *Sender);
 	void __fastcall btNovoProjClick(TObject *Sender);
 	void __fastcall CorAbaVisualizarMouseEnter(TObject *Sender);
 	void __fastcall CorAbaVisualizarMouseLeave(TObject *Sender);
+	void __fastcall listaPrevTranspItemClick(TCustomListBox * const Sender, TListBoxItem * const Item);
+	void __fastcall btExcluirTranspMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+		  float X, float Y);
+	void __fastcall btExcluirTranspMouseLeave(TObject *Sender);
+	void __fastcall btExcluirTranspMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+		  float X, float Y);
+	void __fastcall btConfigMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+		  float X, float Y);
+	void __fastcall btConfigMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+		  float X, float Y);
+	void __fastcall btConfigMouseLeave(TObject *Sender);
+	void __fastcall btVisualizarCodigoMouseLeave(TObject *Sender);
+	void __fastcall btVisualizarCodigoMouseUp(TObject *Sender, TMouseButton Button,
+		  TShiftState Shift, float X, float Y);
+	void __fastcall btVisualizarCodigoMouseDown(TObject *Sender, TMouseButton Button,
+		  TShiftState Shift, float X, float Y);
+	void __fastcall btInformacoesMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+		  float X, float Y);
+	void __fastcall btInformacoesMouseLeave(TObject *Sender);
+	void __fastcall btInformacoesMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+		  float X, float Y);
+	void __fastcall btInformacoesClick(TObject *Sender);
+
 
 
 private:	// User declarations
@@ -287,6 +316,7 @@ public:		// User declarations
 	void CriarTransp ();
 	void CarregarTransp (int);
 	void RearranjoTransp (int);
+	void AjusteVisual ();
 	bool comentario (String);
 	String Extensao(String);
 };

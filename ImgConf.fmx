@@ -4,8 +4,8 @@ object frmImgConf: TfrmImgConf
   BorderIcons = [biSystemMenu]
   BorderStyle = Single
   Caption = 'Configura'#231#245'es de imagem'
-  ClientHeight = 82
-  ClientWidth = 583
+  ClientHeight = 130
+  ClientWidth = 473
   Fill.Color = claOrange
   Fill.Kind = Solid
   Position = MainFormCenter
@@ -23,6 +23,7 @@ object frmImgConf: TfrmImgConf
     Size.PlatformDefault = False
     TextSettings.Font.Size = 22.000000000000000000
     TextSettings.FontColor = claWhite
+    TextSettings.HorzAlign = Center
     TextSettings.VertAlign = Leading
     Text = 'Legenda/descri'#231#227'o da imagem usada'
   end
@@ -31,7 +32,7 @@ object frmImgConf: TfrmImgConf
     TabOrder = 0
     TextSettings.Font.Size = 14.000000000000000000
     Position.X = 16.000000000000000000
-    Position.Y = 40.000000000000000000
+    Position.Y = 48.000000000000000000
     Size.Width = 441.000000000000000000
     Size.Height = 25.000000000000000000
     Size.PlatformDefault = False
@@ -39,18 +40,17 @@ object frmImgConf: TfrmImgConf
     OnKeyDown = edtImgLegKeyDown
   end
   object btSalvar: TRoundRect
-    Corners = [TopRight]
+    Corners = [BottomLeft, BottomRight]
     Fill.Color = claMediumblue
-    Position.X = 480.000000000000000000
-    Position.Y = 16.000000000000000000
-    Size.Width = 89.000000000000000000
-    Size.Height = 49.000000000000000000
+    Position.X = 176.000000000000000000
+    Position.Y = 88.000000000000000000
+    Size.Width = 129.000000000000000000
+    Size.Height = 33.000000000000000000
     Size.PlatformDefault = False
     OnClick = btSalvarClick
     object lblBtSalvar: TLabel
       StyledSettings = [Family, Style]
-      Position.X = 8.000000000000000000
-      Position.Y = 8.000000000000000000
+      Position.X = 32.000000000000000000
       Size.Width = 72.000000000000000000
       Size.Height = 33.000000000000000000
       Size.PlatformDefault = False

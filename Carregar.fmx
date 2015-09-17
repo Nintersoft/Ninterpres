@@ -13,12 +13,7 @@ object frmCarregar: TfrmCarregar
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop, iPhone, iPad]
   OnCreate = FormCreate
-  DesignerMobile = False
-  DesignerWidth = 0
-  DesignerHeight = 0
-  DesignerDeviceName = ''
-  DesignerOrientation = 0
-  DesignerOSVersion = ''
+  DesignerMasterStyle = 0
   object btFechar: TImage
     MultiResBitmap = <
       item
@@ -110,10 +105,11 @@ object frmCarregar: TfrmCarregar
           AE426082}
       end>
     Anchors = [akRight]
-    Height = 25.000000000000000000
     Position.X = 429.000000000000000000
     Position.Y = 2.228739023208618000
-    Width = 26.000000000000000000
+    Size.Width = 26.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
     WrapMode = Stretch
     OnClick = btFecharClick
   end
@@ -136,31 +132,34 @@ object frmCarregar: TfrmCarregar
       end>
     Anchors = [akRight]
     Enabled = False
-    Height = 25.000000000000000000
     Position.X = 397.000000000000000000
     Position.Y = 2.228739023208618000
-    Width = 26.000000000000000000
+    Size.Width = 26.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
     WrapMode = Stretch
   end
-  object Label1: TLabel
+  object lblEstado: TLabel
     Anchors = [akLeft, akBottom]
     StyledSettings = [Family]
-    Height = 33.000000000000000000
     Position.X = 8.000000000000000000
     Position.Y = 208.000000000000000000
-    TextSettings.Font.Size = 20.000000000000000000
+    Size.Width = 457.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Size = 18.000000000000000000
     TextSettings.Font.Style = [fsBold]
     TextSettings.FontColor = claWhite
     Text = 'Carregando...'
-    Width = 169.000000000000000000
   end
   object AniIndicator1: TAniIndicator
     Align = Center
     Cursor = crAppStart
     Enabled = True
-    Height = 113.000000000000000000
+    Size.Width = 121.000000000000000000
+    Size.Height = 113.000000000000000000
+    Size.PlatformDefault = False
     Style = Circular
-    Width = 121.000000000000000000
   end
   object tmConfigurar: TTimer
     Interval = 2500

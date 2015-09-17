@@ -14,6 +14,9 @@
 #include <FMX.Layouts.hpp>
 #include <FMX.Memo.hpp>
 #include <FMX.Controls.Presentation.hpp>
+#include <FMX.TabControl.hpp>
+#include <FMX.EditBox.hpp>
+#include <FMX.NumberBox.hpp>
 //---------------------------------------------------------------------------
 class TfrmConfig : public TForm
 {
@@ -24,8 +27,8 @@ __published:	// IDE-managed Components
 	TCornerButton *btCancelar;
 	TColorListBox *listaCorTema;
 	TEdit *edtNomeLicen;
-	TGroupBox *Caixa1;
-	TCheckBox *CheckBox1;
+	TGroupBox *cxDiretorio;
+	TCheckBox *cbDefPad;
 	TGroupBox *Caixa2;
 	TCornerButton *btRestaurar;
 	TMemo *mmConfig;
@@ -42,18 +45,44 @@ __published:	// IDE-managed Components
 	TLabel *lblEstilo;
 	TComboBox *csEstilo;
 	TSpeedButton *btAjudaEstilo;
+	TTabControl *abasConf;
+	TTabItem *abaDesenv;
+	TTabItem *abaAparencia;
+	TTabItem *abaInfo;
+	TGroupBox *cxPessoal;
+	TGroupBox *cxCodigo;
+	TGroupBox *cxPadrao;
+	TLabel *lblTempSeg;
+	TNumberBox *edtTempSeg;
+	TCheckBox *cbAtualizarCod;
+	TSpeedButton *btAjudaAtualizar;
+	TLabel *lblTamFonte;
+	TCheckBox *cbMostrarData;
+	TCheckBox *cbMostrarTransp;
+	TCheckBox *cbMostrarLogo;
+	TNumberBox *cxTamFonte;
+	TGroupBox *cxIdioma;
+	TLabel *lblSelecIdioma;
+	TComboBox *cbSelecIdioma;
 	void __fastcall btAjudaCorClick(TObject *Sender);
 	void __fastcall btAjudaAppDataClick(TObject *Sender);
 	void __fastcall btAjudaCopiaClick(TObject *Sender);
 	void __fastcall btAjudaEditorClick(TObject *Sender);
 	void __fastcall btCancelarClick(TObject *Sender);
 	void __fastcall btSalvarClick(TObject *Sender);
-	void __fastcall cbAtivarEditorChange(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall btAjudaEstiloClick(TObject *Sender);
+	void __fastcall btAjudaAtualizarClick(TObject *Sender);
+	void __fastcall btRestaurarClick(TObject *Sender);
+	void __fastcall cbDefPadChange(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TfrmConfig(TComponent* Owner);
+	void Restaurar();
+	void SalvarConfig();
+	void AplicarImpConfig();
+
+	bool env;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TfrmConfig *frmConfig;

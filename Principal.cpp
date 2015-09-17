@@ -17,9 +17,12 @@
 #pragma resource "*.fmx"
 TfrmPrincipal *frmPrincipal;
 //---------------------------------------------------------------------------
+const float RealTamFonte = 1.3125;
+long double tamFonteBasica, tamFonteTitulo;
 int tpEscolha = 1, Cam = 390, Transp = 0, CorBordaTransp, CorFundoTransp, Vis = 0;
 bool prim, salvo = false, confSalvo = false;
 String TranspSelec, locSalvo;
+TFileStream* ProjAtual;
 //---------------------------------------------------------------------------
 __fastcall TfrmPrincipal::TfrmPrincipal(TComponent* Owner)
 	: TForm(Owner)
@@ -250,6 +253,7 @@ void __fastcall TfrmPrincipal::FormShow(TObject *Sender)
 
 		SelecTransp->BeginUpdate();
 		SelecTransp->Items->Add()->Text = "CAPA";
+		SelecTransp->Selected = SelecTransp->Items->Item[Transp];
 		SelecTransp->EndUpdate();
 
 		frmCarregar->Show();
@@ -261,6 +265,8 @@ void __fastcall TfrmPrincipal::FormShow(TObject *Sender)
 	int COR = listaCorApresenta->Color;
 	vsTransp->Fill->Color = COR;
 	frmCodigo->mmCodigo->Lines->Strings[2] = IntToStr(COR);
+
+	listaPrevTransp->ItemIndex = 3;
 
 	lblTranspTexto->TextSettings->Font->Size = StrToFloat(frmCodigo->mmCodigo->Lines->Strings[7]);
 
@@ -796,8 +802,6 @@ void TfrmPrincipal::CarregarTransp (int indice)
 			}
 		} while (pos < 2);
 
-
-
 		frmPrincipal->mmTranspCont->ReadOnly = true;
 
 	}
@@ -970,6 +974,10 @@ void TfrmPrincipal::CarregarTransp (int indice)
 		frmPrincipal->mmTranspCont->ReadOnly = false;
 
 	}
+
+	frmPrincipal->lblTranspAtual->Text = IntToStr(frmPrincipal->SelecTransp->Selected->Index + 1);
+	frmPrincipal->lblQtdTransp->Text = IntToStr(frmPrincipal->SelecTransp->Items->Count);
+
 }
 //---------------------------------------------------------------------------
 bool TfrmPrincipal::comentario (String linha){
@@ -987,6 +995,7 @@ bool TfrmPrincipal::comentario (String linha){
 void __fastcall TfrmPrincipal::btConfigClick(TObject *Sender)
 {
 	frmConfig->Show();
+	frmConfig->abasConf->ActiveTab = frmConfig->abaDesenv;
 }
 //---------------------------------------------------------------------------
 
@@ -1269,6 +1278,11 @@ void __fastcall TfrmPrincipal::btExcluidadosClick(TObject *Sender)
 void TfrmPrincipal::RearranjoTransp (int estilo){
 
 	float AltTransp = frmPrincipal->vsTransp->Height, LargTransp = frmPrincipal->vsTransp->Width;
+	float ValorHorzM = 0.00585651 * LargTransp; //Porcentagem correspondente à 8 em 1366
+	float ValorHorz = 0.00781250 * LargTransp;  //Porcentagem correspondente à 8 em 1024
+	float ValorVert = 0.01041667 * AltTransp;   //Porcentagem correspondente à 8 em 768
+
+	TfrmPrincipal::AjusteVisual();
 
 	if (Vis == 0) {
 		if (Transp == 0) {
@@ -1284,13 +1298,20 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			}
 
 			frmPrincipal->lblTitulo->Position->Y = AltTransp/2;
-			frmPrincipal->lblTitulo->Position->X = 24;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTitulo->Position->X = (3 * ValorHorzM);
+			else frmPrincipal->lblTitulo->Position->X = (3 * ValorHorz);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTitulo->Width = (vsTransp->Width - (3 * ValorHorzM));
+			else frmPrincipal->lblTitulo->Width = (vsTransp->Width - (3 * ValorHorz));
 			frmPrincipal->lblTitulo->TextSettings->HorzAlign = 0x1;
+			frmPrincipal->lblTitulo->Height = tamFonteTitulo;
+			frmPrincipal->lblTitulo->Font->Size = tamFonteTitulo;
 
-			frmPrincipal->lblTranspTexto->Width = LargTransp - 32;
-			frmPrincipal->lblTranspTexto->Position->X = 24;
-			frmPrincipal->lblTranspTexto->Position->Y = AltTransp/2 + 8 + frmPrincipal->lblTitulo->Height;
-			frmPrincipal->lblTranspTexto->Height = 42;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Width = LargTransp - (4 * ValorHorzM);
+			else frmPrincipal->lblTranspTexto->Width = LargTransp - (4 * ValorHorz);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Position->X = ValorHorzM * 3;
+			else frmPrincipal->lblTranspTexto->Position->X = ValorHorz * 3;
+			frmPrincipal->lblTranspTexto->Position->Y = AltTransp/2 + ValorVert + frmPrincipal->lblTitulo->Height;
+			frmPrincipal->lblTranspTexto->Height = tamFonteBasica * RealTamFonte * 2;
 			frmPrincipal->lblTranspTexto->TextSettings->VertAlign = 0x1;
 			frmPrincipal->lblTranspTexto->TextSettings->HorzAlign = 0x1;
 
@@ -1300,10 +1321,12 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			frmPrincipal->imgTransp->Height = AltTransp;
 			frmPrincipal->imgTransp->WrapMode = TImageWrapMode::iwStretch;
 
-			frmPrincipal->lblImgLeg->Width = LargTransp - 32;
-			frmPrincipal->lblImgLeg->Position->X = 24;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Width = LargTransp - (ValorHorzM * 4);
+			else frmPrincipal->lblImgLeg->Width = LargTransp - (ValorHorz * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Position->X = ValorHorzM * 3;
+			else frmPrincipal->lblImgLeg->Position->X = ValorHorz * 3;
 			frmPrincipal->lblImgLeg->TextSettings->HorzAlign = 0x2;
-			frmPrincipal->lblImgLeg->Position->Y = AltTransp - 24 - frmPrincipal->lblImgLeg->Height;
+			frmPrincipal->lblImgLeg->Position->Y = AltTransp - ValorVert * 3 - frmPrincipal->lblImgLeg->Height;
 			frmPrincipal->lblImgLeg->Visible = true;
 
 		}
@@ -1334,26 +1357,36 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			}
 
 			frmPrincipal->lblTitulo->Width = LargTransp;
-			frmPrincipal->lblTitulo->Position->Y = 24;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTitulo->Position->Y = (ValorHorzM * 3);
+			else frmPrincipal->lblTitulo->Position->Y = (ValorHorz * 3);
 			frmPrincipal->lblTitulo->Position->X = 0;
+			frmPrincipal->lblTitulo->Width = vsTransp->Width;
 			frmPrincipal->lblTitulo->TextSettings->HorzAlign = 0x0;
+			frmPrincipal->lblTitulo->Height = tamFonteTitulo;
+			frmPrincipal->lblTitulo->Font->Size = tamFonteTitulo;
 
-			frmPrincipal->imgTransp->Width = LargTransp/2 - 32;
-			frmPrincipal->imgTransp->Position->X = LargTransp / 2 + 8;
-			frmPrincipal->imgTransp->Height = AltTransp - 112 - frmPrincipal->lblImgLeg->Height - 32;
-			frmPrincipal->imgTransp->Position->Y = 106;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Width = LargTransp/2 - (ValorHorzM * 4);
+			else frmPrincipal->imgTransp->Width = LargTransp/2 - (ValorHorz * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Position->X = LargTransp / 2 + ValorHorzM;
+			else frmPrincipal->imgTransp->Position->X = LargTransp / 2 + ValorHorz;
+			frmPrincipal->imgTransp->Height = AltTransp - (ValorVert * 14) - frmPrincipal->lblImgLeg->Height - (ValorVert * 4);
+			frmPrincipal->imgTransp->Position->Y = (ValorVert * 13) + (ValorVert/4);
 			frmPrincipal->imgTransp->WrapMode = TImageWrapMode::iwFit;
 
 			frmPrincipal->lblImgLeg->TextSettings->HorzAlign = 0x0;
-			frmPrincipal->lblImgLeg->Width = LargTransp/2 - 32;
-			frmPrincipal->lblImgLeg->Position->X = LargTransp / 2 + 16;
-			frmPrincipal->lblImgLeg->Position->Y = frmPrincipal->imgTransp->Position->Y + frmPrincipal->imgTransp->Height + 8;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Width = LargTransp/2 - ValorHorzM * 4;
+			else frmPrincipal->lblImgLeg->Width = LargTransp/2 - ValorHorz * 4;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Position->X = LargTransp / 2 + ValorHorzM * 2;
+			else frmPrincipal->lblImgLeg->Position->X = LargTransp / 2 + ValorHorz * 2;
+			frmPrincipal->lblImgLeg->Position->Y = frmPrincipal->imgTransp->Position->Y + frmPrincipal->imgTransp->Height + ValorVert;
 			frmPrincipal->lblImgLeg->Visible = true;
 
-			frmPrincipal->lblTranspTexto->Width = LargTransp/2 - 32;
-			frmPrincipal->lblTranspTexto->Position->X = 24;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
+			else frmPrincipal->lblTranspTexto->Width = LargTransp/2 - (ValorHorz * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Position->X = ValorHorzM * 3;
+			else frmPrincipal->lblTranspTexto->Position->X = ValorHorz * 3;
 			frmPrincipal->lblTranspTexto->Height = frmPrincipal->imgTransp->Height;
-			frmPrincipal->lblTranspTexto->Position->Y = 106;
+			frmPrincipal->lblTranspTexto->Position->Y = (ValorVert * 13) + (ValorVert/4);
 			frmPrincipal->lblTranspTexto->TextSettings->VertAlign = 0x0;
 			frmPrincipal->lblTranspTexto->TextSettings->HorzAlign = 0x2;
 
@@ -1385,26 +1418,35 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			}
 
 			frmPrincipal->lblTitulo->Width = LargTransp;
-			frmPrincipal->lblTitulo->Position->Y = 24;
+			frmPrincipal->lblTitulo->Position->Y = ValorVert * 3;
+			frmPrincipal->lblTitulo->Width = vsTransp->Width;
 			frmPrincipal->lblTitulo->Position->X = 0;
 			frmPrincipal->lblTitulo->TextSettings->HorzAlign = 0x0;
+			frmPrincipal->lblTitulo->Height = tamFonteTitulo;
+			frmPrincipal->lblTitulo->Font->Size = tamFonteTitulo;
 
-			frmPrincipal->imgTransp->Width = LargTransp/2 - 32;
-			frmPrincipal->imgTransp->Position->X = 24;
-			frmPrincipal->imgTransp->Height = AltTransp - 112 - frmPrincipal->lblImgLeg->Height - 32;
-			frmPrincipal->imgTransp->Position->Y = 106;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Width = LargTransp/2 - ValorHorzM * 4;
+			else frmPrincipal->imgTransp->Width = LargTransp/2 - ValorHorz * 4;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Position->X = ValorHorzM * 3;
+			else frmPrincipal->imgTransp->Position->X = ValorHorz * 3;
+			frmPrincipal->imgTransp->Height = AltTransp - (ValorVert * 14) - frmPrincipal->lblImgLeg->Height - (ValorVert * 4);
+			frmPrincipal->imgTransp->Position->Y = (ValorVert * 13) + (ValorVert/4);
 			frmPrincipal->imgTransp->WrapMode = TImageWrapMode::iwFit;
 
 			frmPrincipal->lblImgLeg->TextSettings->HorzAlign = 0x0;
-			frmPrincipal->lblImgLeg->Width = LargTransp/2 - 32;
-			frmPrincipal->lblImgLeg->Position->X = 24;
-			frmPrincipal->lblImgLeg->Position->Y = frmPrincipal->imgTransp->Position->Y + frmPrincipal->imgTransp->Height + 8;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Width = LargTransp/2 - (ValorHorzM * 4);
+			else frmPrincipal->lblImgLeg->Width = LargTransp/2 - (ValorHorz * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Position->X = ValorHorz * 3;
+			else frmPrincipal->lblImgLeg->Position->X = ValorHorz * 3;
+			frmPrincipal->lblImgLeg->Position->Y = frmPrincipal->imgTransp->Position->Y + frmPrincipal->imgTransp->Height + ValorVert;
 			frmPrincipal->lblImgLeg->Visible = true;
 
-			frmPrincipal->lblTranspTexto->Width = LargTransp/2 - 32;
-			frmPrincipal->lblTranspTexto->Position->X = LargTransp / 2 + 8;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
+			else frmPrincipal->lblTranspTexto->Width = LargTransp/2 - (ValorHorz * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Position->X = LargTransp / 2 + ValorHorzM;
+			else frmPrincipal->lblTranspTexto->Position->X = LargTransp / 2 + ValorHorzM;\
 			frmPrincipal->lblTranspTexto->Height = frmPrincipal->imgTransp->Height;
-			frmPrincipal->lblTranspTexto->Position->Y = 106;
+			frmPrincipal->lblTranspTexto->Position->Y = (ValorVert * 13) + (ValorVert/4);
 			frmPrincipal->lblTranspTexto->TextSettings->VertAlign = 0x0;
 			frmPrincipal->lblTranspTexto->TextSettings->HorzAlign = 0x1;
 
@@ -1436,26 +1478,35 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			}
 
 			frmPrincipal->lblTitulo->Width = LargTransp;
-			frmPrincipal->lblTitulo->Position->Y = AltTransp - 88;
+			frmPrincipal->lblTitulo->Position->Y = AltTransp - (ValorVert * 11);
 			frmPrincipal->lblTitulo->Position->X = 0;
+			frmPrincipal->lblTitulo->Width = vsTransp->Width;
 			frmPrincipal->lblTitulo->TextSettings->HorzAlign = 0x0;
+			frmPrincipal->lblTitulo->Height = tamFonteTitulo;
+			frmPrincipal->lblTitulo->Font->Size = tamFonteTitulo;
 
-			frmPrincipal->imgTransp->Width = LargTransp/2 - 32;
-			frmPrincipal->imgTransp->Position->X = LargTransp / 2 + 8;
-			frmPrincipal->imgTransp->Height = AltTransp - 112 - frmPrincipal->lblImgLeg->Height - 32;
-			frmPrincipal->imgTransp->Position->Y = 24;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Width = LargTransp/2 - (3 * ValorHorzM);
+			else frmPrincipal->imgTransp->Width = LargTransp/2 - (3 * ValorHorz);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Position->X = LargTransp / 2 + ValorHorzM;
+			else frmPrincipal->imgTransp->Position->X = LargTransp / 2 + ValorHorz;
+			frmPrincipal->imgTransp->Height = AltTransp - (ValorVert * 14) - frmPrincipal->lblImgLeg->Height - 32;
+			frmPrincipal->imgTransp->Position->Y = ValorVert * 3;
 			frmPrincipal->imgTransp->WrapMode = TImageWrapMode::iwFit;
 
 			frmPrincipal->lblImgLeg->TextSettings->HorzAlign = 0x0;
-			frmPrincipal->lblImgLeg->Width = LargTransp/2 - 32;
-			frmPrincipal->lblImgLeg->Position->X = LargTransp / 2 + 8;
-			frmPrincipal->lblImgLeg->Position->Y = frmPrincipal->imgTransp->Position->Y + frmPrincipal->imgTransp->Height + 8;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Width = LargTransp/2 - (ValorHorzM * 4);
+			else frmPrincipal->lblImgLeg->Width = LargTransp/2 - (ValorHorz * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Position->X = LargTransp / 2 + ValorHorzM;
+			else frmPrincipal->lblImgLeg->Position->X = LargTransp / 2 + ValorHorz;
+			frmPrincipal->lblImgLeg->Position->Y = frmPrincipal->imgTransp->Position->Y + frmPrincipal->imgTransp->Height + ValorVert;
 			frmPrincipal->lblImgLeg->Visible = true;
 
-			frmPrincipal->lblTranspTexto->Width = LargTransp/2 - 32;
-			frmPrincipal->lblTranspTexto->Position->X = 24;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
+			else frmPrincipal->lblTranspTexto->Width = LargTransp/2 - (ValorHorz * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Position->X = ValorHorzM * 3;
+			else frmPrincipal->lblTranspTexto->Position->X = ValorHorz * 3;
 			frmPrincipal->lblTranspTexto->Height = frmPrincipal->imgTransp->Height;
-			frmPrincipal->lblTranspTexto->Position->Y = 24;
+			frmPrincipal->lblTranspTexto->Position->Y = ValorVert * 3;
 			frmPrincipal->lblTranspTexto->TextSettings->VertAlign = 0x0;
 			frmPrincipal->lblTranspTexto->TextSettings->HorzAlign = 0x2;
 
@@ -1487,26 +1538,35 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			}
 
 			frmPrincipal->lblTitulo->Width = LargTransp;
-			frmPrincipal->lblTitulo->Position->Y = AltTransp - 88;
+			frmPrincipal->lblTitulo->Position->Y = AltTransp - (ValorVert * 11);
 			frmPrincipal->lblTitulo->Position->X = 0;
+			frmPrincipal->lblTitulo->Width = vsTransp->Width;
 			frmPrincipal->lblTitulo->TextSettings->HorzAlign = 0x0;
+			frmPrincipal->lblTitulo->Height = tamFonteTitulo;
+			frmPrincipal->lblTitulo->Font->Size = tamFonteTitulo;
 
-			frmPrincipal->imgTransp->Width = LargTransp/2 - 32;
-			frmPrincipal->imgTransp->Position->X = 24;
-			frmPrincipal->imgTransp->Height = AltTransp - 112 - frmPrincipal->lblImgLeg->Height - 32;
-			frmPrincipal->imgTransp->Position->Y = 24;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Width = LargTransp/2 - (4 * ValorHorzM);
+			else frmPrincipal->imgTransp->Width = LargTransp/2 - (4 * ValorHorz);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Position->X = ValorHorzM * 3;
+			else frmPrincipal->imgTransp->Position->X = ValorHorz * 3;
+			frmPrincipal->imgTransp->Height = AltTransp - (ValorVert * 14) - frmPrincipal->lblImgLeg->Height - (ValorVert * 4);
+			frmPrincipal->imgTransp->Position->Y = ValorVert * 3;
 			frmPrincipal->imgTransp->WrapMode = TImageWrapMode::iwFit;
 
 			frmPrincipal->lblImgLeg->TextSettings->HorzAlign = 0x0;
-			frmPrincipal->lblImgLeg->Width = LargTransp/2 - 32;
-			frmPrincipal->lblImgLeg->Position->X = 24;
-			frmPrincipal->lblImgLeg->Position->Y = frmPrincipal->imgTransp->Position->Y + frmPrincipal->imgTransp->Height + 8;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Width = LargTransp/2 - (ValorHorzM * 4);
+			else frmPrincipal->lblImgLeg->Width = LargTransp/2 - (ValorHorz * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Position->X = ValorHorzM * 3;
+			else frmPrincipal->lblImgLeg->Position->X = ValorHorz * 3;
+			frmPrincipal->lblImgLeg->Position->Y = frmPrincipal->imgTransp->Position->Y + frmPrincipal->imgTransp->Height + ValorVert;
 			frmPrincipal->lblImgLeg->Visible = true;
 
-			frmPrincipal->lblTranspTexto->Width = LargTransp/2 - 32;
-			frmPrincipal->lblTranspTexto->Position->X = LargTransp / 2 + 8;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
+			else frmPrincipal->lblTranspTexto->Width = LargTransp/2 - (ValorHorz * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Position->X = LargTransp / 2 + ValorHorzM;
+			else frmPrincipal->lblTranspTexto->Position->X = LargTransp / 2 + ValorHorz;
 			frmPrincipal->lblTranspTexto->Height = frmPrincipal->imgTransp->Height;
-			frmPrincipal->lblTranspTexto->Position->Y = 24;
+			frmPrincipal->lblTranspTexto->Position->Y = (ValorVert * 3);
 			frmPrincipal->lblTranspTexto->TextSettings->VertAlign = 0x0;
 			frmPrincipal->lblTranspTexto->TextSettings->HorzAlign = 0x1;
 
@@ -1538,9 +1598,12 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			}
 
 			frmPrincipal->lblTitulo->Width = LargTransp;
-			frmPrincipal->lblTitulo->Position->Y = 24;
+			frmPrincipal->lblTitulo->Position->Y = (ValorVert * 3);
 			frmPrincipal->lblTitulo->Position->X = 0;
+			frmPrincipal->lblTitulo->Width = vsTransp->Width;
 			frmPrincipal->lblTitulo->TextSettings->HorzAlign = 0x0;
+			frmPrincipal->lblTitulo->Height = tamFonteTitulo;
+			frmPrincipal->lblTitulo->Font->Size = tamFonteTitulo;
 
 			frmPrincipal->imgTransp->Width = 0;
 			frmPrincipal->imgTransp->Position->X = 0;
@@ -1552,10 +1615,12 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			frmPrincipal->lblImgLeg->Position->Y = 0;
 			frmPrincipal->lblImgLeg->Visible = false;
 
-			frmPrincipal->lblTranspTexto->Width = LargTransp - 48;
-			frmPrincipal->lblTranspTexto->Position->X = 24;
-			frmPrincipal->lblTranspTexto->Height = AltTransp - 136;
-			frmPrincipal->lblTranspTexto->Position->Y = 106;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Width = LargTransp - (ValorHorzM * 6);
+			else frmPrincipal->lblTranspTexto->Width = LargTransp - (ValorHorz * 6);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Position->X = (ValorHorzM * 3);
+			else frmPrincipal->lblTranspTexto->Position->X = (ValorHorz * 3);
+			frmPrincipal->lblTranspTexto->Height = AltTransp - (ValorVert * 17);
+			frmPrincipal->lblTranspTexto->Position->Y = (ValorVert * 13) + (ValorVert/4);
 			frmPrincipal->lblTranspTexto->TextSettings->VertAlign = 0x0;
 			frmPrincipal->lblTranspTexto->TextSettings->HorzAlign = 0x0;
 
@@ -1587,19 +1652,26 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			}
 
 			frmPrincipal->lblTitulo->Width = LargTransp;
-			frmPrincipal->lblTitulo->Position->Y = 24;
+			frmPrincipal->lblTitulo->Position->Y = ValorVert * 3;
 			frmPrincipal->lblTitulo->Position->X = 0;
+			frmPrincipal->lblTitulo->Width = vsTransp->Width;
 			frmPrincipal->lblTitulo->TextSettings->HorzAlign = 0x0;
+			frmPrincipal->lblTitulo->Height = tamFonteTitulo;
+			frmPrincipal->lblTitulo->Font->Size = tamFonteTitulo;
 
-			frmPrincipal->imgTransp->Width = LargTransp - 48;
-			frmPrincipal->imgTransp->Position->X = 24;
-			frmPrincipal->imgTransp->Height = AltTransp - 112 - frmPrincipal->lblImgLeg->Height - 32;
-			frmPrincipal->imgTransp->Position->Y = 106;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Width = LargTransp - (ValorHorzM * 6);
+			else frmPrincipal->imgTransp->Width = LargTransp - (ValorHorz * 6);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Position->X = ValorHorzM * 3;
+			else frmPrincipal->imgTransp->Position->X = ValorHorz * 3;
+			frmPrincipal->imgTransp->Height = AltTransp - (ValorVert * 14) - frmPrincipal->lblImgLeg->Height - (ValorVert * 4);
+			frmPrincipal->imgTransp->Position->Y = (ValorVert * 13) + (ValorVert/4);
 			frmPrincipal->imgTransp->WrapMode = TImageWrapMode::iwFit;
 
-			frmPrincipal->lblImgLeg->Width = LargTransp - 48;
-			frmPrincipal->lblImgLeg->Position->X = 24;
-			frmPrincipal->lblImgLeg->Position->Y = frmPrincipal->imgTransp->Position->Y + frmPrincipal->imgTransp->Height + 8;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Width = LargTransp - (ValorHorzM * 6);
+			else frmPrincipal->lblImgLeg->Width = LargTransp - (ValorHorz * 6);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Position->X = ValorHorzM * 3;
+			else frmPrincipal->lblImgLeg->Position->X = ValorHorz * 3;
+			frmPrincipal->lblImgLeg->Position->Y = frmPrincipal->imgTransp->Position->Y + frmPrincipal->imgTransp->Height + ValorVert;
 			frmPrincipal->lblImgLeg->Visible = true;
 			frmPrincipal->lblImgLeg->TextSettings->HorzAlign = 0x0;
 
@@ -1638,19 +1710,26 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			}
 
 			frmPrincipal->lblTitulo->Width = LargTransp;
-			frmPrincipal->lblTitulo->Position->Y = AltTransp - 88;
+			frmPrincipal->lblTitulo->Position->Y = AltTransp - (ValorVert * 11);
 			frmPrincipal->lblTitulo->Position->X = 0;
+			frmPrincipal->lblTitulo->Width = vsTransp->Width;
 			frmPrincipal->lblTitulo->TextSettings->HorzAlign = 0x0;
+			frmPrincipal->lblTitulo->Height = tamFonteTitulo;
+			frmPrincipal->lblTitulo->Font->Size = tamFonteTitulo;
 
-			frmPrincipal->imgTransp->Width = LargTransp - 48;
-			frmPrincipal->imgTransp->Position->X = 24;
-			frmPrincipal->imgTransp->Height = AltTransp - 112 - frmPrincipal->lblImgLeg->Height - 32;
-			frmPrincipal->imgTransp->Position->Y = 24;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Width = LargTransp - (ValorHorzM * 6);
+			else frmPrincipal->imgTransp->Width = LargTransp - (ValorHorz * 6);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Position->X = ValorHorzM * 3;
+			else frmPrincipal->imgTransp->Position->X = ValorHorz * 3;
+			frmPrincipal->imgTransp->Height = AltTransp - (ValorVert * 14) - frmPrincipal->lblImgLeg->Height - (ValorVert * 4);
+			frmPrincipal->imgTransp->Position->Y = (ValorVert * 3);
 			frmPrincipal->imgTransp->WrapMode = TImageWrapMode::iwFit;
 
-			frmPrincipal->lblImgLeg->Width = LargTransp - 48;
-			frmPrincipal->lblImgLeg->Position->X = 24;
-			frmPrincipal->lblImgLeg->Position->Y = frmPrincipal->imgTransp->Position->Y + frmPrincipal->imgTransp->Height + 8;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Width = LargTransp - (6 * ValorHorzM);
+			else frmPrincipal->lblImgLeg->Width = LargTransp - (6 * ValorHorz);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Position->X = ValorHorzM * 3;
+			else frmPrincipal->lblImgLeg->Position->X = ValorHorz * 3;
+			frmPrincipal->lblImgLeg->Position->Y = frmPrincipal->imgTransp->Position->Y + frmPrincipal->imgTransp->Height + ValorVert;
 			frmPrincipal->lblImgLeg->Visible = true;
 			frmPrincipal->lblImgLeg->TextSettings->HorzAlign = 0x0;
 
@@ -2123,12 +2202,24 @@ void __fastcall TfrmPrincipal::btAbrirProjClick(TObject *Sender)
 {
 	if (daAbrirProj->Execute()) {
 		locSalvo = ExtractFilePath(daAbrirProj->FileName);
-		frmCodigo->mmCodigo->Lines->Clear();
-		frmCodigo->mmCodigo->BeginUpdate();
-		frmCodigo->mmCodigo->Lines->LoadFromFile(daAbrirProj->FileName);
-		TFile::OpenWrite(daAbrirProj->FileName);
-		frmCodigo->mmCodigo->EndUpdate();
+		if (salvo) {
+			delete ProjAtual;
+			frmCodigo->mmCodigo->Lines->Clear();
+			frmCodigo->mmCodigo->BeginUpdate();
+			frmCodigo->mmCodigo->Lines->LoadFromFile(daAbrirProj->FileName);
+			frmCodigo->mmCodigo->EndUpdate();
+			ProjAtual = new TFileStream(daAbrirProj->FileName, TFileMode::fmOpen);
+		}
+		else {
+			frmCodigo->mmCodigo->Lines->Clear();
+			frmCodigo->mmCodigo->BeginUpdate();
+			frmCodigo->mmCodigo->Lines->LoadFromFile(daAbrirProj->FileName);
+			frmCodigo->mmCodigo->EndUpdate();
+			ProjAtual = new TFileStream(daAbrirProj->FileName, TFileMode::fmOpen);
+		}
+
 		salvo = true;
+		SelecTransp->BeginUpdate();
 		SelecTransp->Items->Clear();
 		SelecTransp->Items->Add()->Text = "CAPA";
 
@@ -2141,6 +2232,8 @@ void __fastcall TfrmPrincipal::btAbrirProjClick(TObject *Sender)
 			}
 			i++;
 		}while (i < tam);
+
+		SelecTransp->EndUpdate();
 
 		Transp = 0;
 		edtApresTitulo->Text = frmCodigo->mmCodigo->Lines->Strings[0];
@@ -2215,6 +2308,8 @@ void __fastcall TfrmPrincipal::btAbrirProjClick(TObject *Sender)
 			throw Exception ("ERRO 000012: Falha nas configurações especiais (Data).\nPara maiores informações sobre este erro visite nossa DocWiki.");
 		}
 
+		SelecTransp->Selected = SelecTransp->Items->Item[Transp];
+		Transp = 0;
 		CarregarTransp(Transp);
 	}
 	else {
@@ -2242,8 +2337,10 @@ void __fastcall TfrmPrincipal::btNovoProjClick(TObject *Sender)
 
 	frmCodigo->mmCodigo->Lines->Clear();
 	frmCodigo->mmCodigo->Lines->LoadFromFile(arqb+".nps");
+	SelecTransp->BeginUpdate();
 	SelecTransp->Items->Clear();
 	SelecTransp->Items->Add()->Text = "CAPA";
+	SelecTransp->EndUpdate();
 		if (frmCodigo->mmCodigo->Lines->Strings[1] != "Nintersoft") {
 			edtApresAutor->Text = frmCodigo->mmCodigo->Lines->Strings[1];
 		}
@@ -2382,6 +2479,205 @@ void TfrmPrincipal::ExcluirTransp(int LOC)
 
 	SelecTransp->Selected = SelecTransp->Items->Item[Transp];
 	CarregarTransp(Transp);
+}
+//---------------------------------------------------------------------------
+void TfrmPrincipal::AjusteVisual() {
+	if (listaPrevTransp->ItemIndex == 0) {
+
+		int altmax = (int)brTransp->Height - 40;
+		vsTransp->Height = altmax;
+
+		int largmax = (int)((altmax/9)*16);
+		vsTransp->Width = largmax;
+
+		float altmaxconv = altmax;
+
+		tamFonteBasica = ((altmaxconv/768) * edtTamFonte->Value);
+		tamFonteTitulo = ((altmaxconv * 64) / 768);
+
+		vsTransp->Position->X = (brTransp->Width - vsTransp->Width)/2;
+		vsTransp->Position->Y = (brTransp->Height - vsTransp->Height)/2;
+
+	}
+	else if (listaPrevTransp->ItemIndex == 1) {
+
+		float trPos[2], brTam[2], trTam[2];
+
+		vsTransp->Width = 1366;
+		vsTransp->Height = 768;
+
+		tamFonteBasica = edtTamFonte->Value;
+		tamFonteTitulo = 64;
+
+		brTam[0] = frmPrincipal->brTransp->Width;
+		brTam[1] = frmPrincipal->brTransp->Height;
+		trTam[0] = frmPrincipal->vsTransp->Width;
+		trTam[1] = frmPrincipal->vsTransp->Height;
+
+		if (brTam[0] >= trTam[0]) {
+			trPos[0] = (brTam[0] - trTam[0])/2;
+			frmPrincipal->vsTransp->Position->X = trPos[0];
+		}
+		else {
+			frmPrincipal->vsTransp->Position->X = 20;
+		}
+
+		if (brTam[1] >= trTam[1]) {
+			trPos[1] = (brTam[1] - trTam[1])/2;
+			frmPrincipal->vsTransp->Position->Y = trPos[1];
+		}
+		else {
+			frmPrincipal->vsTransp->Position->Y = 20;
+		}
+
+	}
+	else if (listaPrevTransp->ItemIndex == 2) {
+
+		int altmax = (int)brTransp->Height - 40;
+		vsTransp->Height = altmax;
+
+		int largmax = (int)((altmax/3)*4);
+		vsTransp->Width = largmax;
+
+		float altmaxconv = altmax;
+
+		vsTransp->Position->X = (brTransp->Width - vsTransp->Width)/2;
+		vsTransp->Position->Y = (brTransp->Height - vsTransp->Height)/2;
+
+		tamFonteBasica = ((altmaxconv/768) * edtTamFonte->Value);
+		tamFonteTitulo = ((altmaxconv * 64) / 768);
+
+
+	}
+	else {
+
+		float trPos[2], brTam[2], trTam[2];
+
+		vsTransp->Width = 1024;
+		vsTransp->Height = 768;
+
+		tamFonteBasica = edtTamFonte->Value;
+		tamFonteTitulo = 64;
+
+		brTam[0] = frmPrincipal->brTransp->Width;
+		brTam[1] = frmPrincipal->brTransp->Height;
+		trTam[0] = frmPrincipal->vsTransp->Width;
+		trTam[1] = frmPrincipal->vsTransp->Height;
+
+		if (brTam[0] >= trTam[0]) {
+			trPos[0] = (brTam[0] - trTam[0])/2;
+			frmPrincipal->vsTransp->Position->X = trPos[0];
+		}
+		else {
+			frmPrincipal->vsTransp->Position->X = 20;
+		}
+
+		if (brTam[1] >= trTam[1]) {
+			trPos[1] = (brTam[1] - trTam[1])/2;
+			frmPrincipal->vsTransp->Position->Y = trPos[1];
+		}
+		else {
+			frmPrincipal->vsTransp->Position->Y = 20;
+		}
+
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::listaPrevTranspItemClick(TCustomListBox * const Sender,
+		  TListBoxItem * const Item)
+{
+	CarregarTransp(SelecTransp->Selected->Index);
+	CarregarTransp(SelecTransp->Selected->Index);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btExcluirTranspMouseDown(TObject *Sender, TMouseButton Button,
+		  TShiftState Shift, float X, float Y)
+{
+	btExcluirTransp->Fill->Color = -40121;
+	btExcluirTransp->Stroke->Color = -40121;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btExcluirTranspMouseLeave(TObject *Sender)
+{
+	btExcluirTransp->Fill->Color = -65536;
+	btExcluirTransp->Stroke->Color = -65536;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btExcluirTranspMouseUp(TObject *Sender, TMouseButton Button,
+		  TShiftState Shift, float X, float Y)
+{
+	btExcluirTransp->Fill->Color = -65536;
+	btExcluirTransp->Stroke->Color = -65536;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btConfigMouseDown(TObject *Sender, TMouseButton Button,
+		  TShiftState Shift, float X, float Y)
+{
+	btConfig->Fill->Color = -12525360;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btConfigMouseUp(TObject *Sender, TMouseButton Button,
+		  TShiftState Shift, float X, float Y)
+{
+	btConfig->Fill->Color = -16777011;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btConfigMouseLeave(TObject *Sender)
+{
+	btConfig->Fill->Color = -16777011;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btVisualizarCodigoMouseLeave(TObject *Sender)
+{
+	btVisualizarCodigo->Fill->Color = -16777011;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btVisualizarCodigoMouseUp(TObject *Sender, TMouseButton Button,
+		  TShiftState Shift, float X, float Y)
+{
+	btVisualizarCodigo->Fill->Color = -16777011;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btVisualizarCodigoMouseDown(TObject *Sender, TMouseButton Button,
+		  TShiftState Shift, float X, float Y)
+{
+	btVisualizarCodigo->Fill->Color = -12525360;
+}
+//---------------------------------------------------------------------------
+void __fastcall TfrmPrincipal::btInformacoesMouseDown(TObject *Sender, TMouseButton Button,
+		  TShiftState Shift, float X, float Y)
+{
+	btInformacoes->Fill->Color = -12525360;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btInformacoesMouseLeave(TObject *Sender)
+{
+	btInformacoes->Fill->Color = -16777011;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btInformacoesMouseUp(TObject *Sender, TMouseButton Button,
+		  TShiftState Shift, float X, float Y)
+{
+	btInformacoes->Fill->Color = -16777011;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btInformacoesClick(TObject *Sender)
+{
+	frmConfig->Show();
+	frmConfig->abasConf->ActiveTab = frmConfig->abaInfo;
 }
 //---------------------------------------------------------------------------
 

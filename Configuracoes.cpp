@@ -1,6 +1,8 @@
 //---------------------------------------------------------------------------
 
 #include <fmx.h>
+#include <IOUtils.hpp>
+#include <shlobj.h>
 #pragma hdrstop
 
 #include "Configuracoes.h"
@@ -51,28 +53,27 @@ void __fastcall TfrmConfig::btCancelarClick(TObject *Sender)
 
 void __fastcall TfrmConfig::btSalvarClick(TObject *Sender)
 {
-	mmConfig->Lines->Clear();
-		if (TempConf[0]) {
-			mmConfig->Lines->Add("NSEDT");
-			frmCodigo->mmCodigo->ReadOnly = false;
+	SalvarConfig();
+	AplicarImpConfig();
+
+	if (cbDefPad->IsChecked) {
+
+		PWSTR pszPath;
+		if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pszPath)))
+		{
+			String NSNPCONF = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres\\Config");
+			String NSNPARQCONF = System::Ioutils::TPath::Combine(NSNPCONF, L"CONF");
+			CoTaskMemFree(pszPath);
+
+			frmConfig->mmConfig->Lines->SaveToFile(NSNPARQCONF+".conf");
+
 		}
 		else {
-			mmConfig->Lines->Add("!NSEDT");
-			frmCodigo->mmCodigo->ReadOnly = true;
+			throw Exception ("ERRO 001002: Não foi possível salvar suas configurações personalizadas para a próxima inicialização.");
 		}
-		frmSobre->lblLicencProg->Text = edtNomeLicen->Text;
-	frmConfig->Close();
-}
-//---------------------------------------------------------------------------
-void __fastcall TfrmConfig::cbAtivarEditorChange(TObject *Sender)
-{
-	if (cbAtivarEditor->IsChecked) {
-		TempConf[0] = true;
-	}
-	else {
-		TempConf[0] = false;
 	}
 
+	frmConfig->Close();
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmConfig::FormCreate(TObject *Sender)
@@ -80,6 +81,9 @@ void __fastcall TfrmConfig::FormCreate(TObject *Sender)
 	for (int i = 0; i < 5; i++) {
 		TempConf[i] = false;
 	}
+
+	env = false;
+
 }
 //---------------------------------------------------------------------------
 
@@ -89,3 +93,148 @@ void __fastcall TfrmConfig::btAjudaEstiloClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TfrmConfig::btAjudaAtualizarClick(TObject *Sender)
+{
+	ShowMessage("Libera a aplicação da atualização diretamente pelo código.\nAtenção: Ative esta funcionalidade apenas se você possuir conhecimentos avançados no Ninterpres");
+}
+//---------------------------------------------------------------------------
+
+void TfrmConfig::Restaurar()
+{
+	frmConfig->cbAtivarEditor->IsChecked = false;
+	frmConfig->cbAtualizarCod->IsChecked = false;
+	frmConfig->cxTamFonte->Value = 16;
+	frmConfig->cbMostrarTransp->IsChecked = true;
+	frmConfig->cbMostrarLogo->IsChecked = true;
+	frmConfig->cbMostrarData->IsChecked = false;
+	frmConfig->csEstilo->ItemIndex = 1;
+	frmConfig->listaCorTema->ItemIndex = 30;
+	frmConfig->cbSalvarAuto->IsChecked = false;
+	frmConfig->btApresTemp->IsChecked = false;
+	frmConfig->lsSelecInter->ItemIndex = 2;
+	frmConfig->edtTempSeg->Value = 5;
+	frmConfig->cbSalvarTemp->IsChecked = true;
+	frmConfig->edtNomeLicen->Text = "Equipe de desenvolvimento Nintersoft";
+	frmConfig->cbSelecIdioma->ItemIndex = 0;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmConfig::btRestaurarClick(TObject *Sender)
+{
+	int Conf = MessageBox (0, L"Você está certo disso?\nEsta ação restaurará todas as configurações às configurações de instalação!", L"Ninterpres - Aviso", MB_YESNO+MB_ICONQUESTION);
+	if (Conf == 6) {
+		Restaurar();
+	}
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TfrmConfig::cbDefPadChange(TObject *Sender)
+{
+	if (!env) {
+		if (!cbDefPad->IsChecked) {
+			ShowMessage("Atenção!\nSuas configurações não serão salvas para futuras execuções deste programa.");
+		}
+		else {
+			ShowMessage("Atenção!\nEsta é apenas uma versão BETA do Ninterpres.\nApós a próxima atualização suas configurções personalizadas serão perdidas.");
+		}
+	}
+	else {
+    	env = false;
+	}
+}
+//---------------------------------------------------------------------------
+
+void TfrmConfig::SalvarConfig()
+{
+	frmConfig->mmConfig->BeginUpdate();
+	frmConfig->mmConfig->Lines->Clear();
+
+	if (frmConfig->cbAtivarEditor->IsChecked) {
+		frmConfig->mmConfig->Lines->Add("NSEDT");
+	}
+	else {
+		frmConfig->mmConfig->Lines->Add("!NSEDT");
+	}
+
+	if (frmConfig->cbAtualizarCod->IsChecked) {
+		frmConfig->mmConfig->Lines->Add("NSATC");
+	}
+	else {
+		frmConfig->mmConfig->Lines->Add("!NSATC");
+	}
+
+	frmConfig->mmConfig->Lines->Add(FloatToStr(cxTamFonte->Value));
+
+	if (cbMostrarTransp->IsChecked) {
+		frmConfig->mmConfig->Lines->Add("NSMSTR");
+	}
+	else {
+		frmConfig->mmConfig->Lines->Add("!NSMSTR");
+	}
+
+	if (cbMostrarLogo->IsChecked) {
+		frmConfig->mmConfig->Lines->Add("NSMSLG");
+	}
+	else {
+		frmConfig->mmConfig->Lines->Add("!NSMSLG");
+	}
+
+	if (cbMostrarData->IsChecked) {
+		frmConfig->mmConfig->Lines->Add("NSMSDT");
+	}
+	else {
+		frmConfig->mmConfig->Lines->Add("!NSMSDT");
+	}
+
+	frmConfig->mmConfig->Lines->Add(IntToStr(csEstilo->ItemIndex));
+
+	frmConfig->mmConfig->Lines->Add(IntToStr(listaCorTema->ItemIndex));
+
+	if (cbSalvarAuto->IsChecked) {
+		frmConfig->mmConfig->Lines->Add("NSSVSA");
+	}
+	else {
+		frmConfig->mmConfig->Lines->Add("!NSSVSA");
+	}
+
+	if (btApresTemp->IsChecked) {
+		frmConfig->mmConfig->Lines->Add("NSSVAT");
+	}
+	else {
+		frmConfig->mmConfig->Lines->Add("!NSSVAT");
+	}
+
+	frmConfig->mmConfig->Lines->Add(IntToStr(lsSelecInter->ItemIndex));
+
+	int TempSeg = edtTempSeg->Value;
+	frmConfig->mmConfig->Lines->Add(IntToStr(TempSeg));
+
+	if (cbSalvarTemp->IsChecked) {
+		frmConfig->mmConfig->Lines->Add("NSSVAD");
+	}
+	else {
+		frmConfig->mmConfig->Lines->Add("!NSSVAD");
+	}
+
+	frmConfig->mmConfig->Lines->Add(edtNomeLicen->Text);
+
+	frmConfig->mmConfig->Lines->Add(IntToStr(cbSelecIdioma->ItemIndex));
+
+	frmConfig->mmConfig->EndUpdate();
+}
+//---------------------------------------------------------------------------
+
+void TfrmConfig::AplicarImpConfig()
+{
+	if (mmConfig->Lines->Strings[0] == "NSEDT") {
+		frmCodigo->mmCodigo->ReadOnly = false;
+	}
+	else {
+		frmCodigo->mmCodigo->ReadOnly = true;
+	}
+
+	frmSobre->lblLicencProg->Text = frmConfig->mmConfig->Lines->Strings[1];
+
+}
+//---------------------------------------------------------------------------

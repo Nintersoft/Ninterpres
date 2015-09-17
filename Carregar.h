@@ -15,7 +15,7 @@ class TfrmCarregar : public TForm
 __published:	// IDE-managed Components
 	TImage *btFechar;
 	TImage *btMinimizar;
-	TLabel *Label1;
+	TLabel *lblEstado;
 	TAniIndicator *AniIndicator1;
 	TTimer *tmConfigurar;
 	void __fastcall tmConfigurarTimer(TObject *Sender);
@@ -24,6 +24,8 @@ __published:	// IDE-managed Components
 private:	// User declarations
 public:		// User declarations
 	__fastcall TfrmCarregar(TComponent* Owner);
+	void AplicarConfig();
+	String NSNPCONF;
 	String NSNPLOC;
 	String NSNPLOCATL;
 };
