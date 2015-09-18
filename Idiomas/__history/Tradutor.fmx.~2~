@@ -1,0 +1,26 @@
+object frmTradutor: TfrmTradutor
+  Left = 0
+  Top = 0
+  Caption = 'Tradutor'
+  ClientHeight = 517
+  ClientWidth = 689
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop, iPhone, iPad]
+  DesignerMasterStyle = 0
+  object mmTraducao: TMemo
+    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+    Align = Client
+    Size.Width = 689.000000000000000000
+    Size.Height = 484.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+  end
+  object MenuBar1: TMenuBar
+    Align = MostTop
+    Size.Width = 689.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+  end
+end

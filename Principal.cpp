@@ -19,7 +19,7 @@ TfrmPrincipal *frmPrincipal;
 //---------------------------------------------------------------------------
 const float RealTamFonte = 1.3125;
 long double tamFonteBasica, tamFonteTitulo;
-int tpEscolha = 1, Cam = 390, Transp = 0, CorBordaTransp, CorFundoTransp, Vis = 0;
+int tpEscolha = 1, Cam = 390, CorBordaTransp, CorFundoTransp, Vis = 0;
 bool prim, salvo = false, confSalvo = false;
 String TranspSelec, locSalvo;
 TFileStream* ProjAtual;
@@ -353,6 +353,8 @@ void __fastcall TfrmPrincipal::FormCreate(TObject *Sender)
 	}
 
 	prim = true;
+
+	Transp = 0;
 
 	// Adquire a cor da borda da transparência
 

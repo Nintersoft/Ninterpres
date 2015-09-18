@@ -10,12 +10,23 @@
 #include <FMX.Memo.hpp>
 #include <FMX.Types.hpp>
 #include <FMX.Menus.hpp>
+#include <FMX.Grid.hpp>
+#include <FMX.TabControl.hpp>
+#include <System.Rtti.hpp>
 //---------------------------------------------------------------------------
 class TfrmTradutor : public TForm
 {
 __published:	// IDE-managed Components
 	TMemo *mmTraducao;
-	TMenuBar *MenuBar1;
+	TMenuBar *barraCatalogo;
+	TTabControl *abasTraducao;
+	TTabItem *abaTradPrinc;
+	TTabItem *abaTradConfig;
+	TTabItem *abaTradSobre;
+	TTabItem *abaTradRest;
+	TStringGrid *StringGrid1;
+	TStringColumn *clOriginal;
+	TStringColumn *clTraducao;
 private:	// User declarations
 public:		// User declarations
 	__fastcall TfrmTradutor(TComponent* Owner);

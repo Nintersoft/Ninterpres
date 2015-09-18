@@ -89,6 +89,7 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 				try {
 					TfrmCarregar::AplicarConfig();
 				} catch (...) {
+					cont++;
 					ShowMessage("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
 					goto falha;
 				}

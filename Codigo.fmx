@@ -14,7 +14,7 @@ object frmCodigo: TfrmCodigo
     Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
     Align = Client
     Size.Width = 710.000000000000000000
-    Size.Height = 471.000000000000000000
+    Size.Height = 464.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
     Lines.Strings = (
@@ -48,19 +48,48 @@ object frmCodigo: TfrmCodigo
   object bmPrincipal: TRectangle
     Align = MostBottom
     Fill.Color = claOrange
-    Position.Y = 471.000000000000000000
+    Position.Y = 464.000000000000000000
     Size.Width = 710.000000000000000000
-    Size.Height = 33.000000000000000000
+    Size.Height = 40.000000000000000000
     Size.PlatformDefault = False
     Stroke.Color = claOrange
     object btAlterar: TSpeedButton
       Anchors = [akLeft, akTop, akBottom]
       Enabled = False
-      Position.X = 8.000000000000000000
-      Size.Width = 65.000000000000000000
-      Size.Height = 33.000000000000000000
+      StyledSettings = []
+      Position.X = 136.000000000000000000
+      Size.Width = 137.000000000000000000
+      Size.Height = 40.000000000000000000
       Size.PlatformDefault = False
       Text = 'Atualizar'
+      TextSettings.Font.Family = 'Segoe UI Semibold'
+      TextSettings.Font.Size = 14.000000000000000000
+      TextSettings.Font.Style = [fsBold]
+      TextSettings.FontColor = claWhite
+    end
+    object Linha1: TLine
+      LineType = Left
+      Position.X = 136.000000000000000000
+      Position.Y = 1.000000000000000000
+      Size.Width = 1.000000000000000000
+      Size.Height = 41.000000000000000000
+      Size.PlatformDefault = False
+      Stroke.Color = claWhite
+      Stroke.Thickness = 2.000000000000000000
+    end
+    object btVerificar: TSpeedButton
+      Align = Vertical
+      Anchors = [akLeft, akTop, akBottom]
+      Enabled = False
+      StyledSettings = []
+      Size.Width = 137.000000000000000000
+      Size.Height = 40.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Verificar erros'
+      TextSettings.Font.Family = 'Segoe UI Semibold'
+      TextSettings.Font.Size = 14.000000000000000000
+      TextSettings.Font.Style = [fsBold]
+      TextSettings.FontColor = claWhite
     end
   end
 end

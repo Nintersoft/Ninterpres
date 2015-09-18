@@ -2,25 +2,103 @@ object frmTradutor: TfrmTradutor
   Left = 0
   Top = 0
   Caption = 'Tradutor'
-  ClientHeight = 517
-  ClientWidth = 689
+  ClientHeight = 545
+  ClientWidth = 803
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop, iPhone, iPad]
   DesignerMasterStyle = 0
-  object mmTraducao: TMemo
-    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
-    Align = Client
-    Size.Width = 689.000000000000000000
-    Size.Height = 484.000000000000000000
+  object barraCatalogo: TMenuBar
+    Align = MostTop
+    Size.Width = 803.000000000000000000
+    Size.Height = 33.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
   end
-  object MenuBar1: TMenuBar
-    Align = MostTop
-    Size.Width = 689.000000000000000000
-    Size.Height = 33.000000000000000000
+  object abasTraducao: TTabControl
+    Align = Client
+    Size.Width = 803.000000000000000000
+    Size.Height = 512.000000000000000000
     Size.PlatformDefault = False
+    TabIndex = 0
     TabOrder = 2
+    TabPosition = PlatformDefault
+    object abaTradPrinc: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = True
+      Size.Width = 101.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Janela principal'
+      object mmTraducao: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        Align = Client
+        Size.Width = 689.000000000000000000
+        Size.Height = 460.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Visible = False
+      end
+      object StringGrid1: TStringGrid
+        Align = Client
+        Size.Width = 803.000000000000000000
+        Size.Height = 488.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        RowCount = 10
+        RowHeight = 30.000000000000000000
+        object clOriginal: TStringColumn
+          Header = 'Texto original'
+          Size.Width = 400.000000000000000000
+          Size.Height = 300.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+        end
+        object clTraducao: TStringColumn
+          Header = 'Texto traduzido'
+          Position.X = 400.000000000000000000
+          Size.Width = 400.000000000000000000
+          Size.Height = 300.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+        end
+      end
+    end
+    object abaTradConfig: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = False
+      Size.Width = 146.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Janela de configura'#231#245'es'
+    end
+    object abaTradSobre: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = False
+      Size.Width = 122.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Janela de descri'#231#227'o'
+    end
+    object abaTradRest: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = False
+      Size.Width = 108.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Janelas terci'#225'rias'
+    end
   end
 end

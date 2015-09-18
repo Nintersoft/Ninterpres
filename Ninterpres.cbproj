@@ -5,7 +5,7 @@
         <FrameworkType>FMX</FrameworkType>
         <MainSource>Ninterpres.cpp</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -160,6 +160,8 @@
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <VerInfo_Build>43</VerInfo_Build>
+        <VerInfo_Release>1</VerInfo_Release>
         <ILINK_LibraryPath>..\..\..\..\Public\Documents\Embarcadero\Studio\14.0\DCP\;$(BDS)\lib\win32\release\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <LinkPackageStatics>rtl.lib;fmx.lib;xmlrtl.lib;vclx.lib;vcl.lib;vclactnband.lib;IndySystem.lib;IndyProtocols.lib;IndyCore.lib</LinkPackageStatics>
         <Icon_MainIcon>IMGS\Logo\NPS_Logo_50.ico</Icon_MainIcon>
@@ -167,7 +169,7 @@
         <UsePackages>false</UsePackages>
         <DynamicRTL>false</DynamicRTL>
         <VerInfo_Locale>1046</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=Nintersoft;FileDescription=Criador de apresentação de transparências;FileVersion=0.9.0.0;InternalName=Ninterpres;LegalCopyright=Nintersoft;LegalTrademarks=;OriginalFilename=;ProductName=Ninterpres;ProductVersion=0.9.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Nintersoft;FileDescription=Criador de apresentação de transparências;FileVersion=0.9.1.43;InternalName=Ninterpres;LegalCopyright=Nintersoft;LegalTrademarks=;OriginalFilename=;ProductName=Ninterpres;ProductVersion=0.9.0.0;Comments=</VerInfo_Keys>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <VerInfo_MinorVer>9</VerInfo_MinorVer>
     </PropertyGroup>
@@ -224,6 +226,7 @@
             <BuildOrder>6</BuildOrder>
         </CppCompile>
         <FormResources Include="Sobre.fmx"/>
+        <FormResources Include="Sobre.Windows.fmx"/>
         <FormResources Include="Principal.fmx"/>
         <FormResources Include="ImgConf.fmx"/>
         <FormResources Include="Codigo.fmx"/>
@@ -257,10 +260,10 @@
                     <Source Name="MainSource">Ninterpres.cpp</Source>
                 </Source>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k200.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp200.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k200.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp200.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k210.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp210.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k210.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp210.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="1">
@@ -707,14 +710,14 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
             </Deployment>
             <Platforms>
                 <Platform value="Android">False</Platform>

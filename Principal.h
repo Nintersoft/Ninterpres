@@ -319,6 +319,9 @@ public:		// User declarations
 	void AjusteVisual ();
 	bool comentario (String);
 	String Extensao(String);
+
+	int Transp;
+
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TfrmPrincipal *frmPrincipal;

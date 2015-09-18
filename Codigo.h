@@ -18,6 +18,8 @@ __published:	// IDE-managed Components
 	TMemo *mmCodigo;
 	TRectangle *bmPrincipal;
 	TSpeedButton *btAlterar;
+	TLine *Linha1;
+	TSpeedButton *btVerificar;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall mmCodigoChange(TObject *Sender);

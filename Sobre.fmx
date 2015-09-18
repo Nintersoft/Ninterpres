@@ -65,12 +65,12 @@ object frmSobre: TfrmSobre
     StyledSettings = [Family]
     Position.X = 160.000000000000000000
     Position.Y = 48.000000000000000000
-    Size.Width = 137.000000000000000000
+    Size.Width = 121.000000000000000000
     Size.Height = 25.000000000000000000
     Size.PlatformDefault = False
     TextSettings.Font.Size = 18.000000000000000000
     TextSettings.FontColor = claWhite
-    Text = '0.9.0.0 - Beta'
+    Text = '0.9.1.43 - Beta'
   end
   object lblDesenvolvedor: TLabel
     StyledSettings = [Family]
@@ -345,7 +345,7 @@ object frmSobre: TfrmSobre
   end
   object Indicador: TAniIndicator
     Enabled = True
-    Position.X = 272.000000000000000000
+    Position.X = 288.000000000000000000
     Position.Y = 48.000000000000000000
     Size.Width = 33.000000000000000000
     Size.Height = 33.000000000000000000
