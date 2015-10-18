@@ -317,6 +317,7 @@ public:		// User declarations
 	void CarregarTransp (int);
 	void RearranjoTransp (int);
 	void AjusteVisual ();
+	int LocDet (String Valor);
 	bool comentario (String);
 	String Extensao(String);
 

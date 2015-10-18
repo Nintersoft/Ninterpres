@@ -10,45 +10,9 @@ object frmCodigo: TfrmCodigo
   OnCreate = FormCreate
   OnShow = FormShow
   DesignerMasterStyle = 0
-  object mmCodigo: TMemo
-    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
-    Align = Client
-    Size.Width = 710.000000000000000000
-    Size.Height = 464.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 1
-    Lines.Strings = (
-      'Apresenta'#231#227'o sem t'#237'tulo'
-      'Nintersoft'
-      '0'
-      '!='
-      '!='
-      '!='
-      '0'
-      '16'
-      
-        '//-------------------N'#195'O EDITE ACIMA DESTA LINHA----------------' +
-        '-'
-      '$CAPA'
-      '*.*'
-      '*.*'
-      '!(FDT)'
-      
-        '//------------------N'#195'O EDITE ABAIXO DESTA LINHA----------------' +
-        '-'
-      'NSDT'
-      'NSPR'
-      'NSFN')
-    ReadOnly = True
-    TextSettings.Font.Family = 'Arial'
-    TextSettings.Font.Size = 16.000000000000000000
-    StyledSettings = [FontColor]
-    OnChange = mmCodigoChange
-  end
   object bmPrincipal: TRectangle
-    Align = MostBottom
+    Align = MostTop
     Fill.Color = claOrange
-    Position.Y = 464.000000000000000000
     Size.Width = 710.000000000000000000
     Size.Height = 40.000000000000000000
     Size.PlatformDefault = False
@@ -90,6 +54,116 @@ object frmCodigo: TfrmCodigo
       TextSettings.Font.Size = 14.000000000000000000
       TextSettings.Font.Style = [fsBold]
       TextSettings.FontColor = claWhite
+    end
+    object Linha2: TLine
+      LineType = Left
+      Position.X = 272.000000000000000000
+      Size.Width = 9.000000000000000000
+      Size.Height = 44.000000000000000000
+      Size.PlatformDefault = False
+      Stroke.Color = claWhite
+      Stroke.Thickness = 2.000000000000000000
+    end
+    object btEstilo: TSpeedButton
+      Enabled = False
+      StyledSettings = []
+      Position.X = 272.000000000000000000
+      Position.Y = 1.000000000000000000
+      Size.Width = 137.000000000000000000
+      Size.Height = 41.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Estilos'
+      TextSettings.Font.Family = 'Segoe UI Semibold'
+      TextSettings.Font.Size = 14.000000000000000000
+      TextSettings.Font.Style = [fsBold]
+      TextSettings.FontColor = claWhite
+    end
+  end
+  object SelecAba: TTabControl
+    Align = Client
+    Size.Width = 710.000000000000000000
+    Size.Height = 464.000000000000000000
+    Size.PlatformDefault = False
+    TabIndex = 1
+    TabOrder = 1
+    TabPosition = Bottom
+    object abaCodigo: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = False
+      Size.Width = 166.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'C'#243'digo execut'#225'vel principal'
+      object mmCodigo: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        Align = Client
+        Size.Width = 710.000000000000000000
+        Size.Height = 440.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Lines.Strings = (
+          'Apresenta'#231#227'o sem t'#237'tulo'
+          'Nintersoft'
+          '0'
+          '!='
+          '!='
+          '!='
+          '0'
+          '16'
+          
+            '//-------------------N'#195'O EDITE ACIMA DESTA LINHA----------------' +
+            '-'
+          '$CAPA'
+          '*.*'
+          '*.*'
+          '!(FDT)')
+        ReadOnly = True
+        TextSettings.Font.Family = 'Arial'
+        TextSettings.Font.Size = 16.000000000000000000
+        StyledSettings = [FontColor]
+        OnChange = mmCodigoChange
+      end
+    end
+    object abaEstilo: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = True
+      Size.Width = 102.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Folha de estilos'
+      object mmEstilo: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        Align = Client
+        Size.Width = 710.000000000000000000
+        Size.Height = 440.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Lines.Strings = (
+          '$FNT'
+          'TAM:16'
+          'COR:'
+          '!(FDD)'
+          
+            '//--------------------------------------------------------------' +
+            '-----------------------'
+          '$OPO'
+          'NSDT'
+          'NSPR'
+          'NSFN'
+          '!(FDD)'
+          
+            '//--------------------------------------------------------------' +
+            '-----------------------')
+        TextSettings.Font.Family = 'Arial Narrow'
+        TextSettings.Font.Size = 16.000000000000000000
+        StyledSettings = [Style, FontColor]
+      end
     end
   end
 end

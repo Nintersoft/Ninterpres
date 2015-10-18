@@ -630,7 +630,7 @@ bool res = true;
 		}
 	} while (res == false);
 
-			int pos = tam - 4;
+			int pos = tam;
 				frmPrincipal->SelecTransp->Items->Add()->Text = "TRANSP" + IntToStr(num);
 				frmCodigo->mmCodigo->Lines->Insert(pos, "!(FDT)");
 				frmCodigo->mmCodigo->Lines->Insert(pos, "*.*");
@@ -1767,8 +1767,10 @@ void __fastcall TfrmPrincipal::FormResize(TObject *Sender)
 void __fastcall TfrmPrincipal::baTamFonteTracking(TObject *Sender)
 {
 	edtTamFonte->Value = baTamFonte->Value;
-	frmCodigo->mmCodigo->Lines->Strings[7] = FloatToStr(edtTamFonte->Value);
-	lblTranspTexto->TextSettings->Font->Size = StrToFloat(frmCodigo->mmCodigo->Lines->Strings[7]);
+	int LOCLIN = LocDet("TAM_FONTE");
+	frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "TAM:"+FloatToStr(edtTamFonte->Value);
+	AjusteVisual();
+	lblTranspTexto->TextSettings->Font->Size = tamFonteBasica;
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmPrincipal::CorAbaArquivoMouseEnter(TObject *Sender)
@@ -1785,8 +1787,10 @@ void __fastcall TfrmPrincipal::CorAbaArquivoMouseLeave(TObject *Sender)
 void __fastcall TfrmPrincipal::edtTamFonteChange(TObject *Sender)
 {
 	baTamFonte->Value = edtTamFonte->Value;
-	frmCodigo->mmCodigo->Lines->Strings[7] = FloatToStr(edtTamFonte->Value);
-	lblTranspTexto->TextSettings->Font->Size = StrToFloat(frmCodigo->mmCodigo->Lines->Strings[7]);
+	int LOCLIN = LocDet("TAM_FONTE");
+	frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "TAM:"+FloatToStr(edtTamFonte->Value);
+	AjusteVisual();
+	lblTranspTexto->TextSettings->Font->Size = tamFonteBasica;
 }
 //---------------------------------------------------------------------------
 
@@ -2166,7 +2170,9 @@ void __fastcall TfrmPrincipal::btSalvarProjClick(TObject *Sender)
 	else {
 		if (salvo) {
 			String arq = System::Ioutils::TPath::Combine(locSalvo, L"NSCA.nps");
+			delete ProjAtual;
 			frmCodigo->mmCodigo->Lines->SaveToFile(arq);
+			ProjAtual = new TFileStream(arq, TFileMode::fmOpen);
 		}
 		else {
 			if (frmCodigo->mmCodigo->Lines->Strings[0] != "Apresentação sem título") {
@@ -2680,6 +2686,71 @@ void __fastcall TfrmPrincipal::btInformacoesClick(TObject *Sender)
 {
 	frmConfig->Show();
 	frmConfig->abasConf->ActiveTab = frmConfig->abaInfo;
+}
+//---------------------------------------------------------------------------
+
+int TfrmPrincipal::LocDet(String Valor)
+{
+
+	int tamTot = frmCodigo->mmEstilo->Lines->Count - 1;
+	bool inicio = true, encont = false;
+
+	if (Valor == "TAM_FONTE") {
+
+		int comeco, fim, loc = 0;
+
+		for (int i = 0; i < tamTot; i++) {
+			if (inicio) {
+				if (frmCodigo->mmEstilo->Lines->Strings[i] == "$FNT") {
+					comeco = i;
+					inicio = false;
+				}
+			}
+			else {
+				if (frmCodigo->mmEstilo->Lines->Strings[i] == "!(FDD)") {
+					fim = i;
+					break;
+				}
+			}
+		}
+
+		for (int i = inicio; i < fim; i++) {
+
+			String temp = "", dados = frmCodigo->mmEstilo->Lines->Strings[i];
+
+			if (dados.Length() >= 5) {
+				for (int k = 0; k < 4; k++) {
+					if (temp + dados.c_str()[k] != NULL && temp + dados.c_str()[k] != " ") {
+						temp = temp + dados.c_str()[k];
+					}
+				}
+				if (temp == "TAM:") {
+					loc = i;
+					break;
+				}
+				else {
+					temp = "";
+				}
+			}
+		}
+
+		if (loc == 0) {
+			frmCodigo->mmEstilo->Lines->Insert(inicio + 1, "TAM:");
+		}
+
+
+		return loc;
+
+	}
+	if (Valor == "MSTR_DATA") {
+
+	}
+	if (Valor == "MSTR_TRANSP") {
+
+	}
+	if (Valor == "MSTR_LOGO") {
+
+	}
 }
 //---------------------------------------------------------------------------
 

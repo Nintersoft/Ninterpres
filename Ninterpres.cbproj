@@ -5,7 +5,7 @@
         <FrameworkType>FMX</FrameworkType>
         <MainSource>Ninterpres.cpp</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -150,7 +150,7 @@
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <ILINK_LibraryPath>..\..\..\..\Public\Documents\Embarcadero\Studio\14.0\DCP\;$(BDS)\lib\win32\release\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <UsePackages>false</UsePackages>
-        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_Locale>1046</VerInfo_Locale>
         <LinkPackageStatics>rtl.lib;fmx.lib;xmlrtl.lib;vclx.lib;vcl.lib;vclactnband.lib;IndySystem.lib;IndyProtocols.lib;IndyCore.lib</LinkPackageStatics>
         <DynamicRTL>false</DynamicRTL>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
@@ -226,7 +226,6 @@
             <BuildOrder>6</BuildOrder>
         </CppCompile>
         <FormResources Include="Sobre.fmx"/>
-        <FormResources Include="Sobre.Windows.fmx"/>
         <FormResources Include="Principal.fmx"/>
         <FormResources Include="ImgConf.fmx"/>
         <FormResources Include="Codigo.fmx"/>
@@ -710,14 +709,14 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
             </Deployment>
             <Platforms>
                 <Platform value="Android">False</Platform>

@@ -11,6 +11,7 @@
 #include <FMX.Types.hpp>
 #include <FMX.Objects.hpp>
 #include <FMX.StdCtrls.hpp>
+#include <FMX.TabControl.hpp>
 //---------------------------------------------------------------------------
 class TfrmCodigo : public TForm
 {
@@ -20,6 +21,12 @@ __published:	// IDE-managed Components
 	TSpeedButton *btAlterar;
 	TLine *Linha1;
 	TSpeedButton *btVerificar;
+	TLine *Linha2;
+	TSpeedButton *btEstilo;
+	TTabControl *SelecAba;
+	TTabItem *abaCodigo;
+	TTabItem *abaEstilo;
+	TMemo *mmEstilo;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall mmCodigoChange(TObject *Sender);
