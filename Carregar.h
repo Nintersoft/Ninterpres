@@ -14,10 +14,10 @@ class TfrmCarregar : public TForm
 {
 __published:	// IDE-managed Components
 	TImage *btFechar;
-	TImage *btMinimizar;
 	TLabel *lblEstado;
 	TAniIndicator *AniIndicator1;
 	TTimer *tmConfigurar;
+	TImage *btMinimizar;
 	void __fastcall tmConfigurarTimer(TObject *Sender);
 	void __fastcall btFecharClick(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);

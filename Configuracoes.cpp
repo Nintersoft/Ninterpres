@@ -229,12 +229,15 @@ void TfrmConfig::AplicarImpConfig()
 {
 	if (mmConfig->Lines->Strings[0] == "NSEDT") {
 		frmCodigo->mmCodigo->ReadOnly = false;
+		frmCodigo->mmEstilo->ReadOnly = false;
 	}
 	else {
 		frmCodigo->mmCodigo->ReadOnly = true;
+		frmCodigo->mmEstilo->ReadOnly = true;
 	}
 
 	frmSobre->lblLicencProg->Text = frmConfig->mmConfig->Lines->Strings[1];
 
 }
 //---------------------------------------------------------------------------
+

@@ -112,7 +112,6 @@ object frmCodigo: TfrmCodigo
           '!='
           '!='
           '0'
-          '16'
           
             '//-------------------N'#195'O EDITE ACIMA DESTA LINHA----------------' +
             '-'
@@ -154,12 +153,13 @@ object frmCodigo: TfrmCodigo
             '-----------------------'
           '$OPO'
           'NSDT'
-          'NSPR'
+          'NSLG'
           'NSFN'
           '!(FDD)'
           
             '//--------------------------------------------------------------' +
             '-----------------------')
+        ReadOnly = True
         TextSettings.Font.Family = 'Arial Narrow'
         TextSettings.Font.Size = 16.000000000000000000
         StyledSettings = [Style, FontColor]

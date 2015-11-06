@@ -268,7 +268,9 @@ void __fastcall TfrmPrincipal::FormShow(TObject *Sender)
 
 	listaPrevTransp->ItemIndex = 3;
 
-	lblTranspTexto->TextSettings->Font->Size = StrToFloat(frmCodigo->mmCodigo->Lines->Strings[7]);
+	int LOCLIN = LocDet("TAM_FONTE");
+	float TamConv = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+	lblTranspTexto->TextSettings->Font->Size = TamConv;
 
 }
 //---------------------------------------------------------------------------
@@ -1004,12 +1006,12 @@ void __fastcall TfrmPrincipal::btConfigClick(TObject *Sender)
 void __fastcall TfrmPrincipal::opMostrarNSTranspChange(TObject *Sender)
 {
 	if (opMostrarNSTransp->IsChecked) {
-		int pos = frmCodigo->mmCodigo->Lines->Count - 1;
-		frmCodigo->mmCodigo->Lines->Strings[pos] = "NSFN";
+		int LOCLIN = LocDet("MSTR_TRANSP");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "NSFN";
 	}
 	else {
-		int pos = frmCodigo->mmCodigo->Lines->Count - 1;
-		frmCodigo->mmCodigo->Lines->Strings[pos] = "!NSFN";
+		int LOCLIN = LocDet("MSTR_TRANSP");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "!NSFN";
 	}
 }
 //---------------------------------------------------------------------------
@@ -1017,12 +1019,12 @@ void __fastcall TfrmPrincipal::opMostrarNSTranspChange(TObject *Sender)
 void __fastcall TfrmPrincipal::opMostrarLogoNSChange(TObject *Sender)
 {
 	if (opMostrarLogoNS->IsChecked) {
-		int pos = frmCodigo->mmCodigo->Lines->Count - 2;
-		frmCodigo->mmCodigo->Lines->Strings[pos] = "NSPR";
+		int LOCLIN = LocDet("MSTR_LOGO");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "NSLG";
 	}
 	else {
-		int pos = frmCodigo->mmCodigo->Lines->Count - 2;
-		frmCodigo->mmCodigo->Lines->Strings[pos] = "!NSPR";
+		int LOCLIN = LocDet("MSTR_LOGO");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "!NSLG";
 	}
 }
 //---------------------------------------------------------------------------
@@ -1030,12 +1032,12 @@ void __fastcall TfrmPrincipal::opMostrarLogoNSChange(TObject *Sender)
 void __fastcall TfrmPrincipal::opMostrarDataAtualChange(TObject *Sender)
 {
 	if (opMostrarDataAtual->IsChecked) {
-		int pos = frmCodigo->mmCodigo->Lines->Count - 3;
-		frmCodigo->mmCodigo->Lines->Strings[pos] = "NSDT";
+		int LOCLIN = LocDet("MSTR_DATA");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "NSDT";
 	}
 	else {
-		int pos = frmCodigo->mmCodigo->Lines->Count - 3;
-		frmCodigo->mmCodigo->Lines->Strings[pos] = "!NSDT";
+		int LOCLIN = LocDet("MSTR_DATA");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "!NSDT";
 	}
 }
 //---------------------------------------------------------------------------
@@ -2280,9 +2282,11 @@ void __fastcall TfrmPrincipal::btAbrirProjClick(TObject *Sender)
 			cbTodos->IsChecked = false;
 			cbFonte->IsChecked = false;
 		}
-		lblTranspTexto->TextSettings->Font->Size = StrToFloat(frmCodigo->mmCodigo->Lines->Strings[7]);
-		edtTamFonte->Text = frmCodigo->mmCodigo->Lines->Strings[7];
-		baTamFonte->Value = StrToFloat(frmCodigo->mmCodigo->Lines->Strings[7]);
+		int LOCLIN = LocDet("TAM_FONTE");
+		float TamConv = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+		lblTranspTexto->TextSettings->Font->Size = TamConv;
+		edtTamFonte->Text = FloatToStr(TamConv);
+		baTamFonte->Value = TamConv;
 
 		int tamk = frmCodigo->mmCodigo->Lines->Count;
 
@@ -2381,9 +2385,11 @@ void __fastcall TfrmPrincipal::btNovoProjClick(TObject *Sender)
 			cbTodos->IsChecked = false;
 			cbFonte->IsChecked = false;
 		}
-		lblTranspTexto->TextSettings->Font->Size = StrToFloat(frmCodigo->mmCodigo->Lines->Strings[7]);
-		edtTamFonte->Text = frmCodigo->mmCodigo->Lines->Strings[7];
-		baTamFonte->Value = StrToFloat(frmCodigo->mmCodigo->Lines->Strings[7]);
+		int LOCLIN = LocDet("TAM_FONTE");
+		float TamConv = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+		lblTranspTexto->TextSettings->Font->Size = TamConv;
+		edtTamFonte->Text = FloatToStr(TamConv);
+		baTamFonte->Value = TamConv;
 
 		int tamk = frmCodigo->mmCodigo->Lines->Count;
 
@@ -2744,13 +2750,168 @@ int TfrmPrincipal::LocDet(String Valor)
 	}
 	if (Valor == "MSTR_DATA") {
 
+		int comeco, fim, loc = 0;
+
+		for (int i = 0; i < tamTot; i++) {
+			if (inicio) {
+				if (frmCodigo->mmEstilo->Lines->Strings[i] == "$OPO") {
+					comeco = i;
+					inicio = false;
+				}
+			}
+			else {
+				if (frmCodigo->mmEstilo->Lines->Strings[i] == "!(FDD)") {
+					fim = i;
+					break;
+				}
+			}
+		}
+
+		for (int i = inicio; i < fim; i++) {
+
+			String temp = "", dados = frmCodigo->mmEstilo->Lines->Strings[i];
+
+			if (dados.Length() >= 4 && dados.Length() <= 5) {
+				for (int k = 0; k < dados.Length(); k++) {
+					if (temp + dados.c_str()[k] != NULL && temp + dados.c_str()[k] != " ") {
+						temp = temp + dados.c_str()[k];
+					}
+				}
+				if (temp == "NSDT" | temp == "!NSDT") {
+					loc = i;
+					break;
+				}
+				else {
+					temp = "";
+				}
+			}
+		}
+
+		if (loc == 0) {
+			frmCodigo->mmEstilo->Lines->Insert(inicio + 1, "NSDT");
+		}
+
+
+		return loc;
+
 	}
 	if (Valor == "MSTR_TRANSP") {
+
+		int comeco, fim, loc = 0;
+
+		for (int i = 0; i < tamTot; i++) {
+			if (inicio) {
+				if (frmCodigo->mmEstilo->Lines->Strings[i] == "$OPO") {
+					comeco = i;
+					inicio = false;
+				}
+			}
+			else {
+				if (frmCodigo->mmEstilo->Lines->Strings[i] == "!(FDD)") {
+					fim = i;
+					break;
+				}
+			}
+		}
+
+		for (int i = inicio; i < fim; i++) {
+
+			String temp = "", dados = frmCodigo->mmEstilo->Lines->Strings[i];
+
+			if (dados.Length() >= 4 && dados.Length() <= 5) {
+				for (int k = 0; k < dados.Length(); k++) {
+					if (temp + dados.c_str()[k] != NULL && temp + dados.c_str()[k] != " ") {
+						temp = temp + dados.c_str()[k];
+					}
+				}
+				if (temp == "NSFN" | temp == "!NSFN") {
+					loc = i;
+					break;
+				}
+				else {
+					temp = "";
+				}
+			}
+		}
+
+		if (loc == 0) {
+			frmCodigo->mmEstilo->Lines->Insert(inicio + 1, "NSFN");
+		}
+
+
+		return loc;
 
 	}
 	if (Valor == "MSTR_LOGO") {
 
+		int comeco, fim, loc = 0;
+
+		for (int i = 0; i < tamTot; i++) {
+			if (inicio) {
+				if (frmCodigo->mmEstilo->Lines->Strings[i] == "$OPO") {
+					comeco = i;
+					inicio = false;
+				}
+			}
+			else {
+				if (frmCodigo->mmEstilo->Lines->Strings[i] == "!(FDD)") {
+					fim = i;
+					break;
+				}
+			}
+		}
+
+		for (int i = inicio; i < fim; i++) {
+
+			String temp = "", dados = frmCodigo->mmEstilo->Lines->Strings[i];
+
+			if (dados.Length() >= 4 && dados.Length() <= 5) {
+				for (int k = 0; k < dados.Length(); k++) {
+					if (temp + dados.c_str()[k] != NULL && temp + dados.c_str()[k] != " ") {
+						temp = temp + dados.c_str()[k];
+					}
+				}
+				if (temp == "NSLG" | temp == "!NSLG") {
+					loc = i;
+					break;
+				}
+				else {
+					temp = "";
+				}
+			}
+		}
+
+		if (loc == 0) {
+			frmCodigo->mmEstilo->Lines->Insert(inicio + 1, "NSLG");
+		}
+
+
+		return loc;
+
 	}
+}
+//---------------------------------------------------------------------------
+int TfrmPrincipal::AdquireTam(String Texto)
+{
+
+	bool inicio = true;
+	String Tamanho = "";
+
+	for (int i = 0; i < Texto.Length(); i++) {
+		if (inicio){
+			if (Texto.c_str()[i] == ':') {
+				inicio = false;
+			}
+		}
+		else {
+			Tamanho = Tamanho + Texto.c_str()[i];
+		}
+	}
+
+	int Convertido = StrToFloat(Tamanho);
+
+	return Convertido;
+
 }
 //---------------------------------------------------------------------------
 

@@ -40,8 +40,14 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 		if (!TDirectory::Exists(NSNPLOCATL)) TDirectory::CreateDirectory(NSNPLOCATL);
 
 		String NSNA = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSTEMP.nps");
+		String NSNS = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSSTEMP.stl");;
+
 		if (TFile::Exists(NSNA)){
 			TFile::Delete(NSNA);
+		}
+
+		if (TFile::Exists(NSNS)){
+			TFile::Delete(NSNS);
 		}
 
 		NSNPCONF = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres\\Config");
@@ -56,14 +62,20 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 		cont ++;
 
 	}
+
 	else if (cont == 1) {
 
 		lblEstado->Text = "Gerando arquivo inicial...";
 
-		String arq = System::Ioutils::TPath::Combine(NSNPLOC, L"NSNV");
+		String aprmod = System::Ioutils::TPath::Combine(NSNPLOC, L"NSNV");
+		String aprstl = System::Ioutils::TPath::Combine(NSNPLOC, L"NSST");
 
-		if (!TFile::Exists(arq+".nps")) {
-			frmCodigo->mmCodigo->Lines->SaveToFile(arq+".nps");
+		if (!TFile::Exists(aprmod + ".nps")) {
+			frmCodigo->mmCodigo->Lines->SaveToFile(aprmod + ".nps");
+		}
+
+		if (!TFile::Exists(aprstl + ".stl")) {
+			frmCodigo->mmEstilo->Lines->SaveToFile(aprstl + ".stl");
 		}
 
 		cont++;
