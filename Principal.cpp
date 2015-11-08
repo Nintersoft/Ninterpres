@@ -23,6 +23,7 @@ int tpEscolha = 1, Cam = 390, CorBordaTransp, CorFundoTransp, Vis = 0;
 bool prim, salvo = false, confSalvo = false;
 String TranspSelec, locSalvo;
 TFileStream* ProjAtual;
+TFileStream* ProjSecun;
 //---------------------------------------------------------------------------
 __fastcall TfrmPrincipal::TfrmPrincipal(TComponent* Owner)
 	: TForm(Owner)
@@ -264,11 +265,12 @@ void __fastcall TfrmPrincipal::FormShow(TObject *Sender)
 
 	int COR = listaCorApresenta->Color;
 	vsTransp->Fill->Color = COR;
-	frmCodigo->mmCodigo->Lines->Strings[2] = IntToStr(COR);
+	int LOCLIN = LocDet("COR_TRANSP");
+	frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "COR:"+IntToStr(COR);
 
 	listaPrevTransp->ItemIndex = 3;
 
-	int LOCLIN = LocDet("TAM_FONTE");
+	LOCLIN = LocDet("TAM_FONTE");
 	float TamConv = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
 	lblTranspTexto->TextSettings->Font->Size = TamConv;
 
@@ -498,12 +500,12 @@ void __fastcall TfrmPrincipal::edTranspTituloExit(TObject *Sender)
 void __fastcall TfrmPrincipal::listaCorApresentaChange(TObject *Sender)
 {
 	if (listaCorApresenta->Color == listaCorTexto->Color) {
-		ShowMessage("Voçê não pode escolher a mesma cor da fonte para o fundo da transparência.");
+		ShowMessage("Você não pode escolher a mesma cor da fonte para o fundo da transparência.");
 	}
 	else {
 		vsTransp->Fill->Color = listaCorApresenta->Color;
-		int a = vsTransp->Fill->Color;
-		frmCodigo->mmCodigo->Lines->Strings[2] = IntToStr(a);
+		int a = vsTransp->Fill->Color, LOCLIN = LocDet("COR_TRANSP");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "COR:" + IntToStr(a);
 			if (cbBorda->IsChecked == true) {
 				vsTransp->Stroke->Color = listaCorApresenta->Color;
 			}
@@ -522,11 +524,13 @@ void __fastcall TfrmPrincipal::cbBordaChange(TObject *Sender)
 {
 	if (cbBorda->IsChecked) {
 		vsTransp->Stroke->Color = vsTransp->Fill->Color;
-		frmCodigo->mmCodigo->Lines->Strings[3] = "==";
+		int LOCLIN = LocDet("APL_BORDA");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "NSBD";
 	}
 	else {
 		vsTransp->Stroke->Color = CorBordaTransp;
-		frmCodigo->mmCodigo->Lines->Strings[3] = "!=";
+		int LOCLIN = LocDet("APL_BORDA");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "!NSBD";
 	}
 }
 //---------------------------------------------------------------------------
@@ -535,7 +539,8 @@ void __fastcall TfrmPrincipal::cbTodosChange(TObject *Sender)
 {
 	if (cbTodos->IsChecked) {
 		cbFonte->Enabled = true;
-		frmCodigo->mmCodigo->Lines->Strings[4] = "==";
+		int LOCLIN = LocDet("APL_TODOS");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "NSTT";
 	}
 	else {
 		cbFonte->IsChecked = false;
@@ -546,7 +551,8 @@ void __fastcall TfrmPrincipal::cbTodosChange(TObject *Sender)
 		lblTranspTexto->TextSettings->FontColor = CorBordaTransp;
 		lblImgLeg->TextSettings->FontColor = CorBordaTransp;
 		listaCorTexto->Color = CorBordaTransp;
-		frmCodigo->mmCodigo->Lines->Strings[4] = "!=";
+		int LOCLIN = LocDet("APL_TODOS");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "!NSTT";
 	}
 }
 //---------------------------------------------------------------------------
@@ -556,19 +562,22 @@ void __fastcall TfrmPrincipal::cbFonteChange(TObject *Sender)
 	if (cbFonte->IsChecked) {
 		listaCorTexto->Enabled = true;
 		lblListaCorTexto->Enabled = true;
-		frmCodigo->mmCodigo->Lines->Strings[5] = "==";
+		int LOCLIN = LocDet("APL_FONTE");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "NSFT";
 		int cor = listaCorTexto->Color;
 		IntToStr(cor);
-		frmCodigo->mmCodigo->Lines->Strings[6] = IntToStr(cor);
+		LOCLIN = LocDet("COR_FONTE");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "COR:" + IntToStr(cor);
 	}
 	else {
 		listaCorTexto->Enabled = false;
 		lblListaCorTexto->Enabled = false;
+		int LOCLIN = LocDet("APL_FONTE");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "!NSFT";
 		lblTitulo->TextSettings->FontColor = CorBordaTransp;
 		lblTranspTexto->TextSettings->FontColor = CorBordaTransp;
 		lblImgLeg->TextSettings->FontColor = CorBordaTransp;
 		listaCorTexto->Color = CorBordaTransp;
-		frmCodigo->mmCodigo->Lines->Strings[5] = "!=";
 	}
 }
 //---------------------------------------------------------------------------
@@ -590,7 +599,8 @@ void __fastcall TfrmPrincipal::listaCorTextoChange(TObject *Sender)
 		lblTitulo->TextSettings->FontColor = listaCorTexto->Color;
 		lblTranspTexto->TextSettings->FontColor = listaCorTexto->Color;
 		lblImgLeg->TextSettings->FontColor = listaCorTexto->Color;
-		frmCodigo->mmCodigo->Lines->Strings[6] = IntToStr(cor);
+		int LOCLIN = LocDet("COR_FONTE");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "COR:" + IntToStr(cor);
 	}
 }
 //---------------------------------------------------------------------------
@@ -1291,7 +1301,8 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 	if (Vis == 0) {
 		if (Transp == 0) {
 
-			int cor = StrToInt(frmCodigo->mmCodigo->Lines->Strings[2]);
+			int LOCLIN = LocDet("COR_TRANSP");
+			int cor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
 			frmPrincipal->vsTransp->Fill->Color = cor;
 
 			if (frmPrincipal->cbBorda->IsChecked) {
@@ -1336,9 +1347,11 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 		}
 		else if (estilo == 1) {
 
-			int cor = StrToInt(frmCodigo->mmCodigo->Lines->Strings[2]);
+			int LOCLIN = LocDet("COR_TRANSP");
+			int cor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
 
-			if (frmCodigo->mmCodigo->Lines->Strings[4] == "==") {
+			LOCLIN = LocDet("APL_TODOS");
+			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSTT") {
 				frmPrincipal->vsTransp->Fill->Color = cor;
 					if (frmPrincipal->cbBorda->IsChecked) {
 						frmPrincipal->vsTransp->Stroke->Color = cor;
@@ -1347,7 +1360,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 						frmPrincipal->vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
-			else if (frmCodigo->mmCodigo->Lines->Strings[4] == "!="){
+			else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
 				frmPrincipal->vsTransp->Fill->Color = CorFundoTransp;
 					if (frmPrincipal->cbBorda->IsChecked) {
 						frmPrincipal->vsTransp->Stroke->Color = CorFundoTransp;
@@ -1397,9 +1410,11 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 		}
 		else if (estilo == 2) {
 
-			int cor = StrToInt(frmCodigo->mmCodigo->Lines->Strings[2]);
+			int LOCLIN = LocDet("COR_TRANSP");
+			int cor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
 
-			if (frmCodigo->mmCodigo->Lines->Strings[4] == "==") {
+			LOCLIN = LocDet("APL_TODOS");
+			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSTT") {
 				frmPrincipal->vsTransp->Fill->Color = cor;
 					if (frmPrincipal->cbBorda->IsChecked) {
 						frmPrincipal->vsTransp->Stroke->Color = cor;
@@ -1408,7 +1423,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 						frmPrincipal->vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
-			else if (frmCodigo->mmCodigo->Lines->Strings[4] == "!="){
+			else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
 				frmPrincipal->vsTransp->Fill->Color = CorFundoTransp;
 					if (frmPrincipal->cbBorda->IsChecked) {
 						frmPrincipal->vsTransp->Stroke->Color = CorFundoTransp;
@@ -1457,9 +1472,11 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 		}
 		else if (estilo == 3) {
 
-			int cor = StrToInt(frmCodigo->mmCodigo->Lines->Strings[2]);
+			int LOCLIN = LocDet("COR_TRANSP");
+			int cor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
 
-			if (frmCodigo->mmCodigo->Lines->Strings[4] == "==") {
+			LOCLIN = LocDet("APL_TODOS");
+			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSTT") {
 				frmPrincipal->vsTransp->Fill->Color = cor;
 					if (frmPrincipal->cbBorda->IsChecked) {
 						frmPrincipal->vsTransp->Stroke->Color = cor;
@@ -1468,7 +1485,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 						frmPrincipal->vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
-			else if (frmCodigo->mmCodigo->Lines->Strings[4] == "!="){
+			else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
 				frmPrincipal->vsTransp->Fill->Color = CorFundoTransp;
 					if (frmPrincipal->cbBorda->IsChecked) {
 						frmPrincipal->vsTransp->Stroke->Color = CorFundoTransp;
@@ -1517,9 +1534,11 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 		}
 		else if (estilo == 4) {
 
-			int cor = StrToInt(frmCodigo->mmCodigo->Lines->Strings[2]);
+			int LOCLIN = LocDet("COR_TRANSP");
+			int cor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
 
-			if (frmCodigo->mmCodigo->Lines->Strings[4] == "==") {
+			LOCLIN = LocDet("APL_TODOS");
+			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSTT") {
 				frmPrincipal->vsTransp->Fill->Color = cor;
 					if (frmPrincipal->cbBorda->IsChecked) {
 						frmPrincipal->vsTransp->Stroke->Color = cor;
@@ -1528,7 +1547,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 						frmPrincipal->vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
-			else if (frmCodigo->mmCodigo->Lines->Strings[4] == "!="){
+			else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
 				frmPrincipal->vsTransp->Fill->Color = CorFundoTransp;
 					if (frmPrincipal->cbBorda->IsChecked) {
 						frmPrincipal->vsTransp->Stroke->Color = CorFundoTransp;
@@ -1577,9 +1596,11 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 		}
 		else if (estilo == 5) {
 
-			int cor = StrToInt(frmCodigo->mmCodigo->Lines->Strings[2]);
+			int LOCLIN = LocDet("COR_TRANSP");
+			int cor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
 
-			if (frmCodigo->mmCodigo->Lines->Strings[4] == "==") {
+			LOCLIN = LocDet("APL_TODOS");
+			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSTT") {
 				frmPrincipal->vsTransp->Fill->Color = cor;
 					if (frmPrincipal->cbBorda->IsChecked) {
 						frmPrincipal->vsTransp->Stroke->Color = cor;
@@ -1588,7 +1609,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 						frmPrincipal->vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
-			else if (frmCodigo->mmCodigo->Lines->Strings[4] == "!="){
+			else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
 				frmPrincipal->vsTransp->Fill->Color = CorFundoTransp;
 					if (frmPrincipal->cbBorda->IsChecked) {
 						frmPrincipal->vsTransp->Stroke->Color = CorFundoTransp;
@@ -1631,9 +1652,11 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 		}
 		else if (estilo == 6) {
 
-			int cor = StrToInt(frmCodigo->mmCodigo->Lines->Strings[2]);
+			int LOCLIN = LocDet("COR_TRANSP");
+			int cor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
 
-			if (frmCodigo->mmCodigo->Lines->Strings[4] == "==") {
+			LOCLIN = LocDet("APL_TODOS");
+			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSTT") {
 				frmPrincipal->vsTransp->Fill->Color = cor;
 					if (frmPrincipal->cbBorda->IsChecked) {
 						frmPrincipal->vsTransp->Stroke->Color = cor;
@@ -1642,7 +1665,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 						frmPrincipal->vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
-			else if (frmCodigo->mmCodigo->Lines->Strings[4] == "!="){
+			else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
 				frmPrincipal->vsTransp->Fill->Color = CorFundoTransp;
 					if (frmPrincipal->cbBorda->IsChecked) {
 						frmPrincipal->vsTransp->Stroke->Color = CorFundoTransp;
@@ -1689,9 +1712,11 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 		}
 		else if (estilo == 7) {
 
-			int cor = StrToInt(frmCodigo->mmCodigo->Lines->Strings[2]);
+			int LOCLIN = LocDet("COR_TRANSP");
+			int cor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
 
-			if (frmCodigo->mmCodigo->Lines->Strings[4] == "==") {
+			LOCLIN = LocDet("APL_TODOS");
+			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSTT") {
 				frmPrincipal->vsTransp->Fill->Color = cor;
 					if (frmPrincipal->cbBorda->IsChecked) {
 						frmPrincipal->vsTransp->Stroke->Color = cor;
@@ -1700,7 +1725,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 						frmPrincipal->vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
-			else if (frmCodigo->mmCodigo->Lines->Strings[4] == "!="){
+			else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
 				frmPrincipal->vsTransp->Fill->Color = CorFundoTransp;
 					if (frmPrincipal->cbBorda->IsChecked) {
 						frmPrincipal->vsTransp->Stroke->Color = CorFundoTransp;
@@ -1861,6 +1886,8 @@ void __fastcall TfrmPrincipal::FormClose(TObject *Sender, TCloseAction &Action)
 		if (salvo) {
 			String arq = System::Ioutils::TPath::Combine(locSalvo, L"NSCA.nps");
 			frmCodigo->mmCodigo->Lines->SaveToFile(arq);
+			String arqb = System::Ioutils::TPath::Combine(locSalvo, L"NSST.stl");
+			frmCodigo->mmEstilo->Lines->SaveToFile(arqb);
 		}
 		else {
 			if (frmCodigo->mmCodigo->Lines->Strings[0] != "Apresentação sem título") {
@@ -1878,6 +1905,8 @@ void __fastcall TfrmPrincipal::FormClose(TObject *Sender, TCloseAction &Action)
 
 					String arq = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSCA.nps");
 					frmCodigo->mmCodigo->Lines->SaveToFile(arq);
+					String arqb = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSST.stl");
+					frmCodigo->mmEstilo->Lines->SaveToFile(arqb);
 
 					TDirectory::Move(NSNPTEMP, dsSalvarProj->FileName);
 
@@ -2114,6 +2143,8 @@ void __fastcall TfrmPrincipal::btSalvarProjClick(TObject *Sender)
 			TDirectory::Copy(L"BIN", bin);
 			String arq = System::Ioutils::TPath::Combine(locSalvo, L"NSCA.nps");
 			frmCodigo->mmCodigo->Lines->SaveToFile(arq);
+			String arqb = System::Ioutils::TPath::Combine(locSalvo, L"NSST.stl");
+			frmCodigo->mmEstilo->Lines->SaveToFile(arqb);
 //			String atalho = System::Ioutils::TPath::Combine(locSalvo, L"Ninterpres-a.exe");
 //			TFile::Copy(L"Atalho.exe", atalho);
 
@@ -2153,6 +2184,8 @@ void __fastcall TfrmPrincipal::btSalvarProjClick(TObject *Sender)
 					TDirectory::Copy(L"BIN", bin);
 					String arq = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSCA.nps");
 					frmCodigo->mmCodigo->Lines->SaveToFile(arq);
+					String arqb = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSST.stl");
+					frmCodigo->mmEstilo->Lines->SaveToFile(arqb);
 //					String atalho = System::Ioutils::TPath::Combine(NSNPTEMP, L"Ninterpres-a.exe");
 //					TFile::Copy(L"Atalho.exe", atalho);
 
@@ -2175,6 +2208,10 @@ void __fastcall TfrmPrincipal::btSalvarProjClick(TObject *Sender)
 			delete ProjAtual;
 			frmCodigo->mmCodigo->Lines->SaveToFile(arq);
 			ProjAtual = new TFileStream(arq, TFileMode::fmOpen);
+			String Estilo = System::Ioutils::TPath::Combine(locSalvo, "NSST.stl");
+			delete ProjSecun;
+			frmCodigo->mmEstilo->Lines->SaveToFile(Estilo);
+			ProjSecun = new TFileStream(Estilo, TFileMode::fmOpen);
 		}
 		else {
 			if (frmCodigo->mmCodigo->Lines->Strings[0] != "Apresentação sem título") {
@@ -2192,6 +2229,8 @@ void __fastcall TfrmPrincipal::btSalvarProjClick(TObject *Sender)
 
 					String arq = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSCA.nps");
 					frmCodigo->mmCodigo->Lines->SaveToFile(arq);
+					String arqb = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSST.stl");
+					frmCodigo->mmEstilo->Lines->SaveToFile(arqb);
 
 					TDirectory::Move(NSNPTEMP, dsSalvarProj->FileName);
 
@@ -2210,15 +2249,50 @@ void __fastcall TfrmPrincipal::btSalvarProjClick(TObject *Sender)
 
 void __fastcall TfrmPrincipal::btAbrirProjClick(TObject *Sender)
 {
+	int a;
 	if (daAbrirProj->Execute()) {
 		locSalvo = ExtractFilePath(daAbrirProj->FileName);
 		if (salvo) {
 			delete ProjAtual;
+			delete ProjSecun;
 			frmCodigo->mmCodigo->Lines->Clear();
 			frmCodigo->mmCodigo->BeginUpdate();
 			frmCodigo->mmCodigo->Lines->LoadFromFile(daAbrirProj->FileName);
 			frmCodigo->mmCodigo->EndUpdate();
 			ProjAtual = new TFileStream(daAbrirProj->FileName, TFileMode::fmOpen);
+			String PreEstilo = System::Ioutils::TPath::Combine(locSalvo, "NSST"), Estilo = PreEstilo+".stl";
+
+			if (TFile::Exists(Estilo)) {
+				frmCodigo->mmEstilo->Lines->Clear();
+				frmCodigo->mmEstilo->BeginUpdate();
+				frmCodigo->mmEstilo->Lines->LoadFromFile(Estilo);
+				frmCodigo->mmEstilo->EndUpdate();
+				ProjSecun = new TFileStream(Estilo, TFileMode::fmOpen);
+			}
+			else {
+
+				PWSTR pszPath;
+				if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pszPath)))
+				{
+					String NSNPTEMP = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres");
+					CoTaskMemFree(pszPath);
+
+					String arqa = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSST");
+					Estilo = arqa+".stl";
+
+					if (!TFile::Exists(arqa+".stl")) {
+						throw Exception ("ERRO 000010: O modelo de estilos novo não pode ser encontrado.\nPara corrigir este problema, por favor, reinicie o programa.\nPara maiores informações à respeito deste erro, por favor visite nossa docwiki.");
+					}
+				}
+
+				frmCodigo->mmEstilo->Lines->Clear();
+				frmCodigo->mmEstilo->BeginUpdate();
+				frmCodigo->mmEstilo->Lines->LoadFromFile(Estilo);
+				frmCodigo->mmEstilo->EndUpdate();
+				ProjSecun = new TFileStream(Estilo, TFileMode::fmOpen);
+				ShowMessage("Parece que não há folha de estilo para esta apresentação!\nEsta apresentação poderá ser lida incorretamente!\nBaixe uma versão mais antiga do Ninterpres para ler esta apresentação.\nOBS.: A última versão a suportar apresentações sem folha de estilo foi a 0.9.1.43-BETA\nPara maiores informações visite nossa docwiki.");
+
+			}
 		}
 		else {
 			frmCodigo->mmCodigo->Lines->Clear();
@@ -2226,6 +2300,42 @@ void __fastcall TfrmPrincipal::btAbrirProjClick(TObject *Sender)
 			frmCodigo->mmCodigo->Lines->LoadFromFile(daAbrirProj->FileName);
 			frmCodigo->mmCodigo->EndUpdate();
 			ProjAtual = new TFileStream(daAbrirProj->FileName, TFileMode::fmOpen);
+
+			String PreEstilo = System::Ioutils::TPath::Combine(locSalvo, "NSST");
+			String Estilo = PreEstilo+".stl";
+
+			if (TFile::Exists(Estilo)) {
+				frmCodigo->mmEstilo->Lines->Clear();
+				frmCodigo->mmEstilo->BeginUpdate();
+				frmCodigo->mmEstilo->Lines->LoadFromFile(Estilo);
+				frmCodigo->mmEstilo->EndUpdate();
+				ProjSecun = new TFileStream(Estilo, TFileMode::fmOpen);
+			}
+			else {
+
+				PWSTR pszPath;
+				if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pszPath)))
+				{
+					String NSNPTEMP = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres");
+					CoTaskMemFree(pszPath);
+
+					String arqa = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSST");
+					Estilo = arqa+".stl";
+
+					if (!TFile::Exists(arqa+".stl")) {
+						throw Exception ("ERRO 000010: O modelo de estilos novo não pode ser encontrado.\nPara corrigir este problema, por favor, reinicie o programa.\nPara maiores informações à respeito deste erro, por favor visite nossa docwiki.");
+					}
+				}
+
+				frmCodigo->mmEstilo->Lines->Clear();
+				frmCodigo->mmEstilo->BeginUpdate();
+				frmCodigo->mmEstilo->Lines->LoadFromFile(Estilo);
+				frmCodigo->mmEstilo->EndUpdate();
+				ProjSecun = new TFileStream(Estilo, TFileMode::fmOpen);
+				ShowMessage("Parece que não há folha de estilo para esta apresentação!\nEsta apresentação poderá ser lida incorretamente!\nBaixe uma versão mais antiga do Ninterpres para ler esta apresentação.\nOBS.: A última versão a suportar apresentações sem folha de estilo foi a 0.9.1.43-BETA\nPara maiores informações visite nossa docwiki.");
+
+			}
+
 		}
 
 		salvo = true;
@@ -2256,21 +2366,29 @@ void __fastcall TfrmPrincipal::btAbrirProjClick(TObject *Sender)
 		else {
 			edtApresAutor->Text = "";
 		}
-		vsTransp->Fill->Color = StrToInt(frmCodigo->mmCodigo->Lines->Strings[2]);
-		listaCorApresenta->Color = StrToInt(frmCodigo->mmCodigo->Lines->Strings[2]);
-		if (frmCodigo->mmCodigo->Lines->Strings[3] == "==") {
-			vsTransp->Stroke->Color = StrToInt(frmCodigo->mmCodigo->Lines->Strings[2]);
+		int LOCLIN = LocDet("COR_TRANSP");
+		vsTransp->Fill->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+		listaCorApresenta->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+
+		LOCLIN = LocDet("APL_BORDA");
+		if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSBD") {
+			LOCLIN = LocDet("COR_TRANSP");
+			vsTransp->Stroke->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
 			cbBorda->IsChecked = true;
 		}
 		else {
 			vsTransp->Stroke->Color = CorBordaTransp;
 			cbBorda->IsChecked = false;
 		}
-		if (frmCodigo->mmCodigo->Lines->Strings[4] == "==" && frmCodigo->mmCodigo->Lines->Strings[5] == "==") {
-			lblTitulo->TextSettings->FontColor = StrToInt(frmCodigo->mmCodigo->Lines->Strings[6]);
-			lblTranspTexto->TextSettings->FontColor = StrToInt(frmCodigo->mmCodigo->Lines->Strings[6]);
-			lblImgLeg->TextSettings->FontColor = StrToInt(frmCodigo->mmCodigo->Lines->Strings[6]);
-			listaCorTexto->Color = StrToInt(frmCodigo->mmCodigo->Lines->Strings[6]);
+
+		LOCLIN = LocDet("APL_FONTE");
+		int LOCLIN2 = LocDet("APL_TODOS"), LOCAUX = LocDet("COR_FONTE");
+
+		if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN2] == "NSTT" && frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSFT") {
+			lblTitulo->TextSettings->FontColor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCAUX]);
+			lblTranspTexto->TextSettings->FontColor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCAUX]);
+			lblImgLeg->TextSettings->FontColor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCAUX]);
+			listaCorTexto->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCAUX]);
 			cbTodos->IsChecked = true;
 			cbFonte->IsChecked = true;
 		}
@@ -2282,38 +2400,40 @@ void __fastcall TfrmPrincipal::btAbrirProjClick(TObject *Sender)
 			cbTodos->IsChecked = false;
 			cbFonte->IsChecked = false;
 		}
-		int LOCLIN = LocDet("TAM_FONTE");
+
+		LOCLIN = LocDet("TAM_FONTE");
 		float TamConv = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
 		lblTranspTexto->TextSettings->Font->Size = TamConv;
 		edtTamFonte->Text = FloatToStr(TamConv);
 		baTamFonte->Value = TamConv;
 
-		int tamk = frmCodigo->mmCodigo->Lines->Count;
-
-		if (frmCodigo->mmCodigo->Lines->Strings[tamk-1] == "NSFN") {
+		LOCLIN = LocDet("MSTR_TRANSP");
+		if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSFN") {
 			opMostrarNSTransp->IsChecked = true;
 		}
-		else if (frmCodigo->mmCodigo->Lines->Strings[tamk-1] == "!NSFN") {
+		else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSFN") {
 			opMostrarNSTransp->IsChecked = false;
 		}
 		else {
 			throw Exception ("ERRO 000010: Falha nas configurações especiais (Última transparência).\nPara maiores informações sobre este erro visite nossa DocWiki.");
 		}
 
-		if (frmCodigo->mmCodigo->Lines->Strings[tamk-2] == "NSPR") {
+		LOCLIN = LocDet("MSTR_LOGO");
+		if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSLG") {
 			opMostrarLogoNS->IsChecked = true;
 		}
-		else if (frmCodigo->mmCodigo->Lines->Strings[tamk-2] == "!NSPR") {
+		else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSLG") {
 			opMostrarLogoNS->IsChecked = false;
 		}
 		else {
 			throw Exception ("ERRO 000011: Falha nas configurações especiais (Logo NS).\nPara maiores informações sobre este erro visite nossa DocWiki.");
 		}
 
-		if (frmCodigo->mmCodigo->Lines->Strings[tamk-3] == "NSDT") {
+		LOCLIN = LocDet("MSTR_DATA");
+		if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSDT") {
 			opMostrarDataAtual->IsChecked = true;
 		}
-		else if (frmCodigo->mmCodigo->Lines->Strings[tamk-3] == "!NSDT") {
+		else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSDT") {
 			opMostrarDataAtual->IsChecked = false;
 		}
 		else {
@@ -2332,7 +2452,7 @@ void __fastcall TfrmPrincipal::btAbrirProjClick(TObject *Sender)
 void __fastcall TfrmPrincipal::btNovoProjClick(TObject *Sender)
 {
 
-	String arqb;
+	String arqa, arqb;
 
 	PWSTR pszPath;
 	if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pszPath)))
@@ -2341,39 +2461,54 @@ void __fastcall TfrmPrincipal::btNovoProjClick(TObject *Sender)
 		CoTaskMemFree(pszPath);
 
 		arqb = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSNV");
+		arqa = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSST");
 
 		if (!TFile::Exists(arqb+".nps")) {
 			throw Exception ("ERRO 000009: O modelo de apresentação novo não pode ser encontrado.\nPara corrigir este problema, por favor, reinicie o programa.\nPara maiores informações à respeito deste erro, por favor visite nossa docwiki.");
+		}
+		if (!TFile::Exists(arqa+".stl")) {
+			throw Exception ("ERRO 000010: O modelo de estilos novo não pode ser encontrado.\nPara corrigir este problema, por favor, reinicie o programa.\nPara maiores informações à respeito deste erro, por favor visite nossa docwiki.");
 		}
 	}
 
 	frmCodigo->mmCodigo->Lines->Clear();
 	frmCodigo->mmCodigo->Lines->LoadFromFile(arqb+".nps");
+	frmCodigo->mmEstilo->Lines->Clear();
+	frmCodigo->mmEstilo->Lines->LoadFromFile(arqa+".stl");
 	SelecTransp->BeginUpdate();
 	SelecTransp->Items->Clear();
 	SelecTransp->Items->Add()->Text = "CAPA";
 	SelecTransp->EndUpdate();
+
 		if (frmCodigo->mmCodigo->Lines->Strings[1] != "Nintersoft") {
 			edtApresAutor->Text = frmCodigo->mmCodigo->Lines->Strings[1];
 		}
 		else {
 			edtApresAutor->Text = "";
 		}
-		vsTransp->Fill->Color = StrToInt(frmCodigo->mmCodigo->Lines->Strings[2]);
-		listaCorApresenta->Color = StrToInt(frmCodigo->mmCodigo->Lines->Strings[2]);
-		if (frmCodigo->mmCodigo->Lines->Strings[3] == "==") {
-			vsTransp->Stroke->Color = StrToInt(frmCodigo->mmCodigo->Lines->Strings[2]);
+
+		int LOCLIN = LocDet("COR_TRANSP");
+		vsTransp->Fill->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+		listaCorApresenta->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+
+		LOCLIN = LocDet("APL_BORDA");
+		if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSBD") {
+			vsTransp->Stroke->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
 			cbBorda->IsChecked = true;
 		}
 		else {
 			vsTransp->Stroke->Color = CorBordaTransp;
 			cbBorda->IsChecked = false;
 		}
-		if (frmCodigo->mmCodigo->Lines->Strings[4] == "==" && frmCodigo->mmCodigo->Lines->Strings[5] == "==") {
-			lblTitulo->TextSettings->FontColor = StrToInt(frmCodigo->mmCodigo->Lines->Strings[6]);
-			lblTranspTexto->TextSettings->FontColor = StrToInt(frmCodigo->mmCodigo->Lines->Strings[6]);
-			lblImgLeg->TextSettings->FontColor = StrToInt(frmCodigo->mmCodigo->Lines->Strings[6]);
-			listaCorTexto->Color = StrToInt(frmCodigo->mmCodigo->Lines->Strings[6]);
+
+		LOCLIN = LocDet("APL_FONTE");
+		int LOCLIN2 = LocDet("APL_TODOS");
+		if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN2] == "NSTT" && frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSFT") {
+			LOCLIN = LocDet("COR_FONTE");
+			lblTitulo->TextSettings->FontColor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+			lblTranspTexto->TextSettings->FontColor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+			lblImgLeg->TextSettings->FontColor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+			listaCorTexto->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
 			cbTodos->IsChecked = true;
 			cbFonte->IsChecked = true;
 		}
@@ -2385,43 +2520,46 @@ void __fastcall TfrmPrincipal::btNovoProjClick(TObject *Sender)
 			cbTodos->IsChecked = false;
 			cbFonte->IsChecked = false;
 		}
-		int LOCLIN = LocDet("TAM_FONTE");
+
+		LOCLIN = LocDet("TAM_FONTE");
 		float TamConv = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
 		lblTranspTexto->TextSettings->Font->Size = TamConv;
 		edtTamFonte->Text = FloatToStr(TamConv);
 		baTamFonte->Value = TamConv;
 
-		int tamk = frmCodigo->mmCodigo->Lines->Count;
-
-		if (frmCodigo->mmCodigo->Lines->Strings[tamk-1] == "NSFN") {
+		LOCLIN = LocDet("MSTR_TRANSP");
+		if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSFN") {
 			opMostrarNSTransp->IsChecked = true;
 		}
-		else if (frmCodigo->mmCodigo->Lines->Strings[tamk-1] == "!NSFN") {
+		else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSFN") {
 			opMostrarNSTransp->IsChecked = false;
 		}
 		else {
 			throw Exception ("ERRO 000010: Falha nas configurações especiais (Última transparência).\nPara maiores informações sobre este erro visite nossa DocWiki.");
 		}
 
-		if (frmCodigo->mmCodigo->Lines->Strings[tamk-2] == "NSPR") {
+		LOCLIN = LocDet("MSTR_LOGO");
+		if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSLG") {
 			opMostrarLogoNS->IsChecked = true;
 		}
-		else if (frmCodigo->mmCodigo->Lines->Strings[tamk-2] == "!NSPR") {
+		else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSLG") {
 			opMostrarLogoNS->IsChecked = false;
 		}
 		else {
 			throw Exception ("ERRO 000011: Falha nas configurações especiais (Logo NS).\nPara maiores informações sobre este erro visite nossa DocWiki.");
 		}
 
-		if (frmCodigo->mmCodigo->Lines->Strings[tamk-3] == "NSDT") {
+		LOCLIN = LocDet("MSTR_DATA");
+		if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSDT") {
 			opMostrarDataAtual->IsChecked = true;
 		}
-		else if (frmCodigo->mmCodigo->Lines->Strings[tamk-3] == "!NSDT") {
+		else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSDT") {
 			opMostrarDataAtual->IsChecked = false;
 		}
 		else {
 			throw Exception ("ERRO 000012: Falha nas configurações especiais (Data).\nPara maiores informações sobre este erro visite nossa DocWiki.");
 		}
+
 	edTranspTitulo->Text = "";
 	Transp = 0;
 	CarregarTransp(Transp);
@@ -2701,13 +2839,19 @@ int TfrmPrincipal::LocDet(String Valor)
 	int tamTot = frmCodigo->mmEstilo->Lines->Count - 1;
 	bool inicio = true, encont = false;
 
-	if (Valor == "TAM_FONTE") {
+	if (Valor == "TAM_FONTE" | Valor == "COR_FONTE" | Valor == "COR_TRANSP") {
 
 		int comeco, fim, loc = 0;
+		String Categoria, Tipo;
+
+		if (Valor == "TAM_FONTE" | Valor == "COR_FONTE") Categoria = "$FNT";
+		else if (Valor == "COR_TRANSP") Categoria = "$TRANSP";
+		if (Valor == "COR_FONTE" | Valor == "COR_TRANSP") Tipo = "COR:";
+		else if (Valor == "TAM_FONTE") Tipo = "TAM:";
 
 		for (int i = 0; i < tamTot; i++) {
 			if (inicio) {
-				if (frmCodigo->mmEstilo->Lines->Strings[i] == "$FNT") {
+				if (frmCodigo->mmEstilo->Lines->Strings[i] == Categoria) {
 					comeco = i;
 					inicio = false;
 				}
@@ -2720,17 +2864,17 @@ int TfrmPrincipal::LocDet(String Valor)
 			}
 		}
 
-		for (int i = inicio; i < fim; i++) {
+		for (int i = comeco; i < fim; i++) {
 
 			String temp = "", dados = frmCodigo->mmEstilo->Lines->Strings[i];
 
 			if (dados.Length() >= 5) {
 				for (int k = 0; k < 4; k++) {
-					if (temp + dados.c_str()[k] != NULL && temp + dados.c_str()[k] != " ") {
+					if (temp + dados.c_str()[k] != NULL && temp + dados.c_str()[k] != ' ') {
 						temp = temp + dados.c_str()[k];
 					}
 				}
-				if (temp == "TAM:") {
+				if (temp == Tipo) {
 					loc = i;
 					break;
 				}
@@ -2748,13 +2892,23 @@ int TfrmPrincipal::LocDet(String Valor)
 		return loc;
 
 	}
-	if (Valor == "MSTR_DATA") {
+
+	else if (Valor == "MSTR_DATA" | Valor == "MSTR_TRANSP" | Valor == "MSTR_LOGO" | Valor == "APL_BORDA" | Valor == "APL_TODOS" | Valor == "APL_FONTE") {
 
 		int comeco, fim, loc = 0;
+		String Procura, Categoria;
+		if (Valor == "MSTR_DATA") Procura = "NSDT";
+		else if (Valor == "MSTR_TRANSP") Procura = "NSFN";
+		else if (Valor == "MSTR_LOGO")   Procura = "NSLG";
+		else if (Valor == "APL_BORDA")   Procura = "NSBD";
+		else if (Valor == "APL_TODOS")   Procura = "NSTT";
+		else if (Valor == "APL_FONTE")   Procura = "NSFT";
+		if (Valor == "MSTR_DATA" | Valor == "MSTR_TRANSP" | Valor == "MSTR_LOGO") Categoria = "$OPO";
+		else if (Valor == "APL_BORDA" | Valor == "APL_TODOS" | Valor == "APL_FONTE") Categoria = "$TRANSP";
 
 		for (int i = 0; i < tamTot; i++) {
 			if (inicio) {
-				if (frmCodigo->mmEstilo->Lines->Strings[i] == "$OPO") {
+				if (frmCodigo->mmEstilo->Lines->Strings[i] == Categoria) {
 					comeco = i;
 					inicio = false;
 				}
@@ -2767,7 +2921,7 @@ int TfrmPrincipal::LocDet(String Valor)
 			}
 		}
 
-		for (int i = inicio; i < fim; i++) {
+		for (int i = comeco; i < fim; i++) {
 
 			String temp = "", dados = frmCodigo->mmEstilo->Lines->Strings[i];
 
@@ -2777,7 +2931,7 @@ int TfrmPrincipal::LocDet(String Valor)
 						temp = temp + dados.c_str()[k];
 					}
 				}
-				if (temp == "NSDT" | temp == "!NSDT") {
+				if (temp == Procura | temp == "!"+Procura) {
 					loc = i;
 					break;
 				}
@@ -2788,107 +2942,18 @@ int TfrmPrincipal::LocDet(String Valor)
 		}
 
 		if (loc == 0) {
-			frmCodigo->mmEstilo->Lines->Insert(inicio + 1, "NSDT");
+			if (Categoria == "$OPO") frmCodigo->mmEstilo->Lines->Insert(inicio + 1, Procura);
+			else if (Categoria == "$TRANSP") frmCodigo->mmEstilo->Lines->Insert(inicio + 1, "!"+Procura);
 		}
 
 
 		return loc;
 
 	}
-	if (Valor == "MSTR_TRANSP") {
-
-		int comeco, fim, loc = 0;
-
-		for (int i = 0; i < tamTot; i++) {
-			if (inicio) {
-				if (frmCodigo->mmEstilo->Lines->Strings[i] == "$OPO") {
-					comeco = i;
-					inicio = false;
-				}
-			}
-			else {
-				if (frmCodigo->mmEstilo->Lines->Strings[i] == "!(FDD)") {
-					fim = i;
-					break;
-				}
-			}
-		}
-
-		for (int i = inicio; i < fim; i++) {
-
-			String temp = "", dados = frmCodigo->mmEstilo->Lines->Strings[i];
-
-			if (dados.Length() >= 4 && dados.Length() <= 5) {
-				for (int k = 0; k < dados.Length(); k++) {
-					if (temp + dados.c_str()[k] != NULL && temp + dados.c_str()[k] != " ") {
-						temp = temp + dados.c_str()[k];
-					}
-				}
-				if (temp == "NSFN" | temp == "!NSFN") {
-					loc = i;
-					break;
-				}
-				else {
-					temp = "";
-				}
-			}
-		}
-
-		if (loc == 0) {
-			frmCodigo->mmEstilo->Lines->Insert(inicio + 1, "NSFN");
-		}
-
-
-		return loc;
-
+	else {
+		throw Exception (L"O valor declarado está incorreto!");
 	}
-	if (Valor == "MSTR_LOGO") {
 
-		int comeco, fim, loc = 0;
-
-		for (int i = 0; i < tamTot; i++) {
-			if (inicio) {
-				if (frmCodigo->mmEstilo->Lines->Strings[i] == "$OPO") {
-					comeco = i;
-					inicio = false;
-				}
-			}
-			else {
-				if (frmCodigo->mmEstilo->Lines->Strings[i] == "!(FDD)") {
-					fim = i;
-					break;
-				}
-			}
-		}
-
-		for (int i = inicio; i < fim; i++) {
-
-			String temp = "", dados = frmCodigo->mmEstilo->Lines->Strings[i];
-
-			if (dados.Length() >= 4 && dados.Length() <= 5) {
-				for (int k = 0; k < dados.Length(); k++) {
-					if (temp + dados.c_str()[k] != NULL && temp + dados.c_str()[k] != " ") {
-						temp = temp + dados.c_str()[k];
-					}
-				}
-				if (temp == "NSLG" | temp == "!NSLG") {
-					loc = i;
-					break;
-				}
-				else {
-					temp = "";
-				}
-			}
-		}
-
-		if (loc == 0) {
-			frmCodigo->mmEstilo->Lines->Insert(inicio + 1, "NSLG");
-		}
-
-
-		return loc;
-
-	}
 }
 //---------------------------------------------------------------------------
 int TfrmPrincipal::AdquireTam(String Texto)
@@ -2904,14 +2969,15 @@ int TfrmPrincipal::AdquireTam(String Texto)
 			}
 		}
 		else {
-			Tamanho = Tamanho + Texto.c_str()[i];
+			if (Texto.c_str()[i] != ' ') {
+				Tamanho = Tamanho + Texto.c_str()[i];
+			}
 		}
 	}
 
-	int Convertido = StrToFloat(Tamanho);
+	int Convertido = (int)StrToFloat(Tamanho);
 
 	return Convertido;
 
 }
 //---------------------------------------------------------------------------
-
