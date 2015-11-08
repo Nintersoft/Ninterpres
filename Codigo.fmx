@@ -84,14 +84,14 @@ object frmCodigo: TfrmCodigo
     Size.Width = 710.000000000000000000
     Size.Height = 464.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 0
+    TabIndex = 1
     TabOrder = 1
     TabPosition = Bottom
     object abaCodigo: TTabItem
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 166.000000000000000000
       Size.Height = 24.000000000000000000
       Size.PlatformDefault = False
@@ -107,6 +107,11 @@ object frmCodigo: TfrmCodigo
         Lines.Strings = (
           'Apresenta'#231#227'o sem t'#237'tulo'
           'Nintersoft'
+          '0'
+          '!='
+          '!='
+          '!='
+          '0'
           
             '//-------------------N'#195'O EDITE ACIMA DESTA LINHA----------------' +
             '-'
@@ -125,7 +130,7 @@ object frmCodigo: TfrmCodigo
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      IsSelected = True
       Size.Width = 102.000000000000000000
       Size.Height = 24.000000000000000000
       Size.PlatformDefault = False
@@ -139,21 +144,9 @@ object frmCodigo: TfrmCodigo
         Size.PlatformDefault = False
         TabOrder = 0
         Lines.Strings = (
-          
-            '//--------------- FOLHA DE ESTILOS / STYLESHEET ----------------' +
-            '------------'
-          '$TRANSP'
-          '!NSBD'
-          '!NSTT'
-          '!NSFT'
-          'COR:0'
-          '!(FDD)'
-          
-            '//--------------------------------------------------------------' +
-            '-----------------------'
           '$FNT'
           'TAM:16'
-          'COR:0'
+          'COR:'
           '!(FDD)'
           
             '//--------------------------------------------------------------' +
@@ -165,8 +158,7 @@ object frmCodigo: TfrmCodigo
           '!(FDD)'
           
             '//--------------------------------------------------------------' +
-            '-----------------------'
-          '')
+            '-----------------------')
         ReadOnly = True
         TextSettings.Font.Family = 'Arial Narrow'
         TextSettings.Font.Size = 16.000000000000000000

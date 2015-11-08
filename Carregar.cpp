@@ -148,12 +148,10 @@ void TfrmCarregar::AplicarConfig()
 	if (frmConfig->mmConfig->Lines->Strings[0] == "NSEDT") {
 		frmConfig->cbAtivarEditor->IsChecked = true;
 		frmCodigo->mmCodigo->ReadOnly = false;
-		frmCodigo->mmEstilo->ReadOnly = false;
 	}
 	else if (frmConfig->mmConfig->Lines->Strings[0] == "!NSEDT") {
 		frmConfig->cbAtivarEditor->IsChecked = false;
 		frmCodigo->mmCodigo->ReadOnly = true;
-		frmCodigo->mmEstilo->ReadOnly = false;
 	}
 	else {
 		throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
