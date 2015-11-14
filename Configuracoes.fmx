@@ -88,14 +88,14 @@ object frmConfig: TfrmConfig
     Size.Width = 546.000000000000000000
     Size.Height = 441.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 0
+    TabIndex = 2
     TabOrder = 11
     TabPosition = Top
     object abaDesenv: TTabItem
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 182.000000000000000000
       Size.Height = 24.000000000000000000
       Size.PlatformDefault = False
@@ -334,7 +334,7 @@ object frmConfig: TfrmConfig
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      IsSelected = True
       Size.Width = 180.000000000000000000
       Size.Height = 24.000000000000000000
       Size.PlatformDefault = False
@@ -351,7 +351,6 @@ object frmConfig: TfrmConfig
         TextSettings.Font.Size = 18.000000000000000000
         TabOrder = 0
         object cbSalvarAuto: TCheckBox
-          Enabled = False
           StyledSettings = [Family, Style, FontColor]
           Position.X = 24.000000000000000000
           Position.Y = 32.000000000000000000
@@ -398,7 +397,6 @@ object frmConfig: TfrmConfig
           OnClick = btAjudaAppDataClick
         end
         object lblIntervalo: TLabel
-          Enabled = False
           StyledSettings = [Family, Style, FontColor]
           Position.X = 72.000000000000000000
           Position.Y = 88.000000000000000000
@@ -421,7 +419,6 @@ object frmConfig: TfrmConfig
           TextSettings.Font.Size = 16.000000000000000000
         end
         object lsSelecInter: TListBox
-          Enabled = False
           Position.X = 296.000000000000000000
           Position.Y = 88.000000000000000000
           Size.Width = 200.000000000000000000

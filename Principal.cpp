@@ -2981,3 +2981,40 @@ int TfrmPrincipal::AdquireTam(String Texto)
 
 }
 //---------------------------------------------------------------------------
+void __fastcall TfrmPrincipal::tmCopiaSegTimer(TObject *Sender)
+{
+	if (salvo) {
+		PWSTR pszPath;
+		if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pszPath)))
+		{
+			String NSNPSV = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres\\CPSEG\\");
+			CoTaskMemFree(pszPath);
+
+			String NSNPSVD = System::Ioutils::TPath::Combine(NSNPSV, frmCodigo->mmCodigo->Lines->Strings[0]);
+
+			if (TDirectory::Exists(NSNPSVD)) TDirectory::Delete(NSNPSV, true);
+
+			delete ProjAtual;
+			delete ProjSecun;
+
+			TDirectory::Copy(locSalvo, NSNPSVD);
+
+			String arq = System::Ioutils::TPath::Combine(NSNPSVD, L"NSCA.nps");
+			String Estilo = System::Ioutils::TPath::Combine(NSNPSVD, "NSST.stl");
+			frmCodigo->mmCodigo->Lines->SaveToFile(arq);
+			frmCodigo->mmEstilo->Lines->SaveToFile(Estilo);
+
+			arq = System::Ioutils::TPath::Combine(locSalvo, L"NSCA.nps");
+			Estilo = System::Ioutils::TPath::Combine(locSalvo, "NSST.stl");
+			ProjSecun = new TFileStream(Estilo, TFileMode::fmOpen);
+			ProjAtual = new TFileStream(arq, TFileMode::fmOpen);
+
+
+		}
+		else {
+			throw Exception (L"ERRO 000020: Falha ao localizar o diretório Ninterpres.\nA cópia de segurança da apresentação não pôde ser salva.");
+		}
+	}
+}
+//---------------------------------------------------------------------------
+

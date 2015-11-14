@@ -164,6 +164,29 @@ void TfrmCarregar::AplicarConfig()
 	frmConfig->edtNomeLicen->Text = frmConfig->mmConfig->Lines->Strings[13];
 	frmSobre->lblLicencProg->Text = frmConfig->mmConfig->Lines->Strings[13];
 
+	//-------------------- Salvamento Automático ---------------------------
+
+	if (frmConfig->mmConfig->Lines->Strings[8] == "NSSVSA") {
+		frmConfig->cbSalvarAuto->IsChecked = true;
+		frmPrincipal->tmCopiaSeg->Enabled = true;
+	}
+	else if (frmConfig->mmConfig->Lines->Strings[8] == "!NSSVSA"){
+		frmConfig->cbSalvarAuto->IsChecked = false;
+		frmPrincipal->tmCopiaSeg->Enabled = false;
+	}
+	else {
+		throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
+	}
+
+	try {
+		if (frmConfig->mmConfig->Lines->Strings[10] >= 0 && frmConfig->mmConfig->Lines->Strings[10] <= 4 ) {
+			frmConfig->lsSelecInter->ItemIndex = StrToInt(frmConfig->mmConfig->Lines->Strings[10]);
+			frmPrincipal->tmCopiaSeg->Interval = (StrToInt(frmConfig->lsSelecInter->ItemIndex)*60000);
+		}
+	} catch (...) {
+		throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
+	}
+
 	//--------------------------- Idioma -----------------------------------
 
 	int Idioma = StrToInt(frmConfig->mmConfig->Lines->Strings[14]);

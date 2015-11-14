@@ -304,6 +304,7 @@ __published:	// IDE-managed Components
 	void __fastcall btInformacoesMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
 		  float X, float Y);
 	void __fastcall btInformacoesClick(TObject *Sender);
+	void __fastcall tmCopiaSegTimer(TObject *Sender);
 
 
 
