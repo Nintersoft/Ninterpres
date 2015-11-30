@@ -1881,7 +1881,7 @@ void __fastcall TfrmPrincipal::btLimpDadosMouseUp(TObject *Sender, TMouseButton 
 void __fastcall TfrmPrincipal::FormClose(TObject *Sender, TCloseAction &Action)
 {
 	pergunta:
-	int SalvaFecha = MessageBox (0, L"Você encerrará a aplicação.\nOs dados não salvos da apresentação serão perdidos.\nDeseja salvar os dados da apresentação atual?", L"Aviso - Ninterpres", MB_YESNO+MB_ICONQUESTION);
+	int SalvaFecha = MessageBox (0, L"Você encerrará a aplicação.\nOs dados não salvos da apresentação serão perdidos.\nDeseja salvar os dados da apresentação atual?", L"Aviso - Ninterpres", MB_YESNOCANCEL+MB_ICONQUESTION);
 	if (SalvaFecha == 6) {
 		if (salvo) {
 			String arq = System::Ioutils::TPath::Combine(locSalvo, L"NSCA.nps");
@@ -1920,6 +1920,10 @@ void __fastcall TfrmPrincipal::FormClose(TObject *Sender, TCloseAction &Action)
 				goto pergunta;
 			}
 		}
+		Application->Terminate();
+	}
+	else if (SalvaFecha == 2) {
+		Action = TCloseAction::caNone;
 	}
 	else {
 		PWSTR pszPath;
@@ -1932,8 +1936,9 @@ void __fastcall TfrmPrincipal::FormClose(TObject *Sender, TCloseAction &Action)
 				TDirectory::Delete(NSNPTEMP, true);
 			}
 		}
+		Application->Terminate();
 	}
-	Application->Terminate();
+
 }
 //---------------------------------------------------------------------------
 

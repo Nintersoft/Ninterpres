@@ -12,7 +12,6 @@ object frmCarregar: TfrmCarregar
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop, iPhone, iPad]
-  OnCreate = FormCreate
   DesignerMasterStyle = 0
   object btFechar: TImage
     MultiResBitmap = <

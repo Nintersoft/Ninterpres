@@ -20,7 +20,6 @@ __published:	// IDE-managed Components
 	TImage *btMinimizar;
 	void __fastcall tmConfigurarTimer(TObject *Sender);
 	void __fastcall btFecharClick(TObject *Sender);
-	void __fastcall FormCreate(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TfrmCarregar(TComponent* Owner);

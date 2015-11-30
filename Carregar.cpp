@@ -1,7 +1,6 @@
 //---------------------------------------------------------------------------
 
 #include <fmx.h>
-// #include <FMX.Platform.Win.hpp>
 #include <IOUtils.hpp>
 #include <shlobj.h>
 #pragma hdrstop
@@ -78,6 +77,7 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 			frmCodigo->mmEstilo->Lines->SaveToFile(aprstl + ".stl");
 		}
 
+		tmConfigurar->Interval = 3500;
 		cont++;
 
 	}
@@ -109,6 +109,7 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 
 		}
 
+		tmConfigurar->Interval = 2500;
 		cont++;
 
 	}
@@ -127,17 +128,6 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 void __fastcall TfrmCarregar::btFecharClick(TObject *Sender)
 {
 	Application->Terminate();
-}
-//---------------------------------------------------------------------------
-void __fastcall TfrmCarregar::FormCreate(TObject *Sender)
-{
-/*	HWND hWnd = FormToHWND(frmCarregar);
-	if (hWnd != NULL)
-	{
-		LONG Style = GetWindowLong(hWnd, GWL_EXSTYLE);
-		SetWindowLong(hWnd, GWL_EXSTYLE, Style | WS_EX_APPWINDOW);
-	}
-*/
 }
 //---------------------------------------------------------------------------
 void TfrmCarregar::AplicarConfig()
@@ -178,12 +168,24 @@ void TfrmCarregar::AplicarConfig()
 		throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
 	}
 
-	try {
-		if (frmConfig->mmConfig->Lines->Strings[10] >= 0 && frmConfig->mmConfig->Lines->Strings[10] <= 4 ) {
+	if (StrToInt(frmConfig->mmConfig->Lines->Strings[10]) >= 0 && StrToInt(frmConfig->mmConfig->Lines->Strings[10]) <= 4 ) {
+		frmConfig->lsSelecInter->ItemIndex = StrToInt(frmConfig->mmConfig->Lines->Strings[10]);
+		frmPrincipal->tmCopiaSeg->Interval = (StrToInt(frmConfig->lsSelecInter->Selected->Text)*60000);
+	}
+	else if (StrToInt(frmConfig->mmConfig->Lines->Strings[10]) == 5) {
+		int intervalo = StrToInt(frmConfig->mmConfig->Lines->Strings[11]);
+		if (intervalo <= 5) {
 			frmConfig->lsSelecInter->ItemIndex = StrToInt(frmConfig->mmConfig->Lines->Strings[10]);
-			frmPrincipal->tmCopiaSeg->Interval = (StrToInt(frmConfig->lsSelecInter->ItemIndex)*60000);
+			frmConfig->edtTempSeg->Value = 5;
+			frmPrincipal->tmCopiaSeg->Interval = 300000;
 		}
-	} catch (...) {
+		else {
+			frmConfig->lsSelecInter->ItemIndex = StrToInt(frmConfig->mmConfig->Lines->Strings[10]);
+			frmConfig->edtTempSeg->Value = intervalo;
+			frmPrincipal->tmCopiaSeg->Interval = intervalo*60000;
+		}
+	}
+	else {
 		throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
 	}
 

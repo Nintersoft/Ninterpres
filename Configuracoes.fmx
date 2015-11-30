@@ -88,14 +88,14 @@ object frmConfig: TfrmConfig
     Size.Width = 546.000000000000000000
     Size.Height = 441.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 2
+    TabIndex = 0
     TabOrder = 11
     TabPosition = Top
     object abaDesenv: TTabItem
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      IsSelected = True
       Size.Width = 182.000000000000000000
       Size.Height = 24.000000000000000000
       Size.PlatformDefault = False
@@ -334,7 +334,7 @@ object frmConfig: TfrmConfig
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 180.000000000000000000
       Size.Height = 24.000000000000000000
       Size.PlatformDefault = False
@@ -438,7 +438,6 @@ object frmConfig: TfrmConfig
           DefaultItemStyles.GroupFooterStyle = ''
         end
         object lblTempSeg: TLabel
-          Enabled = False
           StyledSettings = [Family, Style, FontColor]
           Position.X = 72.000000000000000000
           Position.Y = 136.000000000000000000
@@ -458,7 +457,6 @@ object frmConfig: TfrmConfig
           Value = 5.000000000000000000
           Position.X = 296.000000000000000000
           Position.Y = 136.000000000000000000
-          Enabled = False
           Size.Width = 201.000000000000000000
           Size.Height = 22.000000000000000000
           Size.PlatformDefault = False
