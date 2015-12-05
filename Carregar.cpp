@@ -57,7 +57,6 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 		}
 
 	}
-
 		cont ++;
 
 	}
@@ -77,7 +76,6 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 			frmCodigo->mmEstilo->Lines->SaveToFile(aprstl + ".stl");
 		}
 
-		tmConfigurar->Interval = 3500;
 		cont++;
 
 	}
@@ -101,7 +99,6 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 				try {
 					TfrmCarregar::AplicarConfig();
 				} catch (...) {
-					cont++;
 					ShowMessage("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
 					goto falha;
 				}
@@ -109,9 +106,15 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 
 		}
 
-		tmConfigurar->Interval = 2500;
 		cont++;
+		ReconfiguraCont(3500);
 
+	}
+	else if (cont == 3) {
+		lblEstado->Text = "Ajustando a interface...";
+		frmPrincipal->AjusteVisual();
+		cont++;
+		ReconfiguraCont(1500);
 	}
 
 	else {
@@ -149,16 +152,94 @@ void TfrmCarregar::AplicarConfig()
 		throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
 	}
 
-	//---------------------------- Nome ------------------------------------
+	//-------------------- Tamanho da fonte básica -------------------------
 
-	frmConfig->edtNomeLicen->Text = frmConfig->mmConfig->Lines->Strings[13];
-	frmSobre->lblLicencProg->Text = frmConfig->mmConfig->Lines->Strings[13];
+	long double tamFonteBasica = StrToFloat(frmConfig->mmConfig->Lines->Strings[2]);
+	frmConfig->cxTamFonte->Value = tamFonteBasica;
+	frmPrincipal->lblTranspTexto->TextSettings->Font->Size = tamFonteBasica;
+	frmPrincipal->tamFonteBasica = tamFonteBasica;
+	frmPrincipal->edtTamFonte->Value = tamFonteBasica;
+	frmPrincipal->baTamFonte->Value = tamFonteBasica;
+	int LOCLIN = frmPrincipal->LocDet("TAM_FONTE");
+	frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "TAM:"+FloatToStr(tamFonteBasica);
+
+	//---------------------- Marcações opcionais ---------------------------
+
+	if (frmConfig->mmConfig->Lines->Strings[3] == "NSMSTR") {
+		LOCLIN = frmPrincipal->LocDet("MSTR_TRANSP");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "NSFN";
+		frmConfig->cbMostrarTransp->IsChecked = true;
+		frmPrincipal->opMostrarNSTransp->IsChecked = true;
+	}
+	else if (frmConfig->mmConfig->Lines->Strings[3] == "!NSMSTR") {
+		LOCLIN = frmPrincipal->LocDet("MSTR_TRANSP");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "!NSFN";
+		frmConfig->cbMostrarTransp->IsChecked = false;
+		frmPrincipal->opMostrarNSTransp->IsChecked = false;
+	}
+	else {
+		throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
+	}
+
+	if (frmConfig->mmConfig->Lines->Strings[4] == "NSMSLG") {
+		LOCLIN = frmPrincipal->LocDet("MSTR_LOGO");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "NSLG";
+		frmConfig->cbMostrarLogo->IsChecked = true;
+		frmPrincipal->opMostrarLogoNS->IsChecked = true;
+	}
+	else if (frmConfig->mmConfig->Lines->Strings[4] == "!NSMSLG") {
+		LOCLIN = frmPrincipal->LocDet("MSTR_LOGO");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "!NSLG";
+		frmConfig->cbMostrarLogo->IsChecked = false;
+		frmPrincipal->opMostrarLogoNS->IsChecked = false;
+	}
+	else {
+		throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
+	}
+
+	if (frmConfig->mmConfig->Lines->Strings[5] == "NSMSDT") {
+		LOCLIN = frmPrincipal->LocDet("MSTR_DATA");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "NSDT";
+		frmConfig->cbMostrarData->IsChecked = true;
+		frmPrincipal->opMostrarDataAtual->IsChecked = true;
+	}
+	else if (frmConfig->mmConfig->Lines->Strings[5] == "!NSMSDT") {
+		LOCLIN = frmPrincipal->LocDet("MSTR_DATA");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "!NSDT";
+		frmConfig->cbMostrarData->IsChecked = false;
+		frmPrincipal->opMostrarDataAtual->IsChecked = false;
+	}
+	else {
+		throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
+	}
 
 	//-------------------- Salvamento Automático ---------------------------
 
 	if (frmConfig->mmConfig->Lines->Strings[8] == "NSSVSA") {
 		frmConfig->cbSalvarAuto->IsChecked = true;
 		frmPrincipal->tmCopiaSeg->Enabled = true;
+
+		if (StrToInt(frmConfig->mmConfig->Lines->Strings[10]) >= 0 && StrToInt(frmConfig->mmConfig->Lines->Strings[10]) <= 4 ) {
+			frmConfig->lsSelecInter->ItemIndex = StrToInt(frmConfig->mmConfig->Lines->Strings[10]);
+			frmPrincipal->tmCopiaSeg->Interval = (StrToInt(frmConfig->lsSelecInter->Selected->Text)*60000);
+		}
+		else if (StrToInt(frmConfig->mmConfig->Lines->Strings[10]) == 5) {
+			int intervalo = StrToInt(frmConfig->mmConfig->Lines->Strings[11]);
+			if (intervalo <= 5) {
+				frmConfig->lsSelecInter->ItemIndex = StrToInt(frmConfig->mmConfig->Lines->Strings[10]);
+				frmConfig->edtTempSeg->Value = 5;
+				frmPrincipal->tmCopiaSeg->Interval = 300000;
+			}
+			else {
+				frmConfig->lsSelecInter->ItemIndex = StrToInt(frmConfig->mmConfig->Lines->Strings[10]);
+				frmConfig->edtTempSeg->Value = intervalo;
+				frmPrincipal->tmCopiaSeg->Interval = intervalo*60000;
+			}
+		}
+		else {
+			throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
+		}
+
 	}
 	else if (frmConfig->mmConfig->Lines->Strings[8] == "!NSSVSA"){
 		frmConfig->cbSalvarAuto->IsChecked = false;
@@ -168,26 +249,10 @@ void TfrmCarregar::AplicarConfig()
 		throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
 	}
 
-	if (StrToInt(frmConfig->mmConfig->Lines->Strings[10]) >= 0 && StrToInt(frmConfig->mmConfig->Lines->Strings[10]) <= 4 ) {
-		frmConfig->lsSelecInter->ItemIndex = StrToInt(frmConfig->mmConfig->Lines->Strings[10]);
-		frmPrincipal->tmCopiaSeg->Interval = (StrToInt(frmConfig->lsSelecInter->Selected->Text)*60000);
-	}
-	else if (StrToInt(frmConfig->mmConfig->Lines->Strings[10]) == 5) {
-		int intervalo = StrToInt(frmConfig->mmConfig->Lines->Strings[11]);
-		if (intervalo <= 5) {
-			frmConfig->lsSelecInter->ItemIndex = StrToInt(frmConfig->mmConfig->Lines->Strings[10]);
-			frmConfig->edtTempSeg->Value = 5;
-			frmPrincipal->tmCopiaSeg->Interval = 300000;
-		}
-		else {
-			frmConfig->lsSelecInter->ItemIndex = StrToInt(frmConfig->mmConfig->Lines->Strings[10]);
-			frmConfig->edtTempSeg->Value = intervalo;
-			frmPrincipal->tmCopiaSeg->Interval = intervalo*60000;
-		}
-	}
-	else {
-		throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
-	}
+	//---------------------------- Nome ------------------------------------
+
+	frmConfig->edtNomeLicen->Text = frmConfig->mmConfig->Lines->Strings[13];
+	frmSobre->lblLicencProg->Text = frmConfig->mmConfig->Lines->Strings[13];
 
 	//--------------------------- Idioma -----------------------------------
 
@@ -208,3 +273,16 @@ void TfrmCarregar::AplicarConfig()
 
 }
 //---------------------------------------------------------------------------
+void TfrmCarregar::ReconfiguraCont (int Tempo)
+{
+	frmCarregar->tmConfigurar->Enabled = false;
+	frmCarregar->tmConfigurar->Interval = Tempo;
+	frmCarregar->tmConfigurar->Enabled = true;
+}
+//---------------------------------------------------------------------------
+void __fastcall TfrmCarregar::FormShow(TObject *Sender)
+{
+	tmConfigurar->Enabled = true;
+}
+//---------------------------------------------------------------------------
+

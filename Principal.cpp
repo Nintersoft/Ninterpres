@@ -18,7 +18,6 @@
 TfrmPrincipal *frmPrincipal;
 //---------------------------------------------------------------------------
 const float RealTamFonte = 1.3125;
-long double tamFonteBasica, tamFonteTitulo;
 int tpEscolha = 1, Cam = 390, CorBordaTransp, CorFundoTransp, Vis = 0;
 bool prim, salvo = false, confSalvo = false;
 String TranspSelec, locSalvo;
@@ -3022,4 +3021,3 @@ void __fastcall TfrmPrincipal::tmCopiaSegTimer(TObject *Sender)
 	}
 }
 //---------------------------------------------------------------------------
-

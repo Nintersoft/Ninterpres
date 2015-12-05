@@ -152,6 +152,7 @@ __published:	// IDE-managed Components
 	TLabel *lblDeTransp;
 	TRoundRect *btInformacoes;
 	TLabel *lblBtInformacoes;
+	TSpeedButton *btFecharEf;
 	void __fastcall btTranspTipoMouseEnter(TObject *Sender);
 	void __fastcall btTranspTipoMouseLeave(TObject *Sender);
 	void __fastcall tpTipo2Click(TObject *Sender);
@@ -324,6 +325,7 @@ public:		// User declarations
 	String Extensao(String);
 
 	int Transp;
+	long double tamFonteBasica, tamFonteTitulo;
 
 };
 //---------------------------------------------------------------------------

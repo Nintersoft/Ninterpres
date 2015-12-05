@@ -205,7 +205,12 @@ void TfrmConfig::SalvarConfig()
 		frmConfig->mmConfig->Lines->Add("!NSSVAT");
 	}
 
-	frmConfig->mmConfig->Lines->Add(IntToStr(lsSelecInter->ItemIndex));
+	int Intervalo = lsSelecInter->ItemIndex;
+	if (Intervalo >= 0) frmConfig->mmConfig->Lines->Add(IntToStr(Intervalo));
+	else {
+		Intervalo++;
+		frmConfig->mmConfig->Lines->Add(IntToStr(Intervalo));
+	}
 
 	int TempSeg = edtTempSeg->Value;
 	frmConfig->mmConfig->Lines->Add(IntToStr(TempSeg));

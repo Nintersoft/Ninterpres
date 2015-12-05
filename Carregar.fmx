@@ -12,6 +12,7 @@ object frmCarregar: TfrmCarregar
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop, iPhone, iPad]
+  OnShow = FormShow
   DesignerMasterStyle = 0
   object btFechar: TImage
     MultiResBitmap = <
@@ -135,35 +136,10 @@ object frmCarregar: TfrmCarregar
     Style = Circular
   end
   object tmConfigurar: TTimer
-    Interval = 2500
+    Enabled = False
+    Interval = 1500
     OnTimer = tmConfigurarTimer
     Left = 480
     Top = 248
-  end
-  object btMinimizar: TImage
-    MultiResBitmap = <
-      item
-        Width = 189
-        Height = 189
-        PNG = {
-          89504E470D0A1A0A0000000D49484452000000BD000000BD0806000000E6D77C
-          30000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
-          00E449444154785EEDD2B10D80300003C184FD77861419802608E9EF1A7B801F
-          0000000000000000000000000000000000000000000000000000000000000000
-          0000000000000000000000000000000000000000000000000000000000000000
-          0000000000000000000000000000000000000000000000000000000000000000
-          000000000000000000007C6FEE3DE25EF685D7E6B2EF11D75EC8103D39A22747
-          F4E4889E1CD193237A72444F8EE8C9113D39A22747F4E4889E1CD193237A7244
-          4F8EE8C9113D39A22747F4E4889E1CD193237A00000000000000000000000000
-          00805F1BE301BE630430E897EE520000000049454E44AE426082}
-      end>
-    Anchors = [akRight]
-    Enabled = False
-    Position.X = 397.000000000000000000
-    Position.Y = 2.228739023208618000
-    Size.Width = 26.000000000000000000
-    Size.Height = 25.000000000000000000
-    Size.PlatformDefault = False
-    WrapMode = Stretch
   end
 end
