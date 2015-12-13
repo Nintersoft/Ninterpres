@@ -84,10 +84,13 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 
 		lblEstado->Text = "Aplicando configurações do usuário...";
 
+		bool Existe = false;
+
 		String NSNPARQCONF = System::Ioutils::TPath::Combine(NSNPCONF, L"CONF");
 
 		if (TFile::Exists(NSNPARQCONF+".conf")) {
 
+			Existe = true;
 			frmConfig->mmConfig->Lines->LoadFromFile(NSNPARQCONF+".conf");
 
 			if (frmConfig->mmConfig->Lines->Count < 15) {
@@ -107,7 +110,8 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 		}
 
 		cont++;
-		ReconfiguraCont(3500);
+		if (Existe) ReconfiguraCont(5000);
+		else ReconfiguraCont(1000);
 
 	}
 	else if (cont == 3) {
@@ -121,6 +125,7 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 
 		lblEstado->Text = "Carregando...";
 
+		cont++;
 		Application->MainForm->Show();
 		tmConfigurar->Enabled = false;
 		frmCarregar->Close();
@@ -147,6 +152,18 @@ void TfrmCarregar::AplicarConfig()
 		frmConfig->cbAtivarEditor->IsChecked = false;
 		frmCodigo->mmCodigo->ReadOnly = true;
 		frmCodigo->mmEstilo->ReadOnly = false;
+	}
+	else {
+		throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
+	}
+
+	if (frmConfig->mmConfig->Lines->Strings[0] == "NSATC") {
+		frmConfig->cbAtualizarCod->IsChecked = true;
+		frmCodigo->btAlterar->Enabled = true;
+	}
+	else if (frmConfig->mmConfig->Lines->Strings[0] == "!NSATC") {
+		frmConfig->cbAtualizarCod->IsChecked = false;
+		frmCodigo->btAlterar->Enabled = false;
 	}
 	else {
 		throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
@@ -213,6 +230,54 @@ void TfrmCarregar::AplicarConfig()
 		throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
 	}
 
+	//--------------------- Aplicação de estilos ---------------------------
+
+	int pos = StrToInt(frmConfig->mmConfig->Lines->Strings[6]);
+	if (pos == 0) {
+		frmConfig->csEstilo->ItemIndex = pos;
+		frmPrincipal->BorderStyle = TFmxFormBorderStyle::Sizeable;
+		frmPrincipal->WindowState = TWindowState::wsMaximized;
+		frmPrincipal->lblTituloForm->Visible = false;
+		frmPrincipal->btMinimizar->Visible = false;
+		frmPrincipal->btMaximizar->Visible = false;
+		frmPrincipal->btFechar->Visible = false;
+		frmPrincipal->btFecharEf->Visible = false;
+	}
+	else if (pos == 2) {
+		frmConfig->csEstilo->ItemIndex = pos;
+		frmPrincipal->BorderStyle = TFmxFormBorderStyle::Sizeable;
+		frmPrincipal->WindowState = TWindowState::wsMaximized;
+		frmPrincipal->lblTituloForm->Visible = false;
+		frmPrincipal->btMinimizar->Visible = false;
+		frmPrincipal->btMaximizar->Visible = false;
+		frmPrincipal->btFechar->Visible = false;
+		frmPrincipal->btFecharEf->Visible = false;
+	}
+	else if (pos == 3) {
+		int cor = StrToInt(frmConfig->mmConfig->Lines->Strings[7]);
+		frmConfig->csEstilo->ItemIndex = pos;
+		frmConfig->listaCorTema->BeginUpdate();
+		frmConfig->listaCorTema->Color = cor;
+		frmConfig->listaCorTema->EndUpdate();
+
+		frmPrincipal->corAbaAjuda->Fill->Color = cor;
+		frmPrincipal->corAbaAjuda->Stroke->Color = cor;
+		frmPrincipal->corAbaAjuda->Repaint();
+		frmPrincipal->CorAbaVisualizar->Fill->Color = cor;
+		frmPrincipal->CorAbaVisualizar->Stroke->Color = cor;
+		frmPrincipal->CorAbaVisualizar->Repaint();
+		frmPrincipal->CorAbaEditar->Fill->Color = cor;
+		frmPrincipal->CorAbaEditar->Stroke->Color = cor;
+		frmPrincipal->CorAbaEditar->Repaint();
+		frmPrincipal->FundoAbaSelec->Fill->Color = cor;
+		frmPrincipal->FundoAbaSelec->Stroke->Color = cor;
+		frmPrincipal->FundoAbaSelec->Repaint();
+		frmConfig->listaCorTema->Enabled = true;
+	}
+	else {
+		throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
+	}
+
 	//-------------------- Salvamento Automático ---------------------------
 
 	if (frmConfig->mmConfig->Lines->Strings[8] == "NSSVSA") {
@@ -252,7 +317,7 @@ void TfrmCarregar::AplicarConfig()
 	//---------------------------- Nome ------------------------------------
 
 	frmConfig->edtNomeLicen->Text = frmConfig->mmConfig->Lines->Strings[13];
-	frmSobre->lblLicencProg->Text = frmConfig->mmConfig->Lines->Strings[13];
+	frmSobre->lblLicencProg->Text = frmConfig->edtNomeLicen->Text;
 
 	//--------------------------- Idioma -----------------------------------
 

@@ -189,7 +189,8 @@ void TfrmConfig::SalvarConfig()
 
 	frmConfig->mmConfig->Lines->Add(IntToStr(csEstilo->ItemIndex));
 
-	frmConfig->mmConfig->Lines->Add(IntToStr(listaCorTema->ItemIndex));
+	int cortemp = listaCorTema->Color;
+	frmConfig->mmConfig->Lines->Add(IntToStr(cortemp));
 
 	if (cbSalvarAuto->IsChecked) {
 		frmConfig->mmConfig->Lines->Add("NSSVSA");
@@ -240,6 +241,8 @@ void TfrmConfig::AplicarImpConfig()
 		frmCodigo->mmCodigo->ReadOnly = true;
 		frmCodigo->mmEstilo->ReadOnly = true;
 	}
+	if (mmConfig->Lines->Strings[1] == "NSATC") frmCodigo->btAlterar->Enabled = true;
+	else frmCodigo->btAlterar->Enabled = false;
 
 	frmSobre->lblLicencProg->Text = frmConfig->mmConfig->Lines->Strings[1];
 

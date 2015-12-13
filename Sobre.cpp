@@ -34,7 +34,7 @@ void __fastcall TfrmSobre::btAtualizarClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TfrmSobre::btSiteClick(TObject *Sender)
 {
-	ShellExecuteA( NULL, "open", "http://www.nintersoft.ml/", NULL, NULL, SW_SHOW );
+	ShellExecuteA( NULL, "open", "http://www.nintersoft.com/", NULL, NULL, SW_SHOW );
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmSobre::btFacebookClick(TObject *Sender)

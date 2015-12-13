@@ -18,8 +18,8 @@
 TfrmPrincipal *frmPrincipal;
 //---------------------------------------------------------------------------
 const float RealTamFonte = 1.3125;
-int tpEscolha = 1, Cam = 390, CorBordaTransp, CorFundoTransp, Vis = 0;
-bool prim, salvo = false, confSalvo = false;
+int tpEscolha = 1, Cam = 390, CorBordaTransp, CorFundoTransp, Vis = 0, Dif, LocInDef, LocIn;
+bool prim, salvo = false, confSalvo = false, primeiravez;
 String TranspSelec, locSalvo;
 TFileStream* ProjAtual;
 TFileStream* ProjSecun;
@@ -363,17 +363,12 @@ void __fastcall TfrmPrincipal::FormCreate(TObject *Sender)
 
 	CorBordaTransp = vsTransp->Stroke->Color;
 
-}
-//---------------------------------------------------------------------------
-void __fastcall TfrmPrincipal::CorAbaEditarMouseLeave(TObject *Sender)
-{
-	brEditar->ShowScrollBars = false;
-}
-//---------------------------------------------------------------------------
+	primeiravez = true;
 
-void __fastcall TfrmPrincipal::CorAbaEditarMouseEnter(TObject *Sender)
-{
-	brEditar->ShowScrollBars = true;
+	btDeslizarEdtD->Position->X = frmPrincipal->Width - btDeslizarEdtD->Width;
+	LocIn = btDeslizarEdtD->Position->X;
+	LocInDef = btDeslizarEdtD->Position->X;
+
 }
 //---------------------------------------------------------------------------
 
@@ -514,7 +509,7 @@ void __fastcall TfrmPrincipal::listaCorApresentaChange(TObject *Sender)
 
 void __fastcall TfrmPrincipal::btAjudaOnlineClick(TObject *Sender)
 {
-	ShellExecuteA( NULL, "open", "http://www.nintersoft.ml/", NULL, NULL, SW_SHOW );
+	ShellExecuteA( NULL, "open", "http://www.nintersoft.com/", NULL, NULL, SW_SHOW );
 	ShowMessage("Por favor, aguarde enquanto nosso site é aberto!");
 }
 //---------------------------------------------------------------------------
@@ -606,21 +601,21 @@ void __fastcall TfrmPrincipal::listaCorTextoChange(TObject *Sender)
 
 void __fastcall TfrmPrincipal::btEmailClick(TObject *Sender)
 {
-	ShellExecuteA( NULL, "open", "mailto:suporte@nintersoft.ml", NULL, NULL, SW_SHOW );
+	ShellExecuteA( NULL, "open", "mailto:suporte@nintersoft.com", NULL, NULL, SW_SHOW );
 	ShowMessage("Por favor, aguarde enquanto o email oficial de suporte é aberto!");
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmPrincipal::btDocWikiClick(TObject *Sender)
 {
-	ShellExecuteA( NULL, "open", "http://docwiki.nintersoft.ml/ninterpres", NULL, NULL, SW_SHOW );
+	ShellExecuteA( NULL, "open", "http://docwiki.nintersoft.com/ninterpres", NULL, NULL, SW_SHOW );
 	ShowMessage("Por favor, aguarde enquanto nossa central de ajuda e conhecimento\nà respeito do Ninterpres é aberta!");
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmPrincipal::btCentralSupClick(TObject *Sender)
 {
-	ShellExecuteA( NULL, "open", "http://www.nintersoft.ml/suporte/", NULL, NULL, SW_SHOW );
+	ShellExecuteA( NULL, "open", "http://www.nintersoft.com/suporte/", NULL, NULL, SW_SHOW );
 	ShowMessage("Por favor, aguarde enquanto nossa central de suporte é aberta!");
 }
 //---------------------------------------------------------------------------
@@ -1784,9 +1779,21 @@ void __fastcall TfrmPrincipal::btMaximizarClick(TObject *Sender)
 
 void __fastcall TfrmPrincipal::FormResize(TObject *Sender)
 {
-	TSize Tamanho = Screen->Size();
-	if (frmPrincipal->Width != Tamanho.Width | frmPrincipal->Height != Tamanho.Height - 40) {
-		btMaximizar->Enabled = true;
+	if (frmPrincipal->BorderStyle == TFmxFormBorderStyle::None) {
+		TSize Tamanho = Screen->Size();
+		if (frmPrincipal->Width != Tamanho.Width | frmPrincipal->Height != Tamanho.Height - 40) {
+			btMaximizar->Enabled = true;
+		}
+	}
+	if (primeiravez) {
+		btDeslizarEdtD->Position->X = frmPrincipal->Width - btDeslizarEdtD->Width;
+		LocIn = btDeslizarEdtD->Position->X;
+		LocInDef = btDeslizarEdtD->Position->X;
+	}
+	else {
+		Dif = LocIn - frmPrincipal->Width;
+		btDeslizarEdtD->Position->X =  btDeslizarEdtD->Position->X - Dif;
+		LocInDef = Dif;
 	}
 }
 //---------------------------------------------------------------------------
@@ -1799,17 +1806,7 @@ void __fastcall TfrmPrincipal::baTamFonteTracking(TObject *Sender)
 	lblTranspTexto->TextSettings->Font->Size = tamFonteBasica;
 }
 //---------------------------------------------------------------------------
-void __fastcall TfrmPrincipal::CorAbaArquivoMouseEnter(TObject *Sender)
-{
-	brArquivo->ShowScrollBars = true;
-}
-//---------------------------------------------------------------------------
 
-void __fastcall TfrmPrincipal::CorAbaArquivoMouseLeave(TObject *Sender)
-{
-	brArquivo->ShowScrollBars = false;
-}
-//---------------------------------------------------------------------------
 void __fastcall TfrmPrincipal::edtTamFonteChange(TObject *Sender)
 {
 	baTamFonte->Value = edtTamFonte->Value;
@@ -2572,17 +2569,6 @@ void __fastcall TfrmPrincipal::btNovoProjClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TfrmPrincipal::CorAbaVisualizarMouseEnter(TObject *Sender)
-{
-	brVisualizar->ShowScrollBars = true;
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TfrmPrincipal::CorAbaVisualizarMouseLeave(TObject *Sender)
-{
-	brVisualizar->ShowScrollBars = false;
-}
-//---------------------------------------------------------------------------
 void TfrmPrincipal::ExcluirTransp(int LOC)
 {
 
@@ -3021,3 +3007,141 @@ void __fastcall TfrmPrincipal::tmCopiaSegTimer(TObject *Sender)
 	}
 }
 //---------------------------------------------------------------------------
+void __fastcall TfrmPrincipal::btDeslizarEdtDClick(TObject *Sender)
+{
+	brEditar->ShowScrollBars = true;
+	brEditar->ScrollBy(-200,0);
+	brEditar->ShowScrollBars = false;
+}
+//---------------------------------------------------------------------------
+void __fastcall TfrmPrincipal::btDeslizarEdtEClick(TObject *Sender)
+{
+	brEditar->ShowScrollBars = true;
+	brEditar->ScrollBy(+200,0);
+	brEditar->ShowScrollBars = false;
+}
+//---------------------------------------------------------------------------
+void __fastcall TfrmPrincipal::brEditarViewportPositionChange(TObject *Sender, const TPointF &OldViewportPosition,
+		  const TPointF &NewViewportPosition, const bool ContentSizeChanged)
+
+{
+	brEditar->ShowScrollBars = true;
+	if (brEditar->ViewportPosition.X == 0) btDeslizarEdtE->Visible = false;
+	else {
+		btDeslizarEdtE->Visible = true;
+		btDeslizarEdtE->Position->X = brEditar->ViewportPosition.X;
+	}
+
+	btDeslizarEdtD->Position->X = brEditar->ViewportPosition.X + frmPrincipal->Width - btDeslizarEdtD->Width;
+	brEditar->ShowScrollBars = false;
+
+	if ((btDeslizarEdtD->Position->X + btDeslizarEdtD->Width) >= (vpLinha2->Position->X + vpLinha2->Width)) btDeslizarEdtD->Visible = false;
+	else btDeslizarEdtD->Visible = true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btDeslizarAqvEClick(TObject *Sender)
+{
+	brArquivo->ShowScrollBars = true;
+	brArquivo->ScrollBy(+200,0);
+	brArquivo->ShowScrollBars = false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btDeslizarAqvDClick(TObject *Sender)
+{
+	brArquivo->ShowScrollBars = true;
+	brArquivo->ScrollBy(-200,0);
+	brArquivo->ShowScrollBars = false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::brArquivoViewportPositionChange(TObject *Sender, const TPointF &OldViewportPosition,
+		  const TPointF &NewViewportPosition, const bool ContentSizeChanged)
+
+{
+	brArquivo->ShowScrollBars = true;
+	if (brArquivo->ViewportPosition.X == 0) btDeslizarAqvE->Visible = false;
+	else {
+		btDeslizarAqvE->Visible = true;
+		btDeslizarAqvE->Position->X = brArquivo->ViewportPosition.X;
+	}
+
+	btDeslizarAqvD->Position->X = brArquivo->ViewportPosition.X + frmPrincipal->Width - btDeslizarAqvD->Width;
+	brArquivo->ShowScrollBars = false;
+
+	if ((btDeslizarAqvD->Position->X + btDeslizarAqvD->Width) >= (lblAjustesAdicionais->Position->X + lblAjustesAdicionais->Width)) btDeslizarAqvD->Visible = false;
+	else btDeslizarAqvD->Visible = true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btDeslizarVisDClick(TObject *Sender)
+{
+	brVisualizar->ShowScrollBars = true;
+	brVisualizar->ScrollBy(-200,0);
+	brVisualizar->ShowScrollBars = false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btDeslizarVisEClick(TObject *Sender)
+{
+	brVisualizar->ShowScrollBars = true;
+	brVisualizar->ScrollBy(+200,0);
+	brVisualizar->ShowScrollBars = false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::brVisualizarViewportPositionChange(TObject *Sender,
+		  const TPointF &OldViewportPosition, const TPointF &NewViewportPosition,
+		  const bool ContentSizeChanged)
+{
+	brVisualizar->ShowScrollBars = true;
+	if (brVisualizar->ViewportPosition.X == 0) btDeslizarVisE->Visible = false;
+	else {
+		btDeslizarVisE->Visible = true;
+		btDeslizarVisE->Position->X = brVisualizar->ViewportPosition.X;
+	}
+
+	btDeslizarVisD->Position->X = brVisualizar->ViewportPosition.X + frmPrincipal->Width - btDeslizarVisD->Width;
+	brVisualizar->ShowScrollBars = false;
+
+	if ((btDeslizarVisD->Position->X + btDeslizarVisD->Width) >= (vpLinha8->Position->X + vpLinha8->Width)) btDeslizarVisD->Visible = false;
+	else btDeslizarVisD->Visible = true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::brAjudaViewportPositionChange(TObject *Sender, const TPointF &OldViewportPosition,
+		  const TPointF &NewViewportPosition, const bool ContentSizeChanged)
+
+{
+	brAjuda->ShowScrollBars = true;
+	if (brAjuda->ViewportPosition.X == 0) btDeslizarAjdE->Visible = false;
+	else {
+		btDeslizarAjdE->Visible = true;
+		btDeslizarAjdE->Position->X = brAjuda->ViewportPosition.X;
+	}
+
+	btDeslizarAjdD->Position->X = brAjuda->ViewportPosition.X + frmPrincipal->Width - btDeslizarAjdD->Width;
+	brAjuda->ShowScrollBars = false;
+
+	if ((btDeslizarAjdD->Position->X + btDeslizarAjdD->Width) >= (btSobre->Position->X + btSobre->Width)) btDeslizarAjdD->Visible = false;
+	else btDeslizarAjdD->Visible = true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btDeslizarAjdDClick(TObject *Sender)
+{
+	brAjuda->ShowScrollBars = true;
+	brAjuda->ScrollBy(-200,0);
+	brAjuda->ShowScrollBars = false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btDeslizarAjdEClick(TObject *Sender)
+{
+	brAjuda->ShowScrollBars = true;
+	brAjuda->ScrollBy(+200,0);
+	brAjuda->ShowScrollBars = false;
+}
+//---------------------------------------------------------------------------
+

@@ -88,14 +88,14 @@ object frmConfig: TfrmConfig
     Size.Width = 546.000000000000000000
     Size.Height = 441.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 2
+    TabIndex = 0
     TabOrder = 11
     TabPosition = Top
     object abaDesenv: TTabItem
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      IsSelected = True
       Size.Width = 182.000000000000000000
       Size.Height = 24.000000000000000000
       Size.PlatformDefault = False
@@ -134,7 +134,6 @@ object frmConfig: TfrmConfig
           TextSettings.Font.Size = 16.000000000000000000
         end
         object cbAtualizarCod: TCheckBox
-          Enabled = False
           StyledSettings = [Family, Style, FontColor]
           Position.X = 24.000000000000000000
           Position.Y = 72.000000000000000000
@@ -146,7 +145,6 @@ object frmConfig: TfrmConfig
           TextSettings.Font.Size = 16.000000000000000000
         end
         object btAjudaAtualizar: TSpeedButton
-          Enabled = False
           StyledSettings = [Family, Size, FontColor]
           Position.X = 320.000000000000000000
           Position.Y = 72.000000000000000000
@@ -169,7 +167,6 @@ object frmConfig: TfrmConfig
         TextSettings.Font.Size = 18.000000000000000000
         TabOrder = 1
         object lblTamFonte: TLabel
-          Enabled = False
           StyledSettings = [Family, Style, FontColor]
           Position.X = 24.000000000000000000
           Position.Y = 40.000000000000000000
@@ -180,7 +177,6 @@ object frmConfig: TfrmConfig
           Text = 'Tamanho da fonte:'
         end
         object cbMostrarData: TCheckBox
-          Enabled = False
           StyledSettings = [Family, Style, FontColor]
           Position.X = 24.000000000000000000
           Position.Y = 160.000000000000000000
@@ -192,7 +188,6 @@ object frmConfig: TfrmConfig
           TextSettings.Font.Size = 16.000000000000000000
         end
         object cbMostrarTransp: TCheckBox
-          Enabled = False
           StyledSettings = [Family, Style, FontColor]
           IsChecked = True
           Position.X = 24.000000000000000000
@@ -205,7 +200,6 @@ object frmConfig: TfrmConfig
           TextSettings.Font.Size = 16.000000000000000000
         end
         object cbMostrarLogo: TCheckBox
-          Enabled = False
           StyledSettings = [Family, Style, FontColor]
           IsChecked = True
           Position.X = 24.000000000000000000
@@ -227,7 +221,6 @@ object frmConfig: TfrmConfig
           ValueType = Float
           Position.X = 208.000000000000000000
           Position.Y = 40.000000000000000000
-          Enabled = False
           Size.Width = 273.000000000000000000
           Size.Height = 25.000000000000000000
           Size.PlatformDefault = False
@@ -255,7 +248,6 @@ object frmConfig: TfrmConfig
         TextSettings.Font.Size = 18.000000000000000000
         TabOrder = 0
         object listaCorTema: TColorListBox
-          Enabled = False
           Position.X = 128.000000000000000000
           Position.Y = 72.000000000000000000
           Size.Width = 329.000000000000000000
@@ -269,7 +261,6 @@ object frmConfig: TfrmConfig
           DefaultItemStyles.GroupFooterStyle = ''
         end
         object lblCorTema: TLabel
-          Enabled = False
           StyledSettings = [Family, Style, FontColor]
           Position.X = 16.000000000000000000
           Position.Y = 72.000000000000000000
@@ -291,7 +282,6 @@ object frmConfig: TfrmConfig
           OnClick = btAjudaCorClick
         end
         object lblEstilo: TLabel
-          Enabled = False
           StyledSettings = [Family, Style, FontColor]
           Position.X = 16.000000000000000000
           Position.Y = 32.000000000000000000
@@ -303,7 +293,6 @@ object frmConfig: TfrmConfig
         end
         object csEstilo: TComboBox
           DisableFocusEffect = False
-          Enabled = False
           Items.Strings = (
             'Bordas estilizadas (Comandos padr'#245'es do sistema)'
             'Bordas estilizadas (Cl'#225'ssico Ninterpres)'
@@ -334,7 +323,7 @@ object frmConfig: TfrmConfig
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 180.000000000000000000
       Size.Height = 24.000000000000000000
       Size.PlatformDefault = False
@@ -426,7 +415,6 @@ object frmConfig: TfrmConfig
           Size.PlatformDefault = False
           TabOrder = 10
           DisableFocusEffect = True
-          ItemIndex = 0
           Items.Strings = (
             '5'
             '10'

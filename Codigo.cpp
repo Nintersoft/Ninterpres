@@ -5,6 +5,7 @@
 #pragma hdrstop
 
 #include "Codigo.h"
+#include "Principal.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.fmx"
@@ -36,6 +37,12 @@ void __fastcall TfrmCodigo::FormShow(TObject *Sender)
 void __fastcall TfrmCodigo::mmCodigoChange(TObject *Sender)
 {
 	mmCodigo->Repaint();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmCodigo::btAlterarClick(TObject *Sender)
+{
+	frmPrincipal->CarregarTransp(frmPrincipal->Transp);
 }
 //---------------------------------------------------------------------------
 

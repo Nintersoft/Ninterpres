@@ -30,6 +30,7 @@ object frmCodigo: TfrmCodigo
       TextSettings.Font.Size = 14.000000000000000000
       TextSettings.Font.Style = [fsBold]
       TextSettings.FontColor = claWhite
+      OnClick = btAlterarClick
     end
     object Linha1: TLine
       LineType = Left

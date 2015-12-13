@@ -153,6 +153,14 @@ __published:	// IDE-managed Components
 	TRoundRect *btInformacoes;
 	TLabel *lblBtInformacoes;
 	TSpeedButton *btFecharEf;
+	TSpeedButton *btDeslizarEdtD;
+	TSpeedButton *btDeslizarEdtE;
+	TSpeedButton *btDeslizarAqvE;
+	TSpeedButton *btDeslizarAqvD;
+	TSpeedButton *btDeslizarVisE;
+	TSpeedButton *btDeslizarVisD;
+	TSpeedButton *btDeslizarAjdE;
+	TSpeedButton *btDeslizarAjdD;
 	void __fastcall btTranspTipoMouseEnter(TObject *Sender);
 	void __fastcall btTranspTipoMouseLeave(TObject *Sender);
 	void __fastcall tpTipo2Click(TObject *Sender);
@@ -177,8 +185,6 @@ __published:	// IDE-managed Components
 	void __fastcall btLimpDadosClick(TObject *Sender);
 	void __fastcall brTranspResize(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
-	void __fastcall CorAbaEditarMouseLeave(TObject *Sender);
-	void __fastcall CorAbaEditarMouseEnter(TObject *Sender);
 	void __fastcall btVisualizarCodigoClick(TObject *Sender);
 	void __fastcall edtApresAutorTyping(TObject *Sender);
 	void __fastcall edTranspTituloTyping(TObject *Sender);
@@ -214,8 +220,6 @@ __published:	// IDE-managed Components
 	void __fastcall btMaximizarClick(TObject *Sender);
 	void __fastcall FormResize(TObject *Sender);
 	void __fastcall baTamFonteTracking(TObject *Sender);
-	void __fastcall CorAbaArquivoMouseEnter(TObject *Sender);
-	void __fastcall CorAbaArquivoMouseLeave(TObject *Sender);
 	void __fastcall edtTamFonteChange(TObject *Sender);
 	void __fastcall btSalvarDadosMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
 		  float X, float Y);
@@ -281,8 +285,6 @@ __published:	// IDE-managed Components
 	void __fastcall btSalvarProjClick(TObject *Sender);
 	void __fastcall btAbrirProjClick(TObject *Sender);
 	void __fastcall btNovoProjClick(TObject *Sender);
-	void __fastcall CorAbaVisualizarMouseEnter(TObject *Sender);
-	void __fastcall CorAbaVisualizarMouseLeave(TObject *Sender);
 	void __fastcall listaPrevTranspItemClick(TCustomListBox * const Sender, TListBoxItem * const Item);
 	void __fastcall btExcluirTranspMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
 		  float X, float Y);
@@ -306,6 +308,26 @@ __published:	// IDE-managed Components
 		  float X, float Y);
 	void __fastcall btInformacoesClick(TObject *Sender);
 	void __fastcall tmCopiaSegTimer(TObject *Sender);
+	void __fastcall btDeslizarEdtDClick(TObject *Sender);
+	void __fastcall btDeslizarEdtEClick(TObject *Sender);
+	void __fastcall brEditarViewportPositionChange(TObject *Sender, const TPointF &OldViewportPosition,
+		  const TPointF &NewViewportPosition, const bool ContentSizeChanged);
+	void __fastcall btDeslizarAqvEClick(TObject *Sender);
+	void __fastcall btDeslizarAqvDClick(TObject *Sender);
+	void __fastcall brArquivoViewportPositionChange(TObject *Sender, const TPointF &OldViewportPosition,
+          const TPointF &NewViewportPosition, const bool ContentSizeChanged);
+	void __fastcall btDeslizarVisDClick(TObject *Sender);
+	void __fastcall btDeslizarVisEClick(TObject *Sender);
+	void __fastcall brVisualizarViewportPositionChange(TObject *Sender, const TPointF &OldViewportPosition,
+          const TPointF &NewViewportPosition, const bool ContentSizeChanged);
+	void __fastcall brAjudaViewportPositionChange(TObject *Sender, const TPointF &OldViewportPosition,
+          const TPointF &NewViewportPosition, const bool ContentSizeChanged);
+	void __fastcall btDeslizarAjdDClick(TObject *Sender);
+	void __fastcall btDeslizarAjdEClick(TObject *Sender);
+
+
+
+
 
 
 
