@@ -157,11 +157,11 @@ void TfrmCarregar::AplicarConfig()
 		throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
 	}
 
-	if (frmConfig->mmConfig->Lines->Strings[0] == "NSATC") {
+	if (frmConfig->mmConfig->Lines->Strings[1] == "NSATC") {
 		frmConfig->cbAtualizarCod->IsChecked = true;
 		frmCodigo->btAlterar->Enabled = true;
 	}
-	else if (frmConfig->mmConfig->Lines->Strings[0] == "!NSATC") {
+	else if (frmConfig->mmConfig->Lines->Strings[1] == "!NSATC") {
 		frmConfig->cbAtualizarCod->IsChecked = false;
 		frmCodigo->btAlterar->Enabled = false;
 	}
@@ -254,23 +254,33 @@ void TfrmCarregar::AplicarConfig()
 		frmPrincipal->btFecharEf->Visible = false;
 	}
 	else if (pos == 3) {
+
 		int cor = StrToInt(frmConfig->mmConfig->Lines->Strings[7]);
+
 		frmConfig->csEstilo->ItemIndex = pos;
 		frmConfig->listaCorTema->BeginUpdate();
 		frmConfig->listaCorTema->Color = cor;
 		frmConfig->listaCorTema->EndUpdate();
 
+		frmPrincipal->corAbaAjuda->BeginUpdate();
 		frmPrincipal->corAbaAjuda->Fill->Color = cor;
 		frmPrincipal->corAbaAjuda->Stroke->Color = cor;
+		frmPrincipal->corAbaAjuda->EndUpdate();
 		frmPrincipal->corAbaAjuda->Repaint();
+		frmPrincipal->CorAbaVisualizar->BeginUpdate();
 		frmPrincipal->CorAbaVisualizar->Fill->Color = cor;
 		frmPrincipal->CorAbaVisualizar->Stroke->Color = cor;
+		frmPrincipal->CorAbaVisualizar->EndUpdate();
 		frmPrincipal->CorAbaVisualizar->Repaint();
+		frmPrincipal->CorAbaEditar->BeginUpdate();
 		frmPrincipal->CorAbaEditar->Fill->Color = cor;
 		frmPrincipal->CorAbaEditar->Stroke->Color = cor;
+		frmPrincipal->CorAbaEditar->EndUpdate();
 		frmPrincipal->CorAbaEditar->Repaint();
+		frmPrincipal->FundoAbaSelec->BeginUpdate();
 		frmPrincipal->FundoAbaSelec->Fill->Color = cor;
 		frmPrincipal->FundoAbaSelec->Stroke->Color = cor;
+		frmPrincipal->FundoAbaSelec->EndUpdate();
 		frmPrincipal->FundoAbaSelec->Repaint();
 		frmConfig->listaCorTema->Enabled = true;
 	}
