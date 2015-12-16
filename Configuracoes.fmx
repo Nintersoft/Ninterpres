@@ -5,7 +5,7 @@ object frmConfig: TfrmConfig
   BorderStyle = Single
   Caption = 'Configura'#231#245'es - Ninterpres'
   ClientHeight = 533
-  ClientWidth = 544
+  ClientWidth = 552
   Fill.Kind = Solid
   Position = MainFormCenter
   FormFactor.Width = 320
@@ -85,7 +85,7 @@ object frmConfig: TfrmConfig
   object abasConf: TTabControl
     Anchors = [akLeft, akTop, akRight, akBottom]
     FullSize = True
-    Size.Width = 546.000000000000000000
+    Size.Width = 561.000000000000000000
     Size.Height = 441.000000000000000000
     Size.PlatformDefault = False
     TabIndex = 0
@@ -96,16 +96,17 @@ object frmConfig: TfrmConfig
         item
         end>
       IsSelected = True
-      Size.Width = 182.000000000000000000
+      Size.Width = 187.000000000000000000
       Size.Height = 24.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
       Text = 'Desenvolvimento'
       object cxCodigo: TGroupBox
+        Anchors = [akLeft, akTop, akRight]
         StyledSettings = [Family, Style, FontColor, Other]
         Position.X = 8.000000000000000000
         Position.Y = 8.000000000000000000
-        Size.Width = 529.000000000000000000
+        Size.Width = 537.000000000000000000
         Size.Height = 121.000000000000000000
         Size.PlatformDefault = False
         Text = 'C'#243'digo'
@@ -157,10 +158,11 @@ object frmConfig: TfrmConfig
         end
       end
       object cxPadrao: TGroupBox
+        Anchors = [akLeft, akTop, akRight]
         StyledSettings = [Family, Style, FontColor, Other]
         Position.X = 8.000000000000000000
         Position.Y = 136.000000000000000000
-        Size.Width = 529.000000000000000000
+        Size.Width = 537.000000000000000000
         Size.Height = 209.000000000000000000
         Size.PlatformDefault = False
         Text = 'Padr'#245'es'
@@ -232,16 +234,17 @@ object frmConfig: TfrmConfig
         item
         end>
       IsSelected = False
-      Size.Width = 182.000000000000000000
+      Size.Width = 187.000000000000000000
       Size.Height = 24.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
       Text = 'Apar'#234'ncia'
       object Caixa2: TGroupBox
+        Anchors = [akLeft, akTop, akRight]
         StyledSettings = [Family, Style, FontColor, Other]
         Position.X = 8.000000000000000000
         Position.Y = 8.000000000000000000
-        Size.Width = 529.000000000000000000
+        Size.Width = 537.000000000000000000
         Size.Height = 225.000000000000000000
         Size.PlatformDefault = False
         Text = 'Op'#231#245'es visuais'
@@ -324,16 +327,17 @@ object frmConfig: TfrmConfig
         item
         end>
       IsSelected = False
-      Size.Width = 180.000000000000000000
+      Size.Width = 185.000000000000000000
       Size.Height = 24.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
       Text = 'Informa'#231#245'es'
       object cxDiretorio: TGroupBox
+        Anchors = [akLeft, akTop, akRight]
         StyledSettings = [Family, Style, FontColor, Other]
         Position.X = 8.000000000000000000
         Position.Y = 8.000000000000000000
-        Size.Width = 529.000000000000000000
+        Size.Width = 537.000000000000000000
         Size.Height = 217.000000000000000000
         Size.PlatformDefault = False
         Text = 'Op'#231#245'es de cria'#231#227'o e desenvolvimento'
@@ -452,10 +456,11 @@ object frmConfig: TfrmConfig
         end
       end
       object cxPessoal: TGroupBox
+        Anchors = [akLeft, akTop, akRight]
         StyledSettings = [Family, Style, FontColor, Other]
         Position.X = 8.000000000000000000
         Position.Y = 232.000000000000000000
-        Size.Width = 529.000000000000000000
+        Size.Width = 537.000000000000000000
         Size.Height = 89.000000000000000000
         Size.PlatformDefault = False
         Text = 'Informa'#231#245'es pessoais'
@@ -483,10 +488,11 @@ object frmConfig: TfrmConfig
         end
       end
       object cxIdioma: TGroupBox
+        Anchors = [akLeft, akTop, akRight]
         StyledSettings = [Family, Style, FontColor, Other]
         Position.X = 8.000000000000000000
         Position.Y = 328.000000000000000000
-        Size.Width = 529.000000000000000000
+        Size.Width = 537.000000000000000000
         Size.Height = 81.000000000000000000
         Size.PlatformDefault = False
         Text = 'Idioma'

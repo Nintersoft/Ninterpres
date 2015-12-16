@@ -10,12 +10,14 @@
 #include "Codigo.h"
 #include "Configuracoes.h"
 #include "Sobre.h"
+#include "ImgConf.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.fmx"
 TfrmCarregar *frmCarregar;
 //---------------------------------------------------------------------------
 int cont = 0;
+bool estilo = false;
 //---------------------------------------------------------------------------
 __fastcall TfrmCarregar::TfrmCarregar(TComponent* Owner)
 	: TForm(Owner)
@@ -116,9 +118,13 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 	}
 	else if (cont == 3) {
 		lblEstado->Text = "Ajustando a interface...";
+		if (estilo){
+			AplicaEstilos();
+			ReconfiguraCont(3500);
+		}
+		else ReconfiguraCont(1500);
 		frmPrincipal->AjusteVisual();
 		cont++;
-		ReconfiguraCont(1500);
 	}
 
 	else {
@@ -234,6 +240,7 @@ void TfrmCarregar::AplicarConfig()
 
 	int pos = StrToInt(frmConfig->mmConfig->Lines->Strings[6]);
 	if (pos == 0) {
+		estilo = true;
 		frmConfig->csEstilo->ItemIndex = pos;
 		frmPrincipal->BorderStyle = TFmxFormBorderStyle::Sizeable;
 		frmPrincipal->WindowState = TWindowState::wsMaximized;
@@ -358,6 +365,88 @@ void TfrmCarregar::ReconfiguraCont (int Tempo)
 void __fastcall TfrmCarregar::FormShow(TObject *Sender)
 {
 	tmConfigurar->Enabled = true;
+}
+//---------------------------------------------------------------------------
+
+void TfrmCarregar::AplicaEstilos()
+{
+
+	//--------------------------- Principal ---------------------------------
+	frmPrincipal->StyleBook = frmCarregar->StyleBook;
+	frmPrincipal->StyleBook = frmCarregar->StyleBook;
+	frmPrincipal->corAbaAjuda->Fill->Color = TAlphaColor(TAlphaColorRec::White);
+	frmPrincipal->corAbaAjuda->Stroke->Color = TAlphaColor(TAlphaColorRec::Darkgray);
+	frmPrincipal->CorAbaEditar->Fill->Color = TAlphaColor(TAlphaColorRec::White);
+	frmPrincipal->CorAbaEditar->Stroke->Color = TAlphaColor(TAlphaColorRec::Darkgray);
+	frmPrincipal->CorAbaVisualizar->Fill->Color = TAlphaColor(TAlphaColorRec::White);
+	frmPrincipal->CorAbaVisualizar->Stroke->Color = TAlphaColor(TAlphaColorRec::Darkgray);
+	frmPrincipal->CorAbaArquivo->Fill->Color = TAlphaColor(TAlphaColorRec::White);
+	frmPrincipal->CorAbaArquivo->Stroke->Color = TAlphaColor(TAlphaColorRec::Darkgray);
+	frmPrincipal->BarraNav->Visible = false;
+	frmPrincipal->Abas->TabPosition = TTabPosition::Top;
+	frmPrincipal->vpLinha->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
+	frmPrincipal->vpLinha2->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
+	frmPrincipal->vpLinha3->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
+	frmPrincipal->vpLinha4->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
+	frmPrincipal->vpLinha5->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
+	frmPrincipal->vpLinha6->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
+	frmPrincipal->vpLinha7->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
+	frmPrincipal->vpLinha8->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
+	frmPrincipal->vpVisualizar->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
+	frmPrincipal->vpApres->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
+	frmPrincipal->cbBorda->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmPrincipal->cbFonte->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmPrincipal->cbTodos->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmPrincipal->lblTamPrevTransp->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmPrincipal->lblCorTansp->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmPrincipal->lblListaCorTexto->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmPrincipal->lblAjudaOnline->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmPrincipal->lblApreAutor->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmPrincipal->lblApreTitulo->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmPrincipal->opMostrarDataAtual->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmPrincipal->opMostrarLogoNS->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmPrincipal->opMostrarNSTransp->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmPrincipal->lblAjustesAdicionais->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmPrincipal->lblTamFonte->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmPrincipal->lblTranspTipo->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmPrincipal->lblEdtTranspCont->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmPrincipal->lblEdtTranspImg->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmPrincipal->lblEdtTranspTitulo->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmPrincipal->tbTeste->Visible = false;
+	frmPrincipal->Abas->Height = 154;
+	frmPrincipal->tam = 10;
+
+	//----------------------------- Sobre -----------------------------------
+	frmSobre->StyleBook = frmCarregar->StyleBook;
+	frmSobre->Fill->Color = TAlphaColor(TAlphaColorRec::White);
+	frmSobre->lblDesenvolvedor->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmSobre->lblDesenvolvedorProg->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmSobre->lblEstado->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmSobre->lblLicenc->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmSobre->lblLicencProg->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmSobre->lblNomeProg->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmSobre->lblProg->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmSobre->lblVersao->FontColor = TAlphaColor(TAlphaColorRec::Black);
+	frmSobre->lblVersaoProg->FontColor = TAlphaColor(TAlphaColorRec::Black);
+
+
+	//---------------------------- Codigo -----------------------------------
+	frmCodigo->StyleBook = frmCarregar->StyleBook;
+	frmCodigo->bmPrincipal->Fill->Color = TAlphaColor(TAlphaColorRec::White);
+	frmCodigo->btAlterar->FontColor = TAlphaColor(TAlphaColorRec::Orange);
+	frmCodigo->btEstilo->FontColor = TAlphaColor(TAlphaColorRec::Orange);
+	frmCodigo->btVerificar->FontColor = TAlphaColor(TAlphaColorRec::Orange);
+
+	//---------------------------- Config -----------------------------------
+	frmConfig->StyleBook = frmCarregar->StyleBook;
+	frmConfig->abasConf->Width -= 8;
+	frmConfig->Width += 8;
+
+	//------------------------- Img: Config ---------------------------------
+	frmImgConf->StyleBook = frmCarregar->StyleBook;
+	frmImgConf->Fill->Color = TAlphaColor(TAlphaColorRec::White);
+	frmImgConf->lblImgLeg->FontColor = TAlphaColor(TAlphaColorRec::Black);
+
 }
 //---------------------------------------------------------------------------
 

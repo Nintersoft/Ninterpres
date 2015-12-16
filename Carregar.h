@@ -17,6 +17,7 @@ __published:	// IDE-managed Components
 	TLabel *lblEstado;
 	TAniIndicator *AniIndicator1;
 	TTimer *tmConfigurar;
+	TStyleBook *Estilos;
 	void __fastcall tmConfigurarTimer(TObject *Sender);
 	void __fastcall btFecharClick(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
@@ -25,6 +26,7 @@ public:		// User declarations
 	__fastcall TfrmCarregar(TComponent* Owner);
 	void AplicarConfig();
 	void ReconfiguraCont(int Tempo);
+	void AplicaEstilos();
 	String NSNPCONF;
 	String NSNPLOC;
 	String NSNPLOCATL;
