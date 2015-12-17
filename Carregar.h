@@ -26,7 +26,7 @@ public:		// User declarations
 	__fastcall TfrmCarregar(TComponent* Owner);
 	void AplicarConfig();
 	void ReconfiguraCont(int Tempo);
-	void AplicaEstilos();
+	void AplicaEstilos(int Passo);
 	String NSNPCONF;
 	String NSNPLOC;
 	String NSNPLOCATL;

@@ -119,7 +119,7 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 	else if (cont == 3) {
 		lblEstado->Text = "Ajustando a interface...";
 		if (estilo){
-			AplicaEstilos();
+			AplicaEstilos(1);
 			ReconfiguraCont(3500);
 		}
 		else ReconfiguraCont(1500);
@@ -130,7 +130,9 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 	else {
 
 		lblEstado->Text = "Carregando...";
-
+		if (estilo) {
+			AplicaEstilos(2);
+		}
 		cont++;
 		Application->MainForm->Show();
 		tmConfigurar->Enabled = false;
@@ -259,6 +261,7 @@ void TfrmCarregar::AplicarConfig()
 		frmPrincipal->btMaximizar->Visible = false;
 		frmPrincipal->btFechar->Visible = false;
 		frmPrincipal->btFecharEf->Visible = false;
+		frmPrincipal->reduc = 16;
 	}
 	else if (pos == 3) {
 
@@ -368,84 +371,123 @@ void __fastcall TfrmCarregar::FormShow(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void TfrmCarregar::AplicaEstilos()
+void TfrmCarregar::AplicaEstilos(int Passo)
 {
 
-	//--------------------------- Principal ---------------------------------
-	frmPrincipal->StyleBook = frmCarregar->StyleBook;
-	frmPrincipal->StyleBook = frmCarregar->StyleBook;
-	frmPrincipal->corAbaAjuda->Fill->Color = TAlphaColor(TAlphaColorRec::White);
-	frmPrincipal->corAbaAjuda->Stroke->Color = TAlphaColor(TAlphaColorRec::Darkgray);
-	frmPrincipal->CorAbaEditar->Fill->Color = TAlphaColor(TAlphaColorRec::White);
-	frmPrincipal->CorAbaEditar->Stroke->Color = TAlphaColor(TAlphaColorRec::Darkgray);
-	frmPrincipal->CorAbaVisualizar->Fill->Color = TAlphaColor(TAlphaColorRec::White);
-	frmPrincipal->CorAbaVisualizar->Stroke->Color = TAlphaColor(TAlphaColorRec::Darkgray);
-	frmPrincipal->CorAbaArquivo->Fill->Color = TAlphaColor(TAlphaColorRec::White);
-	frmPrincipal->CorAbaArquivo->Stroke->Color = TAlphaColor(TAlphaColorRec::Darkgray);
-	frmPrincipal->BarraNav->Visible = false;
-	frmPrincipal->Abas->TabPosition = TTabPosition::Top;
-	frmPrincipal->vpLinha->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
-	frmPrincipal->vpLinha2->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
-	frmPrincipal->vpLinha3->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
-	frmPrincipal->vpLinha4->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
-	frmPrincipal->vpLinha5->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
-	frmPrincipal->vpLinha6->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
-	frmPrincipal->vpLinha7->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
-	frmPrincipal->vpLinha8->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
-	frmPrincipal->vpVisualizar->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
-	frmPrincipal->vpApres->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
-	frmPrincipal->cbBorda->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmPrincipal->cbFonte->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmPrincipal->cbTodos->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmPrincipal->lblTamPrevTransp->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmPrincipal->lblCorTansp->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmPrincipal->lblListaCorTexto->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmPrincipal->lblAjudaOnline->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmPrincipal->lblApreAutor->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmPrincipal->lblApreTitulo->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmPrincipal->opMostrarDataAtual->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmPrincipal->opMostrarLogoNS->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmPrincipal->opMostrarNSTransp->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmPrincipal->lblAjustesAdicionais->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmPrincipal->lblTamFonte->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmPrincipal->lblTranspTipo->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmPrincipal->lblEdtTranspCont->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmPrincipal->lblEdtTranspImg->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmPrincipal->lblEdtTranspTitulo->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmPrincipal->tbTeste->Visible = false;
-	frmPrincipal->Abas->Height = 154;
-	frmPrincipal->tam = 10;
+	if (Passo == 1) {
 
-	//----------------------------- Sobre -----------------------------------
-	frmSobre->StyleBook = frmCarregar->StyleBook;
-	frmSobre->Fill->Color = TAlphaColor(TAlphaColorRec::White);
-	frmSobre->lblDesenvolvedor->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmSobre->lblDesenvolvedorProg->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmSobre->lblEstado->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmSobre->lblLicenc->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmSobre->lblLicencProg->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmSobre->lblNomeProg->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmSobre->lblProg->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmSobre->lblVersao->FontColor = TAlphaColor(TAlphaColorRec::Black);
-	frmSobre->lblVersaoProg->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		//--------------------------- Principal ---------------------------------
+		frmPrincipal->BeginUpdate();
+		frmPrincipal->corAbaAjuda->Fill->Color = TAlphaColor(TAlphaColorRec::White);
+		frmPrincipal->corAbaAjuda->Stroke->Color = TAlphaColor(TAlphaColorRec::Darkgray);
+		frmPrincipal->CorAbaEditar->Fill->Color = TAlphaColor(TAlphaColorRec::White);
+		frmPrincipal->CorAbaEditar->Stroke->Color = TAlphaColor(TAlphaColorRec::Darkgray);
+		frmPrincipal->CorAbaVisualizar->Fill->Color = TAlphaColor(TAlphaColorRec::White);
+		frmPrincipal->CorAbaVisualizar->Stroke->Color = TAlphaColor(TAlphaColorRec::Darkgray);
+		frmPrincipal->CorAbaArquivo->Fill->Color = TAlphaColor(TAlphaColorRec::White);
+		frmPrincipal->CorAbaArquivo->Stroke->Color = TAlphaColor(TAlphaColorRec::Darkgray);
+		frmPrincipal->BarraNav->Visible = false;
+		frmPrincipal->Abas->TabPosition = TTabPosition::Top;
+		frmPrincipal->vpLinha->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
+		frmPrincipal->vpLinha2->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
+		frmPrincipal->vpLinha3->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
+		frmPrincipal->vpLinha4->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
+		frmPrincipal->vpLinha5->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
+		frmPrincipal->vpLinha6->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
+		frmPrincipal->vpLinha7->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
+		frmPrincipal->vpLinha8->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
+		frmPrincipal->vpVisualizar->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
+		frmPrincipal->vpApres->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
+		frmPrincipal->cbBorda->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmPrincipal->cbFonte->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmPrincipal->cbTodos->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmPrincipal->lblTamPrevTransp->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmPrincipal->lblCorTansp->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmPrincipal->lblListaCorTexto->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmPrincipal->lblAjudaOnline->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmPrincipal->lblApreAutor->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmPrincipal->lblApreTitulo->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmPrincipal->opMostrarDataAtual->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmPrincipal->opMostrarLogoNS->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmPrincipal->opMostrarNSTransp->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmPrincipal->lblAjustesAdicionais->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmPrincipal->lblTamFonte->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmPrincipal->lblTranspTipo->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmPrincipal->lblEdtTranspCont->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmPrincipal->lblEdtTranspImg->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmPrincipal->lblEdtTranspTitulo->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmPrincipal->btAjudaAutor->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmPrincipal->tbTeste->Visible = false;
+		frmPrincipal->Abas->Height = 154;
+		frmPrincipal->reduc = 16;
+		frmPrincipal->EndUpdate();
 
+		//----------------------------- Sobre -----------------------------------
+		frmSobre->BeginUpdate();
+		frmSobre->Fill->Color = TAlphaColor(TAlphaColorRec::White);
+		frmSobre->lblDesenvolvedor->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmSobre->lblDesenvolvedorProg->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmSobre->lblEstado->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmSobre->lblLicenc->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmSobre->lblLicencProg->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmSobre->lblNomeProg->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmSobre->lblProg->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmSobre->lblVersao->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmSobre->lblVersaoProg->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmSobre->EndUpdate();
 
-	//---------------------------- Codigo -----------------------------------
-	frmCodigo->StyleBook = frmCarregar->StyleBook;
-	frmCodigo->bmPrincipal->Fill->Color = TAlphaColor(TAlphaColorRec::White);
-	frmCodigo->btAlterar->FontColor = TAlphaColor(TAlphaColorRec::Orange);
-	frmCodigo->btEstilo->FontColor = TAlphaColor(TAlphaColorRec::Orange);
-	frmCodigo->btVerificar->FontColor = TAlphaColor(TAlphaColorRec::Orange);
+		//---------------------------- Codigo -----------------------------------
+		frmCodigo->BeginUpdate();
+		frmCodigo->bmPrincipal->Fill->Color = TAlphaColor(TAlphaColorRec::White);
+		frmCodigo->btAlterar->FontColor = TAlphaColor(TAlphaColorRec::Orange);
+		frmCodigo->btEstilo->FontColor = TAlphaColor(TAlphaColorRec::Orange);
+		frmCodigo->btVerificar->FontColor = TAlphaColor(TAlphaColorRec::Orange);
+		frmCodigo->EndUpdate();
 
-	//---------------------------- Config -----------------------------------
-	frmConfig->StyleBook = frmCarregar->StyleBook;
-	frmConfig->abasConf->Width -= 8;
-	frmConfig->Width += 8;
+		//---------------------------- Config -----------------------------------
+		frmConfig->BeginUpdate();
+		frmConfig->abasConf->Width -= 10;
+		frmConfig->abasConf->Height += 8;
+		frmConfig->EndUpdate();
 
-	//------------------------- Img: Config ---------------------------------
-	frmImgConf->StyleBook = frmCarregar->StyleBook;
-	frmImgConf->Fill->Color = TAlphaColor(TAlphaColorRec::White);
-	frmImgConf->lblImgLeg->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		//------------------------- Img: Config ---------------------------------
+		frmImgConf->BeginUpdate();
+		frmImgConf->Fill->Color = TAlphaColor(TAlphaColorRec::White);
+		frmImgConf->lblImgLeg->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmImgConf->EndUpdate();
+
+	}
+	else if (Passo == 2){
+
+		//--------------------------- Principal ---------------------------------
+		frmPrincipal->BeginUpdate();
+		frmPrincipal->StyleBook = frmCarregar->Estilos;
+		frmPrincipal->EndUpdate();
+
+		//----------------------------- Sobre -----------------------------------
+		frmSobre->BeginUpdate();
+		frmSobre->StyleBook = frmCarregar->Estilos;
+		frmSobre->EndUpdate();
+
+		//---------------------------- Codigo -----------------------------------
+		frmCodigo->BeginUpdate();
+		frmCodigo->StyleBook = frmCarregar->Estilos;
+		frmCodigo->EndUpdate();
+
+		//---------------------------- Config -----------------------------------
+		frmConfig->BeginUpdate();
+		frmConfig->StyleBook = frmCarregar->Estilos;
+		frmConfig->EndUpdate();
+
+		//------------------------- Img: Config ---------------------------------
+		frmImgConf->BeginUpdate();
+		frmImgConf->StyleBook = frmCarregar->Estilos;
+		frmImgConf->EndUpdate();
+
+	}
+	else {
+		throw Exception ("Parâmetro incorreto!");
+	}
 
 }
 //---------------------------------------------------------------------------

@@ -27,7 +27,7 @@ TFileStream* ProjSecun;
 __fastcall TfrmPrincipal::TfrmPrincipal(TComponent* Owner)
 	: TForm(Owner)
 {
-	tam = 0;
+	reduc = 0;
 }
 //---------------------------------------------------------------------------
 
@@ -262,6 +262,9 @@ void __fastcall TfrmPrincipal::FormShow(TObject *Sender)
 		prim = false;
 
 	}
+	else {
+		if (reduc != 0) frmPrincipal->UpdateStyleBook();
+    }
 
 	int COR = listaCorApresenta->Color;
 	vsTransp->Fill->Color = COR;
@@ -3033,7 +3036,7 @@ void __fastcall TfrmPrincipal::brEditarViewportPositionChange(TObject *Sender, c
 		btDeslizarEdtE->Position->X = brEditar->ViewportPosition.X;
 	}
 
-	btDeslizarEdtD->Position->X = brEditar->ViewportPosition.X + frmPrincipal->Width - btDeslizarEdtD->Width - tam;
+	btDeslizarEdtD->Position->X = brEditar->ViewportPosition.X + frmPrincipal->Width - btDeslizarEdtD->Width - reduc;
 	brEditar->ShowScrollBars = false;
 
 	if ((btDeslizarEdtD->Position->X + btDeslizarEdtD->Width) >= (vpLinha2->Position->X + vpLinha2->Width)) btDeslizarEdtD->Visible = false;
@@ -3068,7 +3071,7 @@ void __fastcall TfrmPrincipal::brArquivoViewportPositionChange(TObject *Sender, 
 		btDeslizarAqvE->Position->X = brArquivo->ViewportPosition.X;
 	}
 
-	btDeslizarAqvD->Position->X = brArquivo->ViewportPosition.X + frmPrincipal->Width - btDeslizarAqvD->Width - tam;
+	btDeslizarAqvD->Position->X = brArquivo->ViewportPosition.X + frmPrincipal->Width - btDeslizarAqvD->Width - reduc;
 	brArquivo->ShowScrollBars = false;
 
 	if ((btDeslizarAqvD->Position->X + btDeslizarAqvD->Width) >= (lblAjustesAdicionais->Position->X + lblAjustesAdicionais->Width)) btDeslizarAqvD->Visible = false;
@@ -3103,7 +3106,7 @@ void __fastcall TfrmPrincipal::brVisualizarViewportPositionChange(TObject *Sende
 		btDeslizarVisE->Position->X = brVisualizar->ViewportPosition.X;
 	}
 
-	btDeslizarVisD->Position->X = brVisualizar->ViewportPosition.X + frmPrincipal->Width - btDeslizarVisD->Width - tam;
+	btDeslizarVisD->Position->X = brVisualizar->ViewportPosition.X + frmPrincipal->Width - btDeslizarVisD->Width - reduc;
 	brVisualizar->ShowScrollBars = false;
 
 	if ((btDeslizarVisD->Position->X + btDeslizarVisD->Width) >= (vpLinha8->Position->X + vpLinha8->Width)) btDeslizarVisD->Visible = false;
@@ -3122,7 +3125,7 @@ void __fastcall TfrmPrincipal::brAjudaViewportPositionChange(TObject *Sender, co
 		btDeslizarAjdE->Position->X = brAjuda->ViewportPosition.X;
 	}
 
-	btDeslizarAjdD->Position->X = brAjuda->ViewportPosition.X + frmPrincipal->Width - btDeslizarAjdD->Width - tam;
+	btDeslizarAjdD->Position->X = brAjuda->ViewportPosition.X + frmPrincipal->Width - btDeslizarAjdD->Width - reduc;
 	brAjuda->ShowScrollBars = false;
 
 	if ((btDeslizarAjdD->Position->X + btDeslizarAjdD->Width) >= (btSobre->Position->X + btSobre->Width)) btDeslizarAjdD->Visible = false;

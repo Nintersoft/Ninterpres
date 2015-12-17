@@ -346,7 +346,7 @@ public:		// User declarations
 	bool comentario (String);
 	String Extensao(String);
 
-	int Transp, tam ;
+	int Transp, reduc ;
 	long double tamFonteBasica, tamFonteTitulo;
 
 };

@@ -22,13 +22,16 @@ __fastcall TfrmSobre::TfrmSobre(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TfrmSobre::btAtualizarClick(TObject *Sender)
 {
+	frmSobre->BeginUpdate();
+	btAtualizar->Visible = false;
+	btSite->Visible = false;
+	btFacebook->Visible = false;
 	lblEstado->Text = "Verificando atualizações...";
-	frmSobre->Height += 45;
-	btAtualizar->Position->Y += 45;
-	btSite->Position->Y += 45;
-	btFacebook->Position->Y += 45;
 	lblEstado->Visible = true;
 	Indicador->Visible = true;
+	Application->ProcessMessages();
+	frmSobre->EndUpdate();
+	Sleep(1000);
 	Controle->Enabled = true;
 }
 //---------------------------------------------------------------------------
@@ -115,10 +118,14 @@ void TfrmSobre::Principal()
 		TFile::Delete(LOC);
 	} catch (...) {
 		lblEstado->Text = L"Erro";
-		frmSobre->Height -= 45;
-		btAtualizar->Position->Y -= 45;
-		btSite->Position->Y -= 45;
-		btFacebook->Position->Y -= 45;
+		frmSobre->BeginUpdate();
+		btAtualizar->Visible = true;
+		btSite->Visible = true;
+		btFacebook->Visible = true;
+		frmSobre->Updating();
+		frmSobre->UpdateActions();
+		Application->ProcessMessages();
+		frmSobre->EndUpdate();
 		lblEstado->Visible = false;
 		Indicador->Visible = false;
 		novo = "Adquirindo ";
@@ -144,10 +151,14 @@ void TfrmSobre::Principal()
 			ShellExecuteW( NULL, L"open", LOC.c_str(), NULL, NULL, SW_SHOW );
 			Application->Terminate();
 		} catch (...) {
-			frmSobre->Height -= 45;
-			btAtualizar->Position->Y -= 45;
-			btSite->Position->Y -= 45;
-			btFacebook->Position->Y -= 45;
+			frmSobre->BeginUpdate();
+			btAtualizar->Visible = true;
+			btSite->Visible = true;
+			btFacebook->Visible = true;
+			frmSobre->Updating();
+			frmSobre->UpdateActions();
+			Application->ProcessMessages();
+			frmSobre->EndUpdate();
 			lblEstado->Visible = false;
 			Indicador->Visible = false;
 			lblEstado->Text = L"Erro";
@@ -155,10 +166,14 @@ void TfrmSobre::Principal()
 		}
 	}
 
-	frmSobre->Height -= 45;
-	btAtualizar->Position->Y -= 45;
-	btSite->Position->Y -= 45;
-	btFacebook->Position->Y -= 45;
+	frmSobre->BeginUpdate();
+	btAtualizar->Visible = true;
+	btSite->Visible = true;
+	btFacebook->Visible = true;
+	frmSobre->Updating();
+	frmSobre->UpdateActions();
+	frmSobre->EndUpdate();
+	Application->ProcessMessages();
 	lblEstado->Visible = false;
 	Indicador->Visible = false;
 }

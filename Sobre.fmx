@@ -364,7 +364,7 @@ object frmSobre: TfrmSobre
   end
   object Controle: TTimer
     Enabled = False
-    Interval = 2000
+    Interval = 3000
     OnTimer = ControleTimer
     Left = 472
     Top = 80
