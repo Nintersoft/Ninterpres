@@ -14,6 +14,8 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.fmx"
+#pragma resource ("*.Windows.fmx", _PLAT_MSWINDOWS)
+
 TfrmCarregar *frmCarregar;
 //---------------------------------------------------------------------------
 int cont = 0;
@@ -113,12 +115,24 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 
 		}
 
-		cont++;
+		if (true) {
+
+		}
 		if (Existe) ReconfiguraCont(5000);
 		else ReconfiguraCont(1000);
+		if (System::ParamCount() > 1) cont++;
+		else cont += 2;
 
 	}
+
 	else if (cont == 3) {
+		lblEstado->Text = "Carregando arquivo...";
+		frmPrincipal->CarregarAbertura(System::ParamStr(1));
+		ReconfiguraCont(1500);
+		cont++;
+	}
+
+	else if (cont == 4) {
 		lblEstado->Text = "Ajustando a interface...";
 		if (estilo){
 			AplicaEstilos(1);

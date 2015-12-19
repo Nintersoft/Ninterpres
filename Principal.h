@@ -344,6 +344,7 @@ public:		// User declarations
 	void AjusteVisual ();
 	void DefineTemp();
 	void ArranjoBotoes();
+	void CarregarAbertura(String argumento);
 	int LocDet (String Informacao);
 	int AdquireTam (String Texto);
 	bool comentario (String);

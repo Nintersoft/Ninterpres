@@ -88,14 +88,14 @@ object frmConfig: TfrmConfig
     Size.Width = 561.000000000000000000
     Size.Height = 441.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 2
+    TabIndex = 0
     TabOrder = 11
     TabPosition = Top
     object abaDesenv: TTabItem
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      IsSelected = True
       Size.Width = 187.000000000000000000
       Size.Height = 24.000000000000000000
       Size.PlatformDefault = False
@@ -326,7 +326,7 @@ object frmConfig: TfrmConfig
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 185.000000000000000000
       Size.Height = 24.000000000000000000
       Size.PlatformDefault = False

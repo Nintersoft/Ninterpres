@@ -1,0 +1,523 @@
+object frmConfig: TfrmConfig
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = Single
+  Caption = 'Configura'#231#245'es - Ninterpres'
+  ClientHeight = 533
+  ClientWidth = 552
+  Fill.Kind = Solid
+  Position = MainFormCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop, iPhone, iPad]
+  OnCreate = FormCreate
+  DesignerMasterStyle = 0
+  object mmConfig: TMemo
+    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+    Position.Y = -8.000000000000000000
+    Size.Width = 529.000000000000000000
+    Size.Height = 481.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 10
+    Visible = False
+  end
+  object btSalvar: TCornerButton
+    Corners = []
+    StyledSettings = [Family, Style, FontColor]
+    Position.X = 224.000000000000000000
+    Position.Y = 488.000000000000000000
+    Sides = [Top, Left, Bottom, Right]
+    Size.Width = 80.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 4
+    Text = 'Salvar'
+    TextSettings.Font.Size = 16.000000000000000000
+    XRadius = 3.000000000000000000
+    YRadius = 3.000000000000000000
+    OnClick = btSalvarClick
+  end
+  object btCancelar: TCornerButton
+    Corners = [BottomLeft]
+    StyledSettings = [Family, Style, FontColor]
+    Position.X = 128.000000000000000000
+    Position.Y = 488.000000000000000000
+    Sides = [Top, Left, Bottom, Right]
+    Size.Width = 89.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 5
+    Text = 'Cancelar'
+    TextSettings.Font.Size = 16.000000000000000000
+    XRadius = 10.000000000000000000
+    YRadius = 10.000000000000000000
+    OnClick = btCancelarClick
+  end
+  object cbDefPad: TCheckBox
+    StyledSettings = [Family, Style, FontColor]
+    Position.X = 24.000000000000000000
+    Position.Y = 448.000000000000000000
+    Size.Width = 497.000000000000000000
+    Size.Height = 27.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 7
+    Text = 'Salvar condfigura'#231#245'es como padr'#227'o'
+    TextSettings.Font.Size = 16.000000000000000000
+    OnChange = cbDefPadChange
+  end
+  object btRestaurar: TCornerButton
+    Corners = [BottomRight]
+    StyledSettings = [Family, Style, FontColor]
+    Position.X = 312.000000000000000000
+    Position.Y = 488.000000000000000000
+    Sides = [Top, Left, Bottom, Right]
+    Size.Width = 89.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 8
+    Text = 'Restaurar'
+    TextSettings.Font.Size = 16.000000000000000000
+    XRadius = 10.000000000000000000
+    YRadius = 10.000000000000000000
+    OnClick = btRestaurarClick
+  end
+  object abasConf: TTabControl
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    FullSize = True
+    Size.Width = 561.000000000000000000
+    Size.Height = 441.000000000000000000
+    Size.PlatformDefault = False
+    TabIndex = 2
+    TabOrder = 11
+    TabPosition = Top
+    object abaDesenv: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = False
+      Size.Width = 187.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Desenvolvimento'
+      object cxCodigo: TGroupBox
+        Anchors = [akLeft, akTop, akRight]
+        StyledSettings = [Family, Style, FontColor, Other]
+        Position.X = 8.000000000000000000
+        Position.Y = 8.000000000000000000
+        Size.Width = 537.000000000000000000
+        Size.Height = 121.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'C'#243'digo'
+        TextSettings.Font.Size = 18.000000000000000000
+        TabOrder = 0
+        object btAjudaEditor: TSpeedButton
+          StyledSettings = [Family, Size, FontColor]
+          Position.X = 136.000000000000000000
+          Position.Y = 40.000000000000000000
+          Size.Width = 25.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          Text = '?'
+          TextSettings.Font.Style = [fsBold]
+          OnClick = btAjudaEditorClick
+        end
+        object cbAtivarEditor: TCheckBox
+          StyledSettings = [Family, Style, FontColor]
+          Position.X = 24.000000000000000000
+          Position.Y = 40.000000000000000000
+          Size.Width = 120.000000000000000000
+          Size.Height = 19.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 2
+          Text = 'Ativar editor'
+          TextSettings.Font.Size = 16.000000000000000000
+        end
+        object cbAtualizarCod: TCheckBox
+          StyledSettings = [Family, Style, FontColor]
+          Position.X = 24.000000000000000000
+          Position.Y = 72.000000000000000000
+          Size.Width = 305.000000000000000000
+          Size.Height = 25.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 3
+          Text = 'Ativar atualiza'#231#227'o de c'#243'digo no editor'
+          TextSettings.Font.Size = 16.000000000000000000
+        end
+        object btAjudaAtualizar: TSpeedButton
+          StyledSettings = [Family, Size, FontColor]
+          Position.X = 320.000000000000000000
+          Position.Y = 72.000000000000000000
+          Size.Width = 25.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          Text = '?'
+          TextSettings.Font.Style = [fsBold]
+          OnClick = btAjudaAtualizarClick
+        end
+      end
+      object cxPadrao: TGroupBox
+        Anchors = [akLeft, akTop, akRight]
+        StyledSettings = [Family, Style, FontColor, Other]
+        Position.X = 8.000000000000000000
+        Position.Y = 136.000000000000000000
+        Size.Width = 537.000000000000000000
+        Size.Height = 209.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Padr'#245'es'
+        TextSettings.Font.Size = 18.000000000000000000
+        TabOrder = 1
+        object lblTamFonte: TLabel
+          StyledSettings = [Family, Style, FontColor]
+          Position.X = 24.000000000000000000
+          Position.Y = 40.000000000000000000
+          Size.Width = 193.000000000000000000
+          Size.Height = 25.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Size = 16.000000000000000000
+          Text = 'Tamanho da fonte:'
+        end
+        object cbMostrarData: TCheckBox
+          StyledSettings = [Family, Style, FontColor]
+          Position.X = 24.000000000000000000
+          Position.Y = 160.000000000000000000
+          Size.Width = 489.000000000000000000
+          Size.Height = 25.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          Text = 'Mostrar data atual no rodap'#233' da '#250'ltima transpar'#234'ncia'
+          TextSettings.Font.Size = 16.000000000000000000
+        end
+        object cbMostrarTransp: TCheckBox
+          StyledSettings = [Family, Style, FontColor]
+          IsChecked = True
+          Position.X = 24.000000000000000000
+          Position.Y = 80.000000000000000000
+          Size.Width = 481.000000000000000000
+          Size.Height = 25.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 2
+          Text = 'Mostrar transpar'#234'ncia Nintersoft ao final da apresenta'#231#227'o'
+          TextSettings.Font.Size = 16.000000000000000000
+        end
+        object cbMostrarLogo: TCheckBox
+          StyledSettings = [Family, Style, FontColor]
+          IsChecked = True
+          Position.X = 24.000000000000000000
+          Position.Y = 120.000000000000000000
+          Size.Width = 489.000000000000000000
+          Size.Height = 25.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 3
+          Text = 'Mostrar marca d'#39#225'gua Nintersoft na apresenta'#231#227'o'
+          TextSettings.Font.Size = 16.000000000000000000
+        end
+        object cxTamFonte: TNumberBox
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          TabOrder = 4
+          Cursor = crIBeam
+          Min = 8.000000000000000000
+          Max = 64.000000000000000000
+          Value = 16.000000000000000000
+          ValueType = Float
+          Position.X = 208.000000000000000000
+          Position.Y = 40.000000000000000000
+          Size.Width = 273.000000000000000000
+          Size.Height = 25.000000000000000000
+          Size.PlatformDefault = False
+        end
+      end
+    end
+    object abaAparencia: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = False
+      Size.Width = 187.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Apar'#234'ncia'
+      object Caixa2: TGroupBox
+        Anchors = [akLeft, akTop, akRight]
+        StyledSettings = [Family, Style, FontColor, Other]
+        Position.X = 8.000000000000000000
+        Position.Y = 8.000000000000000000
+        Size.Width = 537.000000000000000000
+        Size.Height = 225.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Op'#231#245'es visuais'
+        TextSettings.Font.Size = 18.000000000000000000
+        TabOrder = 0
+        object listaCorTema: TColorListBox
+          Position.X = 128.000000000000000000
+          Position.Y = 72.000000000000000000
+          Size.Width = 329.000000000000000000
+          Size.Height = 137.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          Color = claDarkorange
+          ItemIndex = 30
+          DefaultItemStyles.ItemStyle = ''
+          DefaultItemStyles.GroupHeaderStyle = ''
+          DefaultItemStyles.GroupFooterStyle = ''
+        end
+        object lblCorTema: TLabel
+          StyledSettings = [Family, Style, FontColor]
+          Position.X = 16.000000000000000000
+          Position.Y = 72.000000000000000000
+          Size.Width = 73.000000000000000000
+          Size.Height = 25.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Size = 16.000000000000000000
+          Text = 'Cor tema:'
+        end
+        object btAjudaCor: TSpeedButton
+          StyledSettings = [Family, Size, FontColor]
+          Position.X = 88.000000000000000000
+          Position.Y = 72.000000000000000000
+          Size.Width = 25.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          Text = '?'
+          TextSettings.Font.Style = [fsBold]
+          OnClick = btAjudaCorClick
+        end
+        object lblEstilo: TLabel
+          StyledSettings = [Family, Style, FontColor]
+          Position.X = 16.000000000000000000
+          Position.Y = 32.000000000000000000
+          Size.Width = 105.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Size = 16.000000000000000000
+          Text = 'Estilo:'
+        end
+        object csEstilo: TComboBox
+          DisableFocusEffect = False
+          Items.Strings = (
+            'Bordas estilizadas (Comandos padr'#245'es do sistema)'
+            'Bordas estilizadas (Cl'#225'ssico Ninterpres)'
+            'Padr'#227'o do sistema (Recomenda-se para windows 8+)'
+            'Personalizado (Arranjo cl'#225'ssico Ninterpres)')
+          ItemIndex = 1
+          Position.X = 128.000000000000000000
+          Position.Y = 32.000000000000000000
+          Size.Width = 329.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 4
+        end
+        object btAjudaEstilo: TSpeedButton
+          StyledSettings = [Family, Size, FontColor]
+          Position.X = 64.000000000000000000
+          Position.Y = 32.000000000000000000
+          Size.Width = 17.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          Text = '?'
+          TextSettings.Font.Style = [fsBold]
+          OnClick = btAjudaEstiloClick
+        end
+      end
+    end
+    object abaInfo: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = True
+      Size.Width = 185.000000000000000000
+      Size.Height = 24.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Informa'#231#245'es'
+      object cxDiretorio: TGroupBox
+        Anchors = [akLeft, akTop, akRight]
+        StyledSettings = [Family, Style, FontColor, Other]
+        Position.X = 8.000000000000000000
+        Position.Y = 8.000000000000000000
+        Size.Width = 537.000000000000000000
+        Size.Height = 217.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Op'#231#245'es de cria'#231#227'o e desenvolvimento'
+        TextSettings.Font.Size = 18.000000000000000000
+        TabOrder = 0
+        object cbSalvarAuto: TCheckBox
+          StyledSettings = [Family, Style, FontColor]
+          Position.X = 24.000000000000000000
+          Position.Y = 32.000000000000000000
+          Size.Width = 209.000000000000000000
+          Size.Height = 27.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 3
+          Text = 'Salvar c'#243'pia de seguran'#231'a'
+          TextSettings.Font.Size = 16.000000000000000000
+        end
+        object cbSalvarTemp: TCheckBox
+          StyledSettings = [Family, Style, FontColor]
+          IsChecked = True
+          Position.X = 24.000000000000000000
+          Position.Y = 176.000000000000000000
+          Size.Width = 257.000000000000000000
+          Size.Height = 19.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 4
+          Text = 'Usar APPDATA temporariamente'
+          TextSettings.Font.Size = 16.000000000000000000
+        end
+        object btAjudaCopia: TSpeedButton
+          StyledSettings = [Family, Size, FontColor]
+          Position.X = 232.000000000000000000
+          Position.Y = 32.000000000000000000
+          Size.Width = 33.000000000000000000
+          Size.Height = 25.000000000000000000
+          Size.PlatformDefault = False
+          Text = '?'
+          TextSettings.Font.Style = [fsBold]
+          OnClick = btAjudaCopiaClick
+        end
+        object btAjudaAppData: TSpeedButton
+          StyledSettings = [Family, Size, FontColor]
+          Position.X = 280.000000000000000000
+          Position.Y = 176.000000000000000000
+          Size.Width = 25.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          Text = '?'
+          TextSettings.Font.Style = [fsBold]
+          OnClick = btAjudaAppDataClick
+        end
+        object lblIntervalo: TLabel
+          StyledSettings = [Family, Style, FontColor]
+          Position.X = 72.000000000000000000
+          Position.Y = 88.000000000000000000
+          Size.Width = 217.000000000000000000
+          Size.Height = 25.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Size = 16.000000000000000000
+          Text = 'Intervalo de tempo (minutos)'
+        end
+        object btApresTemp: TCheckBox
+          StyledSettings = [Family, Style, FontColor]
+          Position.X = 72.000000000000000000
+          Position.Y = 64.000000000000000000
+          Size.Width = 265.000000000000000000
+          Size.Height = 19.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 9
+          Text = 'Incluir apresenta'#231#245'es n'#227'o salvas'
+          TextSettings.Font.Size = 16.000000000000000000
+        end
+        object lsSelecInter: TListBox
+          Position.X = 296.000000000000000000
+          Position.Y = 88.000000000000000000
+          Size.Width = 200.000000000000000000
+          Size.Height = 41.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 10
+          DisableFocusEffect = True
+          Items.Strings = (
+            '5'
+            '10'
+            '15'
+            '30'
+            '40'
+            'Personalizado')
+          DefaultItemStyles.ItemStyle = ''
+          DefaultItemStyles.GroupHeaderStyle = ''
+          DefaultItemStyles.GroupFooterStyle = ''
+        end
+        object lblTempSeg: TLabel
+          StyledSettings = [Family, Style, FontColor]
+          Position.X = 72.000000000000000000
+          Position.Y = 136.000000000000000000
+          Size.Width = 209.000000000000000000
+          Size.Height = 25.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Size = 16.000000000000000000
+          Text = 'Intervalo (Minutos)'
+        end
+        object edtTempSeg: TNumberBox
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          TabOrder = 13
+          Cursor = crIBeam
+          DecimalDigits = 0
+          Min = 5.000000000000000000
+          Max = 120.000000000000000000
+          Value = 5.000000000000000000
+          Position.X = 296.000000000000000000
+          Position.Y = 136.000000000000000000
+          Size.Width = 201.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+        end
+      end
+      object cxPessoal: TGroupBox
+        Anchors = [akLeft, akTop, akRight]
+        StyledSettings = [Family, Style, FontColor, Other]
+        Position.X = 8.000000000000000000
+        Position.Y = 232.000000000000000000
+        Size.Width = 537.000000000000000000
+        Size.Height = 89.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Informa'#231#245'es pessoais'
+        TextSettings.Font.Size = 18.000000000000000000
+        TabOrder = 1
+        object edtNomeLicen: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          TabOrder = 0
+          Text = 'Equipe de desenvolvimento Nintersoft'
+          Position.X = 104.000000000000000000
+          Position.Y = 38.000000000000000000
+          Size.Width = 393.000000000000000000
+          Size.Height = 27.000000000000000000
+          Size.PlatformDefault = False
+        end
+        object lblNome: TLabel
+          StyledSettings = [Family, Style, FontColor]
+          Position.X = 16.000000000000000000
+          Position.Y = 35.000000000000000000
+          Size.Width = 89.000000000000000000
+          Size.Height = 33.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Size = 16.000000000000000000
+          Text = 'Seu nome:'
+        end
+      end
+      object cxIdioma: TGroupBox
+        Anchors = [akLeft, akTop, akRight]
+        StyledSettings = [Family, Style, FontColor, Other]
+        Position.X = 8.000000000000000000
+        Position.Y = 328.000000000000000000
+        Size.Width = 537.000000000000000000
+        Size.Height = 81.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Idioma'
+        TextSettings.Font.Size = 18.000000000000000000
+        TabOrder = 2
+        object lblSelecIdioma: TLabel
+          StyledSettings = [Family, Style, FontColor]
+          Position.X = 16.000000000000000000
+          Position.Y = 32.000000000000000000
+          Size.Width = 120.000000000000000000
+          Size.Height = 25.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Size = 16.000000000000000000
+          Text = 'Idioma:'
+        end
+        object cbSelecIdioma: TComboBox
+          Items.Strings = (
+            'Portugu'#234's  Brasileiro (Padr'#227'o)')
+          ItemIndex = 0
+          Position.X = 104.000000000000000000
+          Position.Y = 32.000000000000000000
+          Size.Width = 393.000000000000000000
+          Size.Height = 25.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+        end
+      end
+    end
+  end
+end

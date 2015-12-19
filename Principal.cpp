@@ -3297,8 +3297,160 @@ void TfrmPrincipal::ArranjoBotoes()
 
 }
 //---------------------------------------------------------------------------
+void TfrmPrincipal::CarregarAbertura(String argumento)
+{
+
+	if (!System::Ioutils::TFile::Exists(argumento)) {
+		throw Exception (L"Não foi possível continuar com a opeção de abertura.\nProcesso abortado devido diretório inválido.");
+	}
+
+	locSalvo = ExtractFilePath(argumento);
+
+	frmCodigo->mmCodigo->Lines->Clear();
+	frmCodigo->mmCodigo->BeginUpdate();
+	frmCodigo->mmCodigo->Lines->LoadFromFile(argumento);
+	frmCodigo->mmCodigo->EndUpdate();
+	ProjAtual = new TFileStream(argumento, TFileMode::fmOpen);
+	String PreEstilo = System::Ioutils::TPath::Combine(locSalvo, "NSST");
+	String Estilo = PreEstilo+".stl";
+
+	if (TFile::Exists(Estilo)) {
+		frmCodigo->mmEstilo->Lines->Clear();
+		frmCodigo->mmEstilo->BeginUpdate();
+		frmCodigo->mmEstilo->Lines->LoadFromFile(Estilo);
+		frmCodigo->mmEstilo->EndUpdate();
+		ProjSecun = new TFileStream(Estilo, TFileMode::fmOpen);
+	}
+	else {
+
+			PWSTR pszPath;
+		if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pszPath)))
+		{
+			String NSNPTEMP = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres");
+			CoTaskMemFree(pszPath);
+
+			String arqa = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSST");
+			Estilo = arqa+".stl";
+
+			if (!TFile::Exists(arqa+".stl")) {
+				throw Exception (L"ERRO 000010: O modelo de estilos novo não pode ser encontrado.\nPara corrigir este problema, por favor, reinicie o programa.\nPara maiores informações à respeito deste erro, por favor visite nossa docwiki.");
+			}
+		}
+
+		frmCodigo->mmEstilo->Lines->Clear();
+		frmCodigo->mmEstilo->BeginUpdate();
+		frmCodigo->mmEstilo->Lines->LoadFromFile(Estilo);
+		frmCodigo->mmEstilo->EndUpdate();
+		ProjSecun = new TFileStream(Estilo, TFileMode::fmOpen);
+		ShowMessage(L"Parece que não há folha de estilo para esta apresentação!\nEsta apresentação poderá ser lida incorretamente!\nBaixe uma versão mais antiga do Ninterpres para ler esta apresentação.\nOBS.: A última versão a suportar apresentações sem folha de estilo foi a 0.9.1.43-BETA\nPara maiores informações visite nossa docwiki.");
+
+	}
 
 
 
+	salvo = true;
+	SelecTransp->BeginUpdate();
+	SelecTransp->Items->Clear();
+	SelecTransp->Items->Add()->Text = "CAPA";
 
+	int i = 0, num = 1, tam = frmCodigo->mmCodigo->Lines->Count;
+	do{
+		if (frmCodigo->mmCodigo->Lines->Strings[i] == "$TRANSP"+IntToStr(num)) {
+			SelecTransp->Items->Add()->Text = "TRANSP"+IntToStr(num);
+			num++;
+		}
+		i++;
+	}while (i < tam);
 
+	SelecTransp->EndUpdate();
+
+	Transp = 0;
+	edtApresTitulo->Text = frmCodigo->mmCodigo->Lines->Strings[0];
+	edTranspTitulo->Text = frmCodigo->mmCodigo->Lines->Strings[0];
+	frmPrincipal->Caption = frmCodigo->mmCodigo->Lines->Strings[0];
+	lblTituloForm->Text = frmCodigo->mmCodigo->Lines->Strings[0];
+	if (frmCodigo->mmCodigo->Lines->Strings[1] != "Nintersoft") {
+		edtApresAutor->Text = frmCodigo->mmCodigo->Lines->Strings[1];
+	}
+	else {
+		edtApresAutor->Text = "";
+	}
+	int LOCLIN = LocDet("COR_TRANSP");
+	vsTransp->Fill->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+	listaCorApresenta->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+
+	LOCLIN = LocDet("APL_BORDA");
+	if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSBD") {
+		LOCLIN = LocDet("COR_TRANSP");
+		vsTransp->Stroke->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+		cbBorda->IsChecked = true;
+	}
+	else {
+		vsTransp->Stroke->Color = CorBordaTransp;
+		cbBorda->IsChecked = false;
+	}
+
+	LOCLIN = LocDet("APL_FONTE");
+	int LOCLIN2 = LocDet("APL_TODOS"), LOCAUX = LocDet("COR_FONTE");
+
+	if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN2] == "NSTT" && frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSFT") {
+		lblTitulo->TextSettings->FontColor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCAUX]);
+		lblTranspTexto->TextSettings->FontColor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCAUX]);
+		lblImgLeg->TextSettings->FontColor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCAUX]);
+		listaCorTexto->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCAUX]);
+		cbTodos->IsChecked = true;
+		cbFonte->IsChecked = true;
+	}
+	else {
+		lblTitulo->TextSettings->FontColor = CorBordaTransp;
+		lblTranspTexto->TextSettings->FontColor = CorBordaTransp;
+		lblImgLeg->TextSettings->FontColor = CorBordaTransp;
+		listaCorTexto->Color = CorBordaTransp;
+		cbTodos->IsChecked = false;
+		cbFonte->IsChecked = false;
+	}
+
+	LOCLIN = LocDet("TAM_FONTE");
+	float TamConv = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+	lblTranspTexto->TextSettings->Font->Size = TamConv;
+	edtTamFonte->Text = FloatToStr(TamConv);
+	baTamFonte->Value = TamConv;
+
+	LOCLIN = LocDet("MSTR_TRANSP");
+	if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSFN") {
+		opMostrarNSTransp->IsChecked = true;
+	}
+	else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSFN") {
+		opMostrarNSTransp->IsChecked = false;
+	}
+	else {
+		throw Exception (L"ERRO 000010: Falha nas configurações especiais (Última transparência).\nPara maiores informações sobre este erro visite nossa DocWiki.");
+	}
+
+	LOCLIN = LocDet("MSTR_LOGO");
+	if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSLG") {
+		opMostrarLogoNS->IsChecked = true;
+	}
+	else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSLG") {
+		opMostrarLogoNS->IsChecked = false;
+	}
+	else {
+		throw Exception (L"ERRO 000011: Falha nas configurações especiais (Logo NS).\nPara maiores informações sobre este erro visite nossa DocWiki.");
+	}
+
+	LOCLIN = LocDet("MSTR_DATA");
+	if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSDT") {
+		opMostrarDataAtual->IsChecked = true;
+	}
+	else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSDT") {
+		opMostrarDataAtual->IsChecked = false;
+	}
+	else {
+		throw Exception (L"ERRO 000012: Falha nas configurações especiais (Data).\nPara maiores informações sobre este erro visite nossa DocWiki.");
+	}
+
+	SelecTransp->Selected = SelecTransp->Items->Item[Transp];
+	Transp = 0;
+	CarregarTransp(Transp);
+}
+//---------------------------------------------------------------------------
