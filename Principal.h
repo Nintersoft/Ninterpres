@@ -161,6 +161,7 @@ __published:	// IDE-managed Components
 	TSpeedButton *btDeslizarVisD;
 	TSpeedButton *btDeslizarAjdE;
 	TSpeedButton *btDeslizarAjdD;
+	TSaveDialog *dsSalvarTemp;
 	void __fastcall btTranspTipoMouseEnter(TObject *Sender);
 	void __fastcall btTranspTipoMouseLeave(TObject *Sender);
 	void __fastcall tpTipo2Click(TObject *Sender);
@@ -341,6 +342,8 @@ public:		// User declarations
 	void CarregarTransp (int);
 	void RearranjoTransp (int);
 	void AjusteVisual ();
+	void DefineTemp();
+	void ArranjoBotoes();
 	int LocDet (String Informacao);
 	int AdquireTam (String Texto);
 	bool comentario (String);
@@ -348,6 +351,7 @@ public:		// User declarations
 
 	int Transp, reduc ;
 	long double tamFonteBasica, tamFonteTitulo;
+	bool redimencionar;
 
 };
 //---------------------------------------------------------------------------

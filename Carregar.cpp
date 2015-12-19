@@ -22,6 +22,8 @@ bool estilo = false;
 __fastcall TfrmCarregar::TfrmCarregar(TComponent* Owner)
 	: TForm(Owner)
 {
+	usarad = true;
+	sans = false;
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
@@ -130,14 +132,13 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 	else {
 
 		lblEstado->Text = "Carregando...";
-		if (estilo) {
-			AplicaEstilos(2);
-		}
+		if (estilo)	AplicaEstilos(2);
 		cont++;
 		Application->MainForm->Show();
 		tmConfigurar->Enabled = false;
 		frmCarregar->Close();
-
+		frmPrincipal->redimencionar = true;
+		if (!usarad) frmPrincipal->DefineTemp();
 	}
 }
 //---------------------------------------------------------------------------
@@ -302,7 +303,6 @@ void TfrmCarregar::AplicarConfig()
 
 	if (frmConfig->mmConfig->Lines->Strings[8] == "NSSVSA") {
 		frmConfig->cbSalvarAuto->IsChecked = true;
-		frmPrincipal->tmCopiaSeg->Enabled = true;
 
 		if (StrToInt(frmConfig->mmConfig->Lines->Strings[10]) >= 0 && StrToInt(frmConfig->mmConfig->Lines->Strings[10]) <= 4 ) {
 			frmConfig->lsSelecInter->ItemIndex = StrToInt(frmConfig->mmConfig->Lines->Strings[10]);
@@ -324,6 +324,23 @@ void TfrmCarregar::AplicarConfig()
 		else {
 			throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
 		}
+
+		//------------------ Salvar apresentações não salvas -------------------
+
+		if (frmConfig->mmConfig->Lines->Strings[9] == "NSSVAT"){
+			sans = true;
+			frmConfig->btApresTemp->IsChecked = true;
+		}
+		else if (frmConfig->mmConfig->Lines->Strings[9] != "!NSSVAT") throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
+
+		//------------------------ Uso de APPDATA ------------------------------
+
+		if (frmConfig->mmConfig->Lines->Strings[12] == "!NSSVAD"){
+			usarad = false;
+			frmConfig->cbSalvarTemp->IsChecked = false;
+		}
+		else if (frmConfig->mmConfig->Lines->Strings[12] == "NSSVAD") frmPrincipal->tmCopiaSeg->Enabled = true;
+		else throw Exception ("ERRO 001001: Erro durante a aplicação das configurações.\nAs configurações serão restauradas à seus padrões.");
 
 	}
 	else if (frmConfig->mmConfig->Lines->Strings[8] == "!NSSVSA"){
@@ -491,4 +508,5 @@ void TfrmCarregar::AplicaEstilos(int Passo)
 
 }
 //---------------------------------------------------------------------------
+
 

@@ -3,6 +3,7 @@
 #include <fmx.h>
 #include <IOUtils.hpp>
 #include <System.Zip.hpp>
+#include <System.SysUtils.hpp>
 #include <shlobj.h>
 #pragma hdrstop
 
@@ -21,6 +22,7 @@ const float RealTamFonte = 1.3125;
 int tpEscolha = 1, Cam = 390, CorBordaTransp, CorFundoTransp, Vis = 0, Dif, LocInDef, LocIn;
 bool prim, salvo = false, confSalvo = false, primeiravez;
 String TranspSelec, locSalvo;
+TFileName temporario;
 TFileStream* ProjAtual;
 TFileStream* ProjSecun;
 //---------------------------------------------------------------------------
@@ -28,6 +30,7 @@ __fastcall TfrmPrincipal::TfrmPrincipal(TComponent* Owner)
 	: TForm(Owner)
 {
 	reduc = 0;
+	redimencionar = false;
 }
 //---------------------------------------------------------------------------
 
@@ -1799,6 +1802,7 @@ void __fastcall TfrmPrincipal::FormResize(TObject *Sender)
 		btDeslizarEdtD->Position->X =  btDeslizarEdtD->Position->X - Dif;
 		LocInDef = Dif;
 	}
+	if (redimencionar) ArranjoBotoes();
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmPrincipal::baTamFonteTracking(TObject *Sender)
@@ -2978,35 +2982,104 @@ int TfrmPrincipal::AdquireTam(String Texto)
 void __fastcall TfrmPrincipal::tmCopiaSegTimer(TObject *Sender)
 {
 	if (salvo) {
-		PWSTR pszPath;
-		if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pszPath)))
-		{
-			String NSNPSV = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres\\CPSEG\\");
-			CoTaskMemFree(pszPath);
+		if (frmCarregar->usarad) {
+			PWSTR pszPath;
+			if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pszPath)))
+			{
+				String NSNPSV = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres\\CPSEG\\");
+				CoTaskMemFree(pszPath);
 
-			String NSNPSVD = System::Ioutils::TPath::Combine(NSNPSV, frmCodigo->mmCodigo->Lines->Strings[0]);
+				String NSNPSVD = System::Ioutils::TPath::Combine(NSNPSV, frmCodigo->mmCodigo->Lines->Strings[0]);
 
-			if (TDirectory::Exists(NSNPSVD)) TDirectory::Delete(NSNPSV, true);
+				if (TDirectory::Exists(NSNPSVD)) TDirectory::Delete(NSNPSV, true);
 
-			delete ProjAtual;
-			delete ProjSecun;
+				delete ProjAtual;
+				delete ProjSecun;
 
-			TDirectory::Copy(locSalvo, NSNPSVD);
+				TDirectory::Copy(locSalvo, NSNPSVD);
 
-			String arq = System::Ioutils::TPath::Combine(NSNPSVD, L"NSCA.nps");
-			String Estilo = System::Ioutils::TPath::Combine(NSNPSVD, "NSST.stl");
-			frmCodigo->mmCodigo->Lines->SaveToFile(arq);
-			frmCodigo->mmEstilo->Lines->SaveToFile(Estilo);
+				String arq = System::Ioutils::TPath::Combine(NSNPSVD, L"NSCA.nps");
+				String Estilo = System::Ioutils::TPath::Combine(NSNPSVD, "NSST.stl");
+				frmCodigo->mmCodigo->Lines->SaveToFile(arq);
+				frmCodigo->mmEstilo->Lines->SaveToFile(Estilo);
 
-			arq = System::Ioutils::TPath::Combine(locSalvo, L"NSCA.nps");
-			Estilo = System::Ioutils::TPath::Combine(locSalvo, "NSST.stl");
-			ProjSecun = new TFileStream(Estilo, TFileMode::fmOpen);
-			ProjAtual = new TFileStream(arq, TFileMode::fmOpen);
+				arq = System::Ioutils::TPath::Combine(locSalvo, L"NSCA.nps");
+				Estilo = System::Ioutils::TPath::Combine(locSalvo, "NSST.stl");
+				ProjSecun = new TFileStream(Estilo, TFileMode::fmOpen);
+				ProjAtual = new TFileStream(arq, TFileMode::fmOpen);
 
-
+			}
+			else {
+				throw Exception (L"ERRO 000020: Falha ao localizar o diretório Ninterpres.\nA cópia de segurança da apresentação não pôde ser salva.");
+			}
 		}
 		else {
-			throw Exception (L"ERRO 000020: Falha ao localizar o diretório Ninterpres.\nA cópia de segurança da apresentação não pôde ser salva.");
+				delete ProjAtual;
+				delete ProjSecun;
+
+				TDirectory::Copy(locSalvo, temporario);
+
+				String arq = System::Ioutils::TPath::Combine(temporario, L"NSCA.nps");
+				String Estilo = System::Ioutils::TPath::Combine(temporario, "NSST.stl");
+				frmCodigo->mmCodigo->Lines->SaveToFile(arq);
+				frmCodigo->mmEstilo->Lines->SaveToFile(Estilo);
+
+				arq = System::Ioutils::TPath::Combine(locSalvo, L"NSCA.nps");
+				Estilo = System::Ioutils::TPath::Combine(locSalvo, "NSST.stl");
+				ProjSecun = new TFileStream(Estilo, TFileMode::fmOpen);
+				ProjAtual = new TFileStream(arq, TFileMode::fmOpen);
+
+		}
+	}
+	else {
+
+		if (frmCarregar->sans) {
+			if (frmCarregar->usarad) {
+				PWSTR pszPath;
+				if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pszPath)))
+				{
+					String NSNPSV = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres\\CPSEG\\");
+					String NSNPTEMP = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres\\TEMP");
+					CoTaskMemFree(pszPath);
+
+					String arq = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSCA.nps");
+					String arqb = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSST.stl");
+					frmCodigo->mmCodigo->Lines->SaveToFile(arq);
+					frmCodigo->mmEstilo->Lines->SaveToFile(arqb);
+
+					String NSNPSVD = System::Ioutils::TPath::Combine(NSNPSV, frmCodigo->mmCodigo->Lines->Strings[0]);
+
+					if (TDirectory::Exists(NSNPSVD)) TDirectory::Delete(NSNPSV, true);
+
+					TDirectory::Copy(NSNPTEMP, NSNPSVD);
+
+				}
+				else {
+					throw Exception (L"ERRO 000020: Falha ao localizar o diretório Ninterpres.\nA cópia de segurança da apresentação não pôde ser salva.");
+				}
+			}
+			else {
+
+				PWSTR pszPath;
+				if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pszPath)))
+				{
+					String NSNPTEMP = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres\\TEMP");
+					CoTaskMemFree(pszPath);
+
+					String arq = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSCA.nps");
+					String arqb = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSST.stl");
+					frmCodigo->mmCodigo->Lines->SaveToFile(arq);
+					frmCodigo->mmEstilo->Lines->SaveToFile(arqb);
+
+					if (TDirectory::Exists(temporario)) TDirectory::Delete(temporario, true);
+
+					TDirectory::Copy(NSNPTEMP, temporario);
+
+				}
+				else {
+					throw Exception (L"ERRO 000020: Falha ao localizar o diretório Ninterpres.\nA cópia de segurança da apresentação não pôde ser salva.");
+				}
+			}
 		}
 	}
 }
@@ -3148,4 +3221,84 @@ void __fastcall TfrmPrincipal::btDeslizarAjdEClick(TObject *Sender)
 	brAjuda->ShowScrollBars = false;
 }
 //---------------------------------------------------------------------------
+
+void TfrmPrincipal::DefineTemp()
+{
+	inicio:
+	if (dsSalvarTemp->Execute()) {
+		temporario = dsSalvarTemp->FileName;
+		dsSalvarTemp->Free();
+	}
+	else goto inicio;
+
+	tmCopiaSeg->Enabled = true;
+}
+//---------------------------------------------------------------------------
+
+void TfrmPrincipal::ArranjoBotoes()
+{
+	brAjuda->ShowScrollBars = true;
+	if (brAjuda->ViewportPosition.X == 0) btDeslizarAjdE->Visible = false;
+	else {
+		btDeslizarAjdE->Visible = true;
+		btDeslizarAjdE->Position->X = brAjuda->ViewportPosition.X;
+	}
+
+	btDeslizarAjdD->Position->X = brAjuda->ViewportPosition.X + frmPrincipal->Width - btDeslizarAjdD->Width - reduc;
+	brAjuda->ShowScrollBars = false;
+
+	if ((btDeslizarAjdD->Position->X + btDeslizarAjdD->Width) >= (btSobre->Position->X + btSobre->Width)) btDeslizarAjdD->Visible = false;
+	else btDeslizarAjdD->Visible = true;
+
+	//-------------------------------
+
+	brVisualizar->ShowScrollBars = true;
+	if (brVisualizar->ViewportPosition.X == 0) btDeslizarVisE->Visible = false;
+	else {
+		btDeslizarVisE->Visible = true;
+		btDeslizarVisE->Position->X = brVisualizar->ViewportPosition.X;
+	}
+
+	btDeslizarVisD->Position->X = brVisualizar->ViewportPosition.X + frmPrincipal->Width - btDeslizarVisD->Width - reduc;
+	brVisualizar->ShowScrollBars = false;
+
+	if ((btDeslizarVisD->Position->X + btDeslizarVisD->Width) >= (vpLinha8->Position->X + vpLinha8->Width)) btDeslizarVisD->Visible = false;
+	else btDeslizarVisD->Visible = true;
+
+	//-------------------------------
+
+	brArquivo->ShowScrollBars = true;
+	if (brArquivo->ViewportPosition.X == 0) btDeslizarAqvE->Visible = false;
+	else {
+		btDeslizarAqvE->Visible = true;
+		btDeslizarAqvE->Position->X = brArquivo->ViewportPosition.X;
+	}
+
+	btDeslizarAqvD->Position->X = brArquivo->ViewportPosition.X + frmPrincipal->Width - btDeslizarAqvD->Width - reduc;
+	brArquivo->ShowScrollBars = false;
+
+	if ((btDeslizarAqvD->Position->X + btDeslizarAqvD->Width) >= (lblAjustesAdicionais->Position->X + lblAjustesAdicionais->Width)) btDeslizarAqvD->Visible = false;
+	else btDeslizarAqvD->Visible = true;
+
+	//-------------------------------
+
+	brEditar->ShowScrollBars = true;
+	if (brEditar->ViewportPosition.X == 0) btDeslizarEdtE->Visible = false;
+	else {
+		btDeslizarEdtE->Visible = true;
+		btDeslizarEdtE->Position->X = brEditar->ViewportPosition.X;
+	}
+
+	btDeslizarEdtD->Position->X = brEditar->ViewportPosition.X + frmPrincipal->Width - btDeslizarEdtD->Width - reduc;
+	brEditar->ShowScrollBars = false;
+
+	if ((btDeslizarEdtD->Position->X + btDeslizarEdtD->Width) >= (vpLinha2->Position->X + vpLinha2->Width)) btDeslizarEdtD->Visible = false;
+	else btDeslizarEdtD->Visible = true;
+
+}
+//---------------------------------------------------------------------------
+
+
+
+
 

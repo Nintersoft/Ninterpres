@@ -88,14 +88,14 @@ object frmConfig: TfrmConfig
     Size.Width = 561.000000000000000000
     Size.Height = 441.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 0
+    TabIndex = 2
     TabOrder = 11
     TabPosition = Top
     object abaDesenv: TTabItem
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 187.000000000000000000
       Size.Height = 24.000000000000000000
       Size.PlatformDefault = False
@@ -326,7 +326,7 @@ object frmConfig: TfrmConfig
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      IsSelected = True
       Size.Width = 185.000000000000000000
       Size.Height = 24.000000000000000000
       Size.PlatformDefault = False
@@ -355,7 +355,6 @@ object frmConfig: TfrmConfig
           TextSettings.Font.Size = 16.000000000000000000
         end
         object cbSalvarTemp: TCheckBox
-          Enabled = False
           StyledSettings = [Family, Style, FontColor]
           IsChecked = True
           Position.X = 24.000000000000000000
@@ -400,7 +399,6 @@ object frmConfig: TfrmConfig
           Text = 'Intervalo de tempo (minutos)'
         end
         object btApresTemp: TCheckBox
-          Enabled = False
           StyledSettings = [Family, Style, FontColor]
           Position.X = 72.000000000000000000
           Position.Y = 64.000000000000000000

@@ -30,6 +30,7 @@ public:		// User declarations
 	String NSNPCONF;
 	String NSNPLOC;
 	String NSNPLOCATL;
+	bool usarad, sans;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TfrmCarregar *frmCarregar;
