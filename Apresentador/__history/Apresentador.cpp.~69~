@@ -44,9 +44,7 @@ void __fastcall TfrmApresentacao::FormShow(TObject *Sender)
 	}
 
 	if (TFile::Exists("..\\NSCA.nps")) {
-		mmCodigo->BeginUpdate();
 		mmCodigo->Lines->LoadFromFile("..\\NSCA.nps");
-		mmCodigo->EndUpdate();
 		ProjAtual = new TFileStream("..\\NSCA.nps", TFileMode::fmOpen);
 	}
 /*	else if (TFile::Exists("NSCA.nps")) {
@@ -58,9 +56,7 @@ void __fastcall TfrmApresentacao::FormShow(TObject *Sender)
 	}
 
 	if (TFile::Exists("..\\NSST.stl")) {
-		mmEstilo->BeginUpdate();
-		mmEstilo->Lines->LoadFromFile("..\\NSST.stl");
-		mmEstilo->EndUpdate();
+		mmCodigo->Lines->LoadFromFile("..\\NSST.stl");
 		ProjSecun = new TFileStream("..\\NSST.stl", TFileMode::fmOpen);
 	}
 /*	else if (TFile::Exists("NSST.stl")) {
@@ -424,7 +420,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 						vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
-			else if (mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
+			else if (Lines->Strings[LOCLIN] == "!NSTT"){
 				vsTransp->Fill->Color = CorFundoTransp;
 					if (CorBordaDif) {
 						vsTransp->Stroke->Color = CorFundoTransp;

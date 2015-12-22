@@ -10,9 +10,7 @@
 #pragma resource "*.fmx"
 TfrmApresentacao *frmApresentacao;
 //---------------------------------------------------------------------------
-const float RealTamFonte = 1.3125;
-
-int Transp = 0, CorBordaTransp, num = 1, Transps, Vis = 0, CorFundoTransp, Visualiza = 3;
+int Transp = 0, CorBordaTransp, num = 1, Transps, Vis = 0, CorFundoTransp;
 bool TranspData, TranspProp, CorBordaDif;
 TFileStream* ProjAtual;
 TFileStream* ProjSecun;
@@ -44,9 +42,7 @@ void __fastcall TfrmApresentacao::FormShow(TObject *Sender)
 	}
 
 	if (TFile::Exists("..\\NSCA.nps")) {
-		mmCodigo->BeginUpdate();
 		mmCodigo->Lines->LoadFromFile("..\\NSCA.nps");
-		mmCodigo->EndUpdate();
 		ProjAtual = new TFileStream("..\\NSCA.nps", TFileMode::fmOpen);
 	}
 /*	else if (TFile::Exists("NSCA.nps")) {
@@ -58,9 +54,7 @@ void __fastcall TfrmApresentacao::FormShow(TObject *Sender)
 	}
 
 	if (TFile::Exists("..\\NSST.stl")) {
-		mmEstilo->BeginUpdate();
-		mmEstilo->Lines->LoadFromFile("..\\NSST.stl");
-		mmEstilo->EndUpdate();
+		mmCodigo->Lines->LoadFromFile("..\\NSST.stl");
 		ProjSecun = new TFileStream("..\\NSST.stl", TFileMode::fmOpen);
 	}
 /*	else if (TFile::Exists("NSST.stl")) {
@@ -83,7 +77,6 @@ void __fastcall TfrmApresentacao::FormShow(TObject *Sender)
 	int LOCLIN = LocDet("TAM_FONTE");
 	float TamConv = AdquireTam(mmEstilo->Lines->Strings[LOCLIN]);
 	lblTranspTexto->TextSettings->Font->Size = TamConv;
-	tamFonteBasica = TamConv;
 
 	Transps = num - 1;
 
@@ -297,7 +290,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 	float ValorHorz = 0.00781250 * LargTransp;  //Porcentagem correspondente à 8 em 1024
 	float ValorVert = 0.01041667 * AltTransp;   //Porcentagem correspondente à 8 em 768
 
-	AjusteVisual();
+//	AjusteVisual();
 
 	if (Vis == 0) {
 		if (Transp == 0) {
@@ -314,17 +307,17 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			}
 
 			lblTitulo->Position->Y = AltTransp/2;
-			if (Visualiza == 0 | Visualiza == 1 ) lblTitulo->Position->X = (3 * ValorHorzM);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTitulo->Position->X = (3 * ValorHorzM);
 			else lblTitulo->Position->X = (3 * ValorHorz);
-			if (Visualiza == 0 | Visualiza == 1 ) lblTitulo->Width = (vsTransp->Width - (3 * ValorHorzM));
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTitulo->Width = (vsTransp->Width - (3 * ValorHorzM));
 			else lblTitulo->Width = (vsTransp->Width - (3 * ValorHorz));
 			lblTitulo->TextSettings->HorzAlign = 0x1;
 			lblTitulo->Height = tamFonteTitulo;
 			lblTitulo->Font->Size = tamFonteTitulo;
 
-			if (Visualiza == 0 | Visualiza == 1 ) lblTranspTexto->Width = LargTransp - (4 * ValorHorzM);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Width = LargTransp - (4 * ValorHorzM);
 			else lblTranspTexto->Width = LargTransp - (4 * ValorHorz);
-			if (Visualiza == 0 | Visualiza == 1 ) lblTranspTexto->Position->X = ValorHorzM * 3;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Position->X = ValorHorzM * 3;
 			else lblTranspTexto->Position->X = ValorHorz * 3;
 			lblTranspTexto->Position->Y = AltTransp/2 + ValorVert + lblTitulo->Height;
 			lblTranspTexto->Height = tamFonteBasica * RealTamFonte * 2;
@@ -337,9 +330,9 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			imgTransp->Height = AltTransp;
 			imgTransp->WrapMode = TImageWrapMode::iwStretch;
 
-			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Width = LargTransp - (ValorHorzM * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Width = LargTransp - (ValorHorzM * 4);
 			else lblImgLeg->Width = LargTransp - (ValorHorz * 4);
-			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Position->X = ValorHorzM * 3;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Position->X = ValorHorzM * 3;
 			else lblImgLeg->Position->X = ValorHorz * 3;
 			lblImgLeg->TextSettings->HorzAlign = 0x2;
 			lblImgLeg->Position->Y = AltTransp - ValorVert * 3 - lblImgLeg->Height;
@@ -354,7 +347,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			LOCLIN = LocDet("APL_TODOS");
 			if (mmEstilo->Lines->Strings[LOCLIN] == "NSTT") {
 				vsTransp->Fill->Color = cor;
-					if (CorBordaDif) {
+					if (cbBorda->IsChecked) {
 						vsTransp->Stroke->Color = cor;
 					}
 					else {
@@ -363,7 +356,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			}
 			else if (mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
 				vsTransp->Fill->Color = CorFundoTransp;
-					if (CorBordaDif) {
+					if (cbBorda->IsChecked) {
 						vsTransp->Stroke->Color = CorFundoTransp;
 					}
 					else {
@@ -375,7 +368,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			}
 
 			lblTitulo->Width = LargTransp;
-			if (Visualiza == 0 | Visualiza == 1 ) lblTitulo->Position->Y = (ValorHorzM * 3);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTitulo->Position->Y = (ValorHorzM * 3);
 			else lblTitulo->Position->Y = (ValorHorz * 3);
 			lblTitulo->Position->X = 0;
 			lblTitulo->Width = vsTransp->Width;
@@ -383,25 +376,25 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			lblTitulo->Height = tamFonteTitulo;
 			lblTitulo->Font->Size = tamFonteTitulo;
 
-			if (Visualiza == 0 | Visualiza == 1 ) imgTransp->Width = LargTransp/2 - (ValorHorzM * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Width = LargTransp/2 - (ValorHorzM * 4);
 			else imgTransp->Width = LargTransp/2 - (ValorHorz * 4);
-			if (Visualiza == 0 | Visualiza == 1 ) imgTransp->Position->X = LargTransp / 2 + ValorHorzM;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Position->X = LargTransp / 2 + ValorHorzM;
 			else imgTransp->Position->X = LargTransp / 2 + ValorHorz;
 			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - (ValorVert * 4);
 			imgTransp->Position->Y = (ValorVert * 13) + (ValorVert/4);
 			imgTransp->WrapMode = TImageWrapMode::iwFit;
 
 			lblImgLeg->TextSettings->HorzAlign = 0x0;
-			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Width = LargTransp/2 - ValorHorzM * 4;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Width = LargTransp/2 - ValorHorzM * 4;
 			else lblImgLeg->Width = LargTransp/2 - ValorHorz * 4;
-			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Position->X = LargTransp / 2 + ValorHorzM * 2;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Position->X = LargTransp / 2 + ValorHorzM * 2;
 			else lblImgLeg->Position->X = LargTransp / 2 + ValorHorz * 2;
 			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
 			lblImgLeg->Visible = true;
 
-			if (Visualiza == 0 | Visualiza == 1 ) lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
 			else lblTranspTexto->Width = LargTransp/2 - (ValorHorz * 4);
-			if (Visualiza == 0 | Visualiza == 1 ) lblTranspTexto->Position->X = ValorHorzM * 3;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Position->X = ValorHorzM * 3;
 			else lblTranspTexto->Position->X = ValorHorz * 3;
 			lblTranspTexto->Height = imgTransp->Height;
 			lblTranspTexto->Position->Y = (ValorVert * 13) + (ValorVert/4);
@@ -417,16 +410,16 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			LOCLIN = LocDet("APL_TODOS");
 			if (mmEstilo->Lines->Strings[LOCLIN] == "NSTT") {
 				vsTransp->Fill->Color = cor;
-					if (CorBordaDif) {
+					if (cbBorda->IsChecked) {
 						vsTransp->Stroke->Color = cor;
 					}
 					else {
 						vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
-			else if (mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
+			else if (Lines->Strings[LOCLIN] == "!NSTT"){
 				vsTransp->Fill->Color = CorFundoTransp;
-					if (CorBordaDif) {
+					if (cbBorda->IsChecked) {
 						vsTransp->Stroke->Color = CorFundoTransp;
 					}
 					else {
@@ -445,25 +438,25 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			lblTitulo->Height = tamFonteTitulo;
 			lblTitulo->Font->Size = tamFonteTitulo;
 
-			if (Visualiza == 0 | Visualiza == 1 ) imgTransp->Width = LargTransp/2 - ValorHorzM * 4;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Width = LargTransp/2 - ValorHorzM * 4;
 			else imgTransp->Width = LargTransp/2 - ValorHorz * 4;
-			if (Visualiza == 0 | Visualiza == 1 ) imgTransp->Position->X = ValorHorzM * 3;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Position->X = ValorHorzM * 3;
 			else imgTransp->Position->X = ValorHorz * 3;
 			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - (ValorVert * 4);
 			imgTransp->Position->Y = (ValorVert * 13) + (ValorVert/4);
 			imgTransp->WrapMode = TImageWrapMode::iwFit;
 
 			lblImgLeg->TextSettings->HorzAlign = 0x0;
-			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Width = LargTransp/2 - (ValorHorzM * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Width = LargTransp/2 - (ValorHorzM * 4);
 			else lblImgLeg->Width = LargTransp/2 - (ValorHorz * 4);
-			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Position->X = ValorHorz * 3;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Position->X = ValorHorz * 3;
 			else lblImgLeg->Position->X = ValorHorz * 3;
 			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
 			lblImgLeg->Visible = true;
 
-			if (Visualiza == 0 | Visualiza == 1 ) lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
 			else lblTranspTexto->Width = LargTransp/2 - (ValorHorz * 4);
-			if (Visualiza == 0 | Visualiza == 1 ) lblTranspTexto->Position->X = LargTransp / 2 + ValorHorzM;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Position->X = LargTransp / 2 + ValorHorzM;
 			else lblTranspTexto->Position->X = LargTransp / 2 + ValorHorzM;\
 			lblTranspTexto->Height = imgTransp->Height;
 			lblTranspTexto->Position->Y = (ValorVert * 13) + (ValorVert/4);
@@ -479,7 +472,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			LOCLIN = LocDet("APL_TODOS");
 			if (mmEstilo->Lines->Strings[LOCLIN] == "NSTT") {
 				vsTransp->Fill->Color = cor;
-					if (CorBordaDif) {
+					if (cbBorda->IsChecked) {
 						vsTransp->Stroke->Color = cor;
 					}
 					else {
@@ -488,7 +481,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			}
 			else if (mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
 				vsTransp->Fill->Color = CorFundoTransp;
-					if (CorBordaDif) {
+					if (cbBorda->IsChecked) {
 						vsTransp->Stroke->Color = CorFundoTransp;
 					}
 					else {
@@ -507,25 +500,25 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			lblTitulo->Height = tamFonteTitulo;
 			lblTitulo->Font->Size = tamFonteTitulo;
 
-			if (Visualiza == 0 | Visualiza == 1 ) imgTransp->Width = LargTransp/2 - (3 * ValorHorzM);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Width = LargTransp/2 - (3 * ValorHorzM);
 			else imgTransp->Width = LargTransp/2 - (3 * ValorHorz);
-			if (Visualiza == 0 | Visualiza == 1 ) imgTransp->Position->X = LargTransp / 2 + ValorHorzM;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Position->X = LargTransp / 2 + ValorHorzM;
 			else imgTransp->Position->X = LargTransp / 2 + ValorHorz;
 			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - 32;
 			imgTransp->Position->Y = ValorVert * 3;
 			imgTransp->WrapMode = TImageWrapMode::iwFit;
 
 			lblImgLeg->TextSettings->HorzAlign = 0x0;
-			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Width = LargTransp/2 - (ValorHorzM * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Width = LargTransp/2 - (ValorHorzM * 4);
 			else lblImgLeg->Width = LargTransp/2 - (ValorHorz * 4);
-			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Position->X = LargTransp / 2 + ValorHorzM;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Position->X = LargTransp / 2 + ValorHorzM;
 			else lblImgLeg->Position->X = LargTransp / 2 + ValorHorz;
 			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
 			lblImgLeg->Visible = true;
 
-			if (Visualiza == 0 | Visualiza == 1 ) lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
 			else lblTranspTexto->Width = LargTransp/2 - (ValorHorz * 4);
-			if (Visualiza == 0 | Visualiza == 1 ) lblTranspTexto->Position->X = ValorHorzM * 3;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Position->X = ValorHorzM * 3;
 			else lblTranspTexto->Position->X = ValorHorz * 3;
 			lblTranspTexto->Height = imgTransp->Height;
 			lblTranspTexto->Position->Y = ValorVert * 3;
@@ -541,7 +534,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			LOCLIN = LocDet("APL_TODOS");
 			if (mmEstilo->Lines->Strings[LOCLIN] == "NSTT") {
 				vsTransp->Fill->Color = cor;
-					if (CorBordaDif) {
+					if (cbBorda->IsChecked) {
 						vsTransp->Stroke->Color = cor;
 					}
 					else {
@@ -550,7 +543,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			}
 			else if (mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
 				vsTransp->Fill->Color = CorFundoTransp;
-					if (CorBordaDif) {
+					if (cbBorda->IsChecked) {
 						vsTransp->Stroke->Color = CorFundoTransp;
 					}
 					else {
@@ -569,25 +562,25 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			lblTitulo->Height = tamFonteTitulo;
 			lblTitulo->Font->Size = tamFonteTitulo;
 
-			if (Visualiza == 0 | Visualiza == 1 ) imgTransp->Width = LargTransp/2 - (4 * ValorHorzM);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Width = LargTransp/2 - (4 * ValorHorzM);
 			else imgTransp->Width = LargTransp/2 - (4 * ValorHorz);
-			if (Visualiza == 0 | Visualiza == 1 ) imgTransp->Position->X = ValorHorzM * 3;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Position->X = ValorHorzM * 3;
 			else imgTransp->Position->X = ValorHorz * 3;
 			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - (ValorVert * 4);
 			imgTransp->Position->Y = ValorVert * 3;
 			imgTransp->WrapMode = TImageWrapMode::iwFit;
 
 			lblImgLeg->TextSettings->HorzAlign = 0x0;
-			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Width = LargTransp/2 - (ValorHorzM * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Width = LargTransp/2 - (ValorHorzM * 4);
 			else lblImgLeg->Width = LargTransp/2 - (ValorHorz * 4);
-			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Position->X = ValorHorzM * 3;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Position->X = ValorHorzM * 3;
 			else lblImgLeg->Position->X = ValorHorz * 3;
 			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
 			lblImgLeg->Visible = true;
 
-			if (Visualiza == 0 | Visualiza == 1 ) lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
 			else lblTranspTexto->Width = LargTransp/2 - (ValorHorz * 4);
-			if (Visualiza == 0 | Visualiza == 1 ) lblTranspTexto->Position->X = LargTransp / 2 + ValorHorzM;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Position->X = LargTransp / 2 + ValorHorzM;
 			else lblTranspTexto->Position->X = LargTransp / 2 + ValorHorz;
 			lblTranspTexto->Height = imgTransp->Height;
 			lblTranspTexto->Position->Y = (ValorVert * 3);
@@ -603,7 +596,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			LOCLIN = LocDet("APL_TODOS");
 			if (mmEstilo->Lines->Strings[LOCLIN] == "NSTT") {
 				vsTransp->Fill->Color = cor;
-					if (CorBordaDif) {
+					if (cbBorda->IsChecked) {
 						vsTransp->Stroke->Color = cor;
 					}
 					else {
@@ -612,7 +605,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			}
 			else if (mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
 				vsTransp->Fill->Color = CorFundoTransp;
-					if (CorBordaDif) {
+					if (cbBorda->IsChecked) {
 						vsTransp->Stroke->Color = CorFundoTransp;
 					}
 					else {
@@ -641,9 +634,9 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			lblImgLeg->Position->Y = 0;
 			lblImgLeg->Visible = false;
 
-			if (Visualiza == 0 | Visualiza == 1 ) lblTranspTexto->Width = LargTransp - (ValorHorzM * 6);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Width = LargTransp - (ValorHorzM * 6);
 			else lblTranspTexto->Width = LargTransp - (ValorHorz * 6);
-			if (Visualiza == 0 | Visualiza == 1 ) lblTranspTexto->Position->X = (ValorHorzM * 3);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Position->X = (ValorHorzM * 3);
 			else lblTranspTexto->Position->X = (ValorHorz * 3);
 			lblTranspTexto->Height = AltTransp - (ValorVert * 17);
 			lblTranspTexto->Position->Y = (ValorVert * 13) + (ValorVert/4);
@@ -659,7 +652,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			LOCLIN = LocDet("APL_TODOS");
 			if (mmEstilo->Lines->Strings[LOCLIN] == "NSTT") {
 				vsTransp->Fill->Color = cor;
-					if (CorBordaDif) {
+					if (cbBorda->IsChecked) {
 						vsTransp->Stroke->Color = cor;
 					}
 					else {
@@ -668,7 +661,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			}
 			else if (mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
 				vsTransp->Fill->Color = CorFundoTransp;
-					if (CorBordaDif) {
+					if (cbBorda->IsChecked) {
 						vsTransp->Stroke->Color = CorFundoTransp;
 					}
 					else {
@@ -687,17 +680,17 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			lblTitulo->Height = tamFonteTitulo;
 			lblTitulo->Font->Size = tamFonteTitulo;
 
-			if (Visualiza == 0 | Visualiza == 1 ) imgTransp->Width = LargTransp - (ValorHorzM * 6);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Width = LargTransp - (ValorHorzM * 6);
 			else imgTransp->Width = LargTransp - (ValorHorz * 6);
-			if (Visualiza == 0 | Visualiza == 1 ) imgTransp->Position->X = ValorHorzM * 3;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Position->X = ValorHorzM * 3;
 			else imgTransp->Position->X = ValorHorz * 3;
 			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - (ValorVert * 4);
 			imgTransp->Position->Y = (ValorVert * 13) + (ValorVert/4);
 			imgTransp->WrapMode = TImageWrapMode::iwFit;
 
-			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Width = LargTransp - (ValorHorzM * 6);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Width = LargTransp - (ValorHorzM * 6);
 			else lblImgLeg->Width = LargTransp - (ValorHorz * 6);
-			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Position->X = ValorHorzM * 3;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Position->X = ValorHorzM * 3;
 			else lblImgLeg->Position->X = ValorHorz * 3;
 			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
 			lblImgLeg->Visible = true;
@@ -719,7 +712,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			LOCLIN = LocDet("APL_TODOS");
 			if (mmEstilo->Lines->Strings[LOCLIN] == "NSTT") {
 				vsTransp->Fill->Color = cor;
-					if (CorBordaDif) {
+					if (cbBorda->IsChecked) {
 						vsTransp->Stroke->Color = cor;
 					}
 					else {
@@ -728,7 +721,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			}
 			else if (mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
 				vsTransp->Fill->Color = CorFundoTransp;
-					if (CorBordaDif) {
+					if (cbBorda->IsChecked) {
 						vsTransp->Stroke->Color = CorFundoTransp;
 					}
 					else {
@@ -747,17 +740,17 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			lblTitulo->Height = tamFonteTitulo;
 			lblTitulo->Font->Size = tamFonteTitulo;
 
-			if (Visualiza == 0 | Visualiza == 1 ) imgTransp->Width = LargTransp - (ValorHorzM * 6);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Width = LargTransp - (ValorHorzM * 6);
 			else imgTransp->Width = LargTransp - (ValorHorz * 6);
-			if (Visualiza == 0 | Visualiza == 1 ) imgTransp->Position->X = ValorHorzM * 3;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Position->X = ValorHorzM * 3;
 			else imgTransp->Position->X = ValorHorz * 3;
 			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - (ValorVert * 4);
 			imgTransp->Position->Y = (ValorVert * 3);
 			imgTransp->WrapMode = TImageWrapMode::iwFit;
 
-			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Width = LargTransp - (6 * ValorHorzM);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Width = LargTransp - (6 * ValorHorzM);
 			else lblImgLeg->Width = LargTransp - (6 * ValorHorz);
-			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Position->X = ValorHorzM * 3;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Position->X = ValorHorzM * 3;
 			else lblImgLeg->Position->X = ValorHorz * 3;
 			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
 			lblImgLeg->Visible = true;
@@ -1028,103 +1021,4 @@ void __fastcall TfrmApresentacao::FormClose(TObject *Sender, TCloseAction &Actio
 	delete ProjSecun;
 }
 //---------------------------------------------------------------------------
-void TfrmApresentacao::AjusteVisual() {
-	if (Visualiza == 0) {
 
-		int altmax = (int)brTransp->Height - 40;
-		vsTransp->Height = altmax;
-
-		int largmax = (int)((altmax/9)*16);
-		vsTransp->Width = largmax;
-
-		float altmaxconv = altmax;
-
-		tamFonteBasica = ((altmaxconv/768) * tamFonteBasica);
-		tamFonteTitulo = ((altmaxconv * 64) / 768);
-
-		vsTransp->Position->X = (brTransp->Width - vsTransp->Width)/2;
-		vsTransp->Position->Y = (brTransp->Height - vsTransp->Height)/2;
-
-	}
-	else if (Visualiza == 1) {
-
-		float trPos[2], brTam[2], trTam[2];
-
-		vsTransp->Width = 1366;
-		vsTransp->Height = 768;
-
-		tamFonteTitulo = 64;
-
-		brTam[0] = brTransp->Width;
-		brTam[1] = brTransp->Height;
-		trTam[0] = vsTransp->Width;
-		trTam[1] = vsTransp->Height;
-
-		if (brTam[0] >= trTam[0]) {
-			trPos[0] = (brTam[0] - trTam[0])/2;
-			vsTransp->Position->X = trPos[0];
-		}
-		else {
-			vsTransp->Position->X = 20;
-		}
-
-		if (brTam[1] >= trTam[1]) {
-			trPos[1] = (brTam[1] - trTam[1])/2;
-			vsTransp->Position->Y = trPos[1];
-		}
-		else {
-			vsTransp->Position->Y = 20;
-		}
-
-	}
-	else if (Visualiza == 2) {
-
-		int altmax = (int)brTransp->Height - 40;
-		vsTransp->Height = altmax;
-
-		int largmax = (int)((altmax/3)*4);
-		vsTransp->Width = largmax;
-
-		float altmaxconv = altmax;
-
-		vsTransp->Position->X = (brTransp->Width - vsTransp->Width)/2;
-		vsTransp->Position->Y = (brTransp->Height - vsTransp->Height)/2;
-
-		tamFonteBasica = ((altmaxconv/768) * tamFonteBasica);
-		tamFonteTitulo = ((altmaxconv * 64) / 768);
-
-
-	}
-	else {
-
-		float trPos[2], brTam[2], trTam[2];
-
-		vsTransp->Width = 1024;
-		vsTransp->Height = 768;
-
-		tamFonteTitulo = 64;
-
-		brTam[0] = brTransp->Width;
-		brTam[1] = brTransp->Height;
-		trTam[0] = vsTransp->Width;
-		trTam[1] = vsTransp->Height;
-
-		if (brTam[0] >= trTam[0]) {
-			trPos[0] = (brTam[0] - trTam[0])/2;
-			vsTransp->Position->X = trPos[0];
-		}
-		else {
-			vsTransp->Position->X = 20;
-		}
-
-		if (brTam[1] >= trTam[1]) {
-			trPos[1] = (brTam[1] - trTam[1])/2;
-			vsTransp->Position->Y = trPos[1];
-		}
-		else {
-			vsTransp->Position->Y = 20;
-		}
-
-	}
-}
-//---------------------------------------------------------------------------

@@ -10,22 +10,35 @@
 #include <FMX.Objects.hpp>
 #include <FMX.Types.hpp>
 #include <FMX.StdCtrls.hpp>
+#include <FMX.Memo.hpp>
 //---------------------------------------------------------------------------
 class TfrmApresentacao : public TForm
 {
 __published:	// IDE-managed Components
 	TRectangle *vsTransp;
 	TScrollBox *brTransp;
-	TLabel *lblTranspTitulo;
+	TLabel *lblTitulo;
 	TText *lblTranspTexto;
 	TLabel *lblImgLeg;
 	TImage *imgTransp;
-	TImage *Image1;
+	TImage *imgLogoNS;
+	TMemo *mmCodigo;
+	TMemo *mmTranspCont;
+	TMemo *mmEstilo;
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall FormResize(TObject *Sender);
+	void __fastcall FormKeyDown(TObject *Sender, WORD &Key, System::WideChar &KeyChar,
+          TShiftState Shift);
+	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TfrmApresentacao(TComponent* Owner);
+	void CarregarTransp (int);
+	bool comentario (String);
+	void RearranjoTransp (int);
+	void Padronizar ();
+	int LocDet(String Valor);
+	int AdquireTam (String Texto);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TfrmApresentacao *frmApresentacao;

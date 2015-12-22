@@ -80,14 +80,26 @@ void __fastcall TfrmApresentacao::FormShow(TObject *Sender)
 		i++;
 	}while (i < tam);
 
+	try{
 	int LOCLIN = LocDet("TAM_FONTE");
 	float TamConv = AdquireTam(mmEstilo->Lines->Strings[LOCLIN]);
 	lblTranspTexto->TextSettings->Font->Size = TamConv;
 	tamFonteBasica = TamConv;
+	}
+	catch (...)
+	{
+		ShowMessage("AQUI 1");
+	}
 
 	Transps = num - 1;
 
+	try{
 	CarregarTransp(Transp);
+	}
+	catch (...)
+	{
+		ShowMessage("AQUI w");
+	}
 	Padronizar();
 
 }

@@ -15,78 +15,82 @@ object frmApresentacao: TfrmApresentacao
   OnKeyDown = FormKeyDown
   OnResize = FormResize
   OnShow = FormShow
-  DesignerMobile = False
-  DesignerWidth = 0
-  DesignerHeight = 0
-  DesignerDeviceName = ''
-  DesignerOrientation = 0
-  DesignerOSVersion = ''
+  DesignerMasterStyle = 0
   object brTransp: TScrollBox
     Align = Client
-    Height = 784.000000000000000000
+    Size.Width = 1073.000000000000000000
+    Size.Height = 784.000000000000000000
+    Size.PlatformDefault = False
     TabOrder = 1
-    Width = 1073.000000000000000000
     object mmTranspCont: TMemo
       Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
-      Height = 161.000000000000000000
       Position.X = 352.000000000000000000
       Position.Y = 408.000000000000000000
+      Size.Width = 721.000000000000000000
+      Size.Height = 161.000000000000000000
+      Size.PlatformDefault = False
       TabOrder = 2
       Visible = False
-      Width = 721.000000000000000000
     end
     object mmCodigo: TMemo
       Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
-      Height = 161.000000000000000000
       Position.X = 352.000000000000000000
       Position.Y = 216.000000000000000000
+      Size.Width = 729.000000000000000000
+      Size.Height = 161.000000000000000000
+      Size.PlatformDefault = False
       TabOrder = 1
       Visible = False
-      Width = 729.000000000000000000
     end
     object vsTransp: TRectangle
       Fill.Color = claWhite
-      Height = 768.000000000000000000
-      Width = 1024.000000000000000000
+      Size.Width = 1024.000000000000000000
+      Size.Height = 768.000000000000000000
+      Size.PlatformDefault = False
       object imgTransp: TImage
         MultiResBitmap = <
           item
           end>
-        Height = 768.000000000000000000
-        Width = 1024.000000000000000000
+        Size.Width = 1024.000000000000000000
+        Size.Height = 768.000000000000000000
+        Size.PlatformDefault = False
+        WrapMode = Stretch
       end
       object lblTitulo: TLabel
         StyledSettings = [FontColor]
-        Height = 64.000000000000000000
         Position.X = 24.000000000000000000
         Position.Y = 384.000000000000000000
+        Size.Width = 977.000000000000000000
+        Size.Height = 64.000000000000000000
+        Size.PlatformDefault = False
         TextSettings.Font.Family = 'Arial Narrow'
         TextSettings.Font.Size = 64.000000000000000000
         TextSettings.Font.Style = [fsBold]
         TextSettings.VertAlign = Trailing
         Text = 'T'#237'tulo da apresenta'#231#227'o'
-        Width = 977.000000000000000000
       end
       object lblImgLeg: TLabel
         StyledSettings = [Family, Style, FontColor]
-        Height = 25.000000000000000000
         Position.X = 592.000000000000000000
         Position.Y = 720.000000000000000000
+        Size.Width = 409.000000000000000000
+        Size.Height = 25.000000000000000000
+        Size.PlatformDefault = False
         TextSettings.Font.Size = 18.000000000000000000
         TextSettings.HorzAlign = Trailing
         Text = '(LEGENDA DA IMAGEM)'
-        Width = 409.000000000000000000
       end
       object lblTranspTexto: TText
-        Height = 89.000000000000000000
         Position.X = 24.000000000000000000
         Position.Y = 456.000000000000000000
+        Size.Width = 977.000000000000000000
+        Size.Height = 217.000000000000000000
+        Size.PlatformDefault = False
         TextSettings.Font.Family = 'Arial'
         TextSettings.Font.Size = 16.000000000000000000
         TextSettings.Trimming = Character
         TextSettings.HorzAlign = Leading
         TextSettings.VertAlign = Leading
-        Width = 977.000000000000000000
       end
       object imgLogoNS: TImage
         MultiResBitmap = <
@@ -541,12 +545,23 @@ object frmApresentacao: TfrmApresentacao
               9B37FF0F90C790B02FA1B4680000000049454E44AE426082}
           end>
         Anchors = [akRight, akBottom]
-        Height = 80.000000000000000000
         Position.X = 8.000000000000000000
         Position.Y = 680.000000000000000000
-        Width = 80.000000000000000000
+        Size.Width = 80.000000000000000000
+        Size.Height = 80.000000000000000000
+        Size.PlatformDefault = False
         WrapMode = Stretch
       end
+    end
+    object mmEstilo: TMemo
+      Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+      Position.X = 352.000000000000000000
+      Position.Y = 80.000000000000000000
+      Size.Width = 969.000000000000000000
+      Size.Height = 105.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 4
+      Visible = False
     end
   end
 end

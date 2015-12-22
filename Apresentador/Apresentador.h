@@ -24,10 +24,12 @@ __published:	// IDE-managed Components
 	TImage *imgLogoNS;
 	TMemo *mmCodigo;
 	TMemo *mmTranspCont;
+	TMemo *mmEstilo;
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall FormResize(TObject *Sender);
 	void __fastcall FormKeyDown(TObject *Sender, WORD &Key, System::WideChar &KeyChar,
           TShiftState Shift);
+	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TfrmApresentacao(TComponent* Owner);
@@ -35,6 +37,12 @@ public:		// User declarations
 	bool comentario (String);
 	void RearranjoTransp (int);
 	void Padronizar ();
+	void AjusteVisual();
+	int LocDet(String Valor);
+	int AdquireTam (String Texto);
+
+	long double tamFonteBasica, tamFonteTitulo;
+
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TfrmApresentacao *frmApresentacao;

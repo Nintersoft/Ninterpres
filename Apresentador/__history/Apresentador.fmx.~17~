@@ -12,6 +12,7 @@ object frmApresentacao: TfrmApresentacao
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop, iPhone, iPad]
+  OnKeyDown = FormKeyDown
   OnResize = FormResize
   OnShow = FormShow
   DesignerMobile = False
@@ -25,7 +26,26 @@ object frmApresentacao: TfrmApresentacao
     Height = 784.000000000000000000
     TabOrder = 1
     Width = 1073.000000000000000000
+    object mmTranspCont: TMemo
+      Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+      Height = 161.000000000000000000
+      Position.X = 352.000000000000000000
+      Position.Y = 408.000000000000000000
+      TabOrder = 2
+      Visible = False
+      Width = 721.000000000000000000
+    end
+    object mmCodigo: TMemo
+      Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+      Height = 161.000000000000000000
+      Position.X = 352.000000000000000000
+      Position.Y = 216.000000000000000000
+      TabOrder = 1
+      Visible = False
+      Width = 729.000000000000000000
+    end
     object vsTransp: TRectangle
+      Fill.Color = claWhite
       Height = 768.000000000000000000
       Width = 1024.000000000000000000
       object imgTransp: TImage
@@ -34,8 +54,9 @@ object frmApresentacao: TfrmApresentacao
           end>
         Height = 768.000000000000000000
         Width = 1024.000000000000000000
+        WrapMode = Stretch
       end
-      object lblTranspTitulo: TLabel
+      object lblTitulo: TLabel
         StyledSettings = [FontColor]
         Height = 64.000000000000000000
         Position.X = 24.000000000000000000
@@ -58,7 +79,7 @@ object frmApresentacao: TfrmApresentacao
         Width = 409.000000000000000000
       end
       object lblTranspTexto: TText
-        Height = 89.000000000000000000
+        Height = 217.000000000000000000
         Position.X = 24.000000000000000000
         Position.Y = 456.000000000000000000
         TextSettings.Font.Family = 'Arial'
@@ -68,7 +89,7 @@ object frmApresentacao: TfrmApresentacao
         TextSettings.VertAlign = Leading
         Width = 977.000000000000000000
       end
-      object Image1: TImage
+      object imgLogoNS: TImage
         MultiResBitmap = <
           item
             Width = 440
