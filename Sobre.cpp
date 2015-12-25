@@ -231,7 +231,7 @@ void __fastcall TfrmSobre::FormCreate(TObject *Sender)
 		LONG Style = GetWindowLong(hWnd, GWL_EXSTYLE);
 		SetWindowLong(hWnd, GWL_EXSTYLE, Style | WS_EX_APPWINDOW);
 	}
-	verat = 2;
+	verat = 3;
 	novo = "Adquirindo ";
 	arq = "";
 }
