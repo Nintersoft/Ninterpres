@@ -117,25 +117,18 @@ void __fastcall TfrmPrincipal::btSelecImagemClick(TObject *Sender)
 
 		edCamTranspImg->Text = daImagem->FileName;
 
-		PWSTR pszPath;
-		if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pszPath)))
-		{
-			String NSNPTEMP = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres\\TEMP\\IMG");
-			CoTaskMemFree(pszPath);
+		if (salvo) {
 
-			if (!TDirectory::Exists(NSNPTEMP)) {
-				TDirectory::CreateDirectory(NSNPTEMP);
-			}
-
+			String locSalvot = System::Ioutils::TPath::Combine(locSalvo, L"IMG");
 			String ext = Extensao(edCamTranspImg->Text);
 			String arqt, arq;
 
 			if (Transp == 0) {
-				arq = System::Ioutils::TPath::Combine(NSNPTEMP, L"CAPA");
+				arq = System::Ioutils::TPath::Combine(locSalvot, L"CAPA");
 			}
 			else {
 				arqt = "TRANSP" + IntToStr(Transp);
-				arq = System::Ioutils::TPath::Combine(NSNPTEMP, arqt);
+				arq = System::Ioutils::TPath::Combine(locSalvot, arqt);
 			}
 
 			TFile::Copy(edCamTranspImg->Text , arq+ext, true);
@@ -151,16 +144,62 @@ void __fastcall TfrmPrincipal::btSelecImagemClick(TObject *Sender)
 				while (comentario(frmCodigo->mmCodigo->Lines->Strings[loc])){
 					loc++;
 				}
-					frmCodigo->mmCodigo->Lines->Strings[loc] = "..\\IMG\\CAPA" + ext;
+
+				frmCodigo->mmCodigo->Lines->Strings[loc] = "..\\IMG\\CAPA" + ext;
 			}
 
 			edCamTranspImg->Text =  arq+ext;
 
-	}
+			imgTransp->Bitmap->LoadFromFile(edCamTranspImg->Text);
+			imgTransp->Visible = true;
 
+		}
+		else {
+			PWSTR pszPath;
+			if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pszPath)))
+			{
+				String NSNPTEMP = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres\\TEMP\\IMG");
+				CoTaskMemFree(pszPath);
 
-		imgTransp->Bitmap->LoadFromFile(edCamTranspImg->Text);
-		imgTransp->Visible = true;
+				if (!TDirectory::Exists(NSNPTEMP)) {
+					TDirectory::CreateDirectory(NSNPTEMP);
+				}
+
+				String ext = Extensao(edCamTranspImg->Text);
+				String arqt, arq;
+
+				if (Transp == 0) {
+					arq = System::Ioutils::TPath::Combine(NSNPTEMP, L"CAPA");
+				}
+				else {
+					arqt = "TRANSP" + IntToStr(Transp);
+					arq = System::Ioutils::TPath::Combine(NSNPTEMP, arqt);
+				}
+
+				TFile::Copy(edCamTranspImg->Text , arq+ext, true);
+
+				if (Transp == 0) {
+					int loc, tam = frmCodigo->mmCodigo->Lines->Count;
+					for (int i = 0; i < tam; i++) {
+						if (frmCodigo->mmCodigo->Lines->Strings[i] == "$CAPA") {
+							loc = i + 1;
+							i = tam;
+						}
+					}
+					while (comentario(frmCodigo->mmCodigo->Lines->Strings[loc])){
+						loc++;
+					}
+
+					frmCodigo->mmCodigo->Lines->Strings[loc] = "..\\IMG\\CAPA" + ext;
+				}
+
+				edCamTranspImg->Text =  arq+ext;
+			}
+
+			imgTransp->Bitmap->LoadFromFile(edCamTranspImg->Text);
+			imgTransp->Visible = true;
+
+		}
 	}
 }
 //---------------------------------------------------------------------------
