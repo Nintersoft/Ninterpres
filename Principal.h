@@ -162,6 +162,9 @@ __published:	// IDE-managed Components
 	TSpeedButton *btDeslizarAjdE;
 	TSpeedButton *btDeslizarAjdD;
 	TSaveDialog *dsSalvarTemp;
+	TImage *btSalvarComo;
+	TImage *btSalvarCript;
+	TRectangle *corFundo;
 	void __fastcall btTranspTipoMouseEnter(TObject *Sender);
 	void __fastcall btTranspTipoMouseLeave(TObject *Sender);
 	void __fastcall tpTipo2Click(TObject *Sender);
@@ -325,6 +328,19 @@ __published:	// IDE-managed Components
           const TPointF &NewViewportPosition, const bool ContentSizeChanged);
 	void __fastcall btDeslizarAjdDClick(TObject *Sender);
 	void __fastcall btDeslizarAjdEClick(TObject *Sender);
+	void __fastcall btSalvarComoMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btSalvarComoMouseLeave(TObject *Sender);
+	void __fastcall btSalvarComoMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btSalvarCriptMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btSalvarCriptMouseLeave(TObject *Sender);
+	void __fastcall btSalvarCriptMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btSalvarCriptClick(TObject *Sender);
+	void __fastcall btSalvarComoClick(TObject *Sender);
+	void __fastcall vsTranspResize(TObject *Sender);
 
 
 
@@ -345,6 +361,7 @@ public:		// User declarations
 	void DefineTemp();
 	void ArranjoBotoes();
 	void CarregarAbertura(String argumento);
+	void SalvaCript();
 	int LocDet (String Informacao);
 	int AdquireTam (String Texto);
 	bool comentario (String);

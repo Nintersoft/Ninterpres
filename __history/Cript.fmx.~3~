@@ -1,0 +1,36 @@
+﻿object frmCript: TfrmCript
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 180
+  ClientWidth = 561
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object GroupBox1: TGroupBox
+    Size.Width = 177.000000000000000000
+    Size.Height = 113.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'Tipo de criptografia'
+    TabOrder = 1
+    object slBásico: TRadioButton
+      IsChecked = True
+      Position.X = 16.000000000000000000
+      Position.Y = 24.000000000000000000
+      Size.Width = 145.000000000000000000
+      Size.Height = 19.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Text = 'B'#225'sica (2 chaves)'
+    end
+  end
+  object cxSenhas: TGroupBox
+    Position.X = 176.000000000000000000
+    Size.Width = 385.000000000000000000
+    Size.Height = 113.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'Informa'#231#245'es de criptografia'
+    TabOrder = 2
+  end
+end

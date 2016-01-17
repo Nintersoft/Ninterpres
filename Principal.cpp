@@ -1,5 +1,4 @@
 //---------------------------------------------------------------------------
-
 #include <fmx.h>
 #include <IOUtils.hpp>
 #include <System.Zip.hpp>
@@ -13,9 +12,12 @@
 #include "ImgConf.h"
 #include "Sobre.h"
 #include "Carregar.h"
+#include "CriptLib.h"
+#include "Cript.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.fmx"
+#pragma comment (lib, "CriptLib.lib")
 TfrmPrincipal *frmPrincipal;
 //---------------------------------------------------------------------------
 const float RealTamFonte = 1.3125;
@@ -296,6 +298,7 @@ void __fastcall TfrmPrincipal::FormShow(TObject *Sender)
 
 		SelecTransp->BeginUpdate();
 		SelecTransp->Items->Add()->Text = "CAPA";
+		SelecTransp->Items->Item[Transp]->Bitmap = frmCarregar->ImgCapa->Bitmap;
 		SelecTransp->Selected = SelecTransp->Items->Item[Transp];
 		SelecTransp->EndUpdate();
 
@@ -306,14 +309,13 @@ void __fastcall TfrmPrincipal::FormShow(TObject *Sender)
 	}
 	else {
 		if (reduc != 0) frmPrincipal->UpdateStyleBook();
-    }
+		frmPrincipal->CarregarTransp(frmPrincipal->SelecTransp->Selected->Index);
+	}
 
 	int COR = listaCorApresenta->Color;
 	vsTransp->Fill->Color = COR;
 	int LOCLIN = LocDet("COR_TRANSP");
 	frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "COR:"+IntToStr(COR);
-
-	listaPrevTransp->ItemIndex = 3;
 
 	LOCLIN = LocDet("TAM_FONTE");
 	float TamConv = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
@@ -361,18 +363,23 @@ void __fastcall TfrmPrincipal::brTranspResize(TObject *Sender)
 	if (brTam[0] >= trTam[0]) {
 		trPos[0] = (brTam[0] - trTam[0])/2;
 		frmPrincipal->vsTransp->Position->X = trPos[0];
+		frmPrincipal->corFundo->Width = brTam[0];
 	}
 	else {
 		frmPrincipal->vsTransp->Position->X = 20;
+		frmPrincipal->corFundo->Width = trTam[0] + 40;
 	}
 
 	if (brTam[1] >= trTam[1]) {
 		trPos[1] = (brTam[1] - trTam[1])/2;
 		frmPrincipal->vsTransp->Position->Y = trPos[1];
+		frmPrincipal->corFundo->Height = brTam[1];
 	}
 	else {
 		frmPrincipal->vsTransp->Position->Y = 20;
+        frmPrincipal->corFundo->Height = trTam[1] + 40;
 	}
+
 }
 //---------------------------------------------------------------------------
 
@@ -682,19 +689,33 @@ bool res = true;
 		}
 	} while (res == false);
 
-			int pos = tam;
-				frmPrincipal->SelecTransp->Items->Add()->Text = "TRANSP" + IntToStr(num);
-				frmCodigo->mmCodigo->Lines->Insert(pos, "!(FDT)");
-				frmCodigo->mmCodigo->Lines->Insert(pos, "*.*");
-				frmCodigo->mmCodigo->Lines->Insert(pos, "*.*");
-				frmCodigo->mmCodigo->Lines->Insert(pos, "*.*");
-				frmCodigo->mmCodigo->Lines->Insert(pos, "*.*");
-				frmCodigo->mmCodigo->Lines->Insert(pos, IntToStr(tpEscolha));
-				frmCodigo->mmCodigo->Lines->Insert(pos, "$TRANSP" + IntToStr(num));
-				Transp = num;
-				frmPrincipal->mmTranspCont->ReadOnly = false;
-				SelecTransp->Selected = SelecTransp->Items->Item[Transp];
-				CarregarTransp (Transp);
+
+	int pos = tam;
+	frmPrincipal->SelecTransp->Items->Add()->Text = "TRANSP" + IntToStr(num);
+	frmCodigo->mmCodigo->Lines->Insert(pos, "!(FDT)");
+	frmCodigo->mmCodigo->Lines->Insert(pos, "*.*");
+	frmCodigo->mmCodigo->Lines->Insert(pos, "*.*");
+	frmCodigo->mmCodigo->Lines->Insert(pos, "*.*");
+	frmCodigo->mmCodigo->Lines->Insert(pos, "*.*");
+	frmCodigo->mmCodigo->Lines->Insert(pos, IntToStr(tpEscolha));
+	frmCodigo->mmCodigo->Lines->Insert(pos, "$TRANSP" + IntToStr(num));
+	Transp = num;
+	frmPrincipal->mmTranspCont->ReadOnly = false;
+	SelecTransp->Selected = SelecTransp->Items->Item[Transp];
+
+	TBitmap * imagem;
+
+	if (tpEscolha == 1) imagem = tpTipo1->Bitmap;
+	else if (tpEscolha == 2) imagem = tpTipo2->Bitmap;
+	else if (tpEscolha == 3) imagem = tpTipo3->Bitmap;
+	else if (tpEscolha == 4) imagem = tpTipo4->Bitmap;
+	else if (tpEscolha == 5) imagem = tpTipo5->Bitmap;
+	else if (tpEscolha == 6) imagem = tpTipo6->Bitmap;
+	else if (tpEscolha == 7) imagem = tpTipo7->Bitmap;
+
+	SelecTransp->Items->Item[Transp]->Bitmap = imagem;
+	CarregarTransp (Transp);
+
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmPrincipal::btMinimizarClick(TObject *Sender)
@@ -706,8 +727,15 @@ void __fastcall TfrmPrincipal::btMinimizarClick(TObject *Sender)
 void __fastcall TfrmPrincipal::edtApresAutorExit(TObject *Sender)
 {
 	if (Transp == 0) {
-		mmTranspCont->Text = edtApresAutor->Text;
-		lblTranspTexto->Text = edtApresAutor->Text;
+		if (edtApresTitulo->Text != "") {
+			mmTranspCont->Text = edtApresAutor->Text;
+			lblTranspTexto->Text = edtApresAutor->Text;
+			frmCodigo->mmCodigo->Lines->Strings[1] = edtApresAutor->Text;
+		}
+		else {
+			frmCodigo->mmCodigo->Lines->Strings[1] = "Nintersoft";
+			lblTranspTexto->Text = "Nome do Autor, Nome do Segundo Autor, Nome do Terceiro Autor, Nome do autor nºx.";
+		}
 	}
 
 	frmCodigo->mmCodigo->Lines->Strings[1] = edtApresAutor->Text;
@@ -1108,6 +1136,18 @@ void TfrmPrincipal::MudarTransp (int numero, int tipo)
 	try {
 		StrToInt(frmCodigo->mmCodigo->Lines->Strings[loc]);
 		frmCodigo->mmCodigo->Lines->Strings[loc] = IntToStr(tipo);
+
+		TBitmap * imagem;
+
+		if (tipo == 1) imagem = tpTipo1->Bitmap;
+		else if (tipo == 2) imagem = tpTipo2->Bitmap;
+		else if (tipo == 3) imagem = tpTipo3->Bitmap;
+		else if (tipo == 4) imagem = tpTipo4->Bitmap;
+		else if (tipo == 5) imagem = tpTipo5->Bitmap;
+		else if (tipo == 6) imagem = tpTipo6->Bitmap;
+		else if (tipo == 7) imagem = tpTipo7->Bitmap;
+
+		SelecTransp->Items->Item[Transp]->Bitmap = imagem;
 	}
 	catch (...) {
 		throw Exception ("Não foi possível alterar o tipo da transparência.\nPor favor, verifique se o código está seguindo as diretrizes determinadas em nossa DocWiki.");
@@ -1366,6 +1406,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Position->X = ValorHorzM * 3;
 			else frmPrincipal->lblTranspTexto->Position->X = ValorHorz * 3;
 			frmPrincipal->lblTranspTexto->Position->Y = AltTransp/2 + ValorVert + frmPrincipal->lblTitulo->Height;
+			frmPrincipal->lblTranspTexto->Font->Size = tamFonteBasica;
 			frmPrincipal->lblTranspTexto->Height = tamFonteBasica * RealTamFonte * 2;
 			frmPrincipal->lblTranspTexto->TextSettings->VertAlign = 0x1;
 			frmPrincipal->lblTranspTexto->TextSettings->HorzAlign = 0x1;
@@ -1443,6 +1484,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Position->X = ValorHorzM * 3;
 			else frmPrincipal->lblTranspTexto->Position->X = ValorHorz * 3;
 			frmPrincipal->lblTranspTexto->Height = frmPrincipal->imgTransp->Height;
+			frmPrincipal->lblTranspTexto->Font->Size = tamFonteBasica;
 			frmPrincipal->lblTranspTexto->Position->Y = (ValorVert * 13) + (ValorVert/4);
 			frmPrincipal->lblTranspTexto->TextSettings->VertAlign = 0x0;
 			frmPrincipal->lblTranspTexto->TextSettings->HorzAlign = 0x2;
@@ -1503,7 +1545,8 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
 			else frmPrincipal->lblTranspTexto->Width = LargTransp/2 - (ValorHorz * 4);
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Position->X = LargTransp / 2 + ValorHorzM;
-			else frmPrincipal->lblTranspTexto->Position->X = LargTransp / 2 + ValorHorzM;\
+			else frmPrincipal->lblTranspTexto->Position->X = LargTransp / 2 + ValorHorzM;
+			frmPrincipal->lblTranspTexto->Font->Size = tamFonteBasica;
 			frmPrincipal->lblTranspTexto->Height = frmPrincipal->imgTransp->Height;
 			frmPrincipal->lblTranspTexto->Position->Y = (ValorVert * 13) + (ValorVert/4);
 			frmPrincipal->lblTranspTexto->TextSettings->VertAlign = 0x0;
@@ -1566,6 +1609,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			else frmPrincipal->lblTranspTexto->Width = LargTransp/2 - (ValorHorz * 4);
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Position->X = ValorHorzM * 3;
 			else frmPrincipal->lblTranspTexto->Position->X = ValorHorz * 3;
+			frmPrincipal->lblTranspTexto->Font->Size = tamFonteBasica;
 			frmPrincipal->lblTranspTexto->Height = frmPrincipal->imgTransp->Height;
 			frmPrincipal->lblTranspTexto->Position->Y = ValorVert * 3;
 			frmPrincipal->lblTranspTexto->TextSettings->VertAlign = 0x0;
@@ -1628,6 +1672,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			else frmPrincipal->lblTranspTexto->Width = LargTransp/2 - (ValorHorz * 4);
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Position->X = LargTransp / 2 + ValorHorzM;
 			else frmPrincipal->lblTranspTexto->Position->X = LargTransp / 2 + ValorHorz;
+			frmPrincipal->lblTranspTexto->Font->Size = tamFonteBasica;
 			frmPrincipal->lblTranspTexto->Height = frmPrincipal->imgTransp->Height;
 			frmPrincipal->lblTranspTexto->Position->Y = (ValorVert * 3);
 			frmPrincipal->lblTranspTexto->TextSettings->VertAlign = 0x0;
@@ -1684,6 +1729,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			else frmPrincipal->lblTranspTexto->Width = LargTransp - (ValorHorz * 6);
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Position->X = (ValorHorzM * 3);
 			else frmPrincipal->lblTranspTexto->Position->X = (ValorHorz * 3);
+			frmPrincipal->lblTranspTexto->Font->Size = tamFonteBasica;
 			frmPrincipal->lblTranspTexto->Height = AltTransp - (ValorVert * 17);
 			frmPrincipal->lblTranspTexto->Position->Y = (ValorVert * 13) + (ValorVert/4);
 			frmPrincipal->lblTranspTexto->TextSettings->VertAlign = 0x0;
@@ -1742,6 +1788,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			frmPrincipal->lblImgLeg->Visible = true;
 			frmPrincipal->lblImgLeg->TextSettings->HorzAlign = 0x0;
 
+			frmPrincipal->lblTranspTexto->Font->Size = tamFonteBasica;
 			frmPrincipal->lblTranspTexto->Width = 0;
 			frmPrincipal->lblTranspTexto->Position->X = 0;
 			frmPrincipal->lblTranspTexto->Height = 0;
@@ -1802,6 +1849,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			frmPrincipal->lblImgLeg->Visible = true;
 			frmPrincipal->lblImgLeg->TextSettings->HorzAlign = 0x0;
 
+			frmPrincipal->lblTranspTexto->Font->Size = tamFonteBasica;
 			frmPrincipal->lblTranspTexto->Width = 0;
 			frmPrincipal->lblTranspTexto->Position->X = 0;
 			frmPrincipal->lblTranspTexto->Height = 0;
@@ -2113,6 +2161,9 @@ void __fastcall TfrmPrincipal::btSalvarProjMouseDown(TObject *Sender, TMouseButt
 		  TShiftState Shift, float X, float Y)
 {
 	spClique->Position->X = btSalvarProj->Position->X;
+	spClique->Position->Y = btSalvarProj->Position->Y;
+	spClique->Width = btSalvarProj->Width;
+	spClique->Height = btSalvarProj->Height;
 	spClique->Visible = true;
 }
 //---------------------------------------------------------------------------
@@ -2134,6 +2185,9 @@ void __fastcall TfrmPrincipal::btAbrirProjMouseDown(TObject *Sender, TMouseButto
 		  TShiftState Shift, float X, float Y)
 {
 	spClique->Position->X = btAbrirProj->Position->X;
+	spClique->Position->Y = btAbrirProj->Position->Y;
+	spClique->Width = btAbrirProj->Width;
+	spClique->Height = btAbrirProj->Height;
 	spClique->Visible = true;
 }
 //---------------------------------------------------------------------------
@@ -2168,6 +2222,9 @@ void __fastcall TfrmPrincipal::btNovoProjMouseDown(TObject *Sender, TMouseButton
 		  TShiftState Shift, float X, float Y)
 {
 	spClique->Position->X = btNovoProj->Position->X;
+	spClique->Position->Y = btNovoProj->Position->Y;
+	spClique->Width = btNovoProj->Width;
+	spClique->Height = btNovoProj->Height;
 	spClique->Visible = true;
 }
 //---------------------------------------------------------------------------
@@ -2386,17 +2443,42 @@ void __fastcall TfrmPrincipal::btAbrirProjClick(TObject *Sender)
 
 		}
 
+		Transp = 0;
 		salvo = true;
 		SelecTransp->BeginUpdate();
 		SelecTransp->Items->Clear();
 		SelecTransp->Items->Add()->Text = "CAPA";
+		SelecTransp->Items->Item[Transp]->Bitmap = frmCarregar->ImgCapa->Bitmap;
 
-		int i = 0, num = 1, tam = frmCodigo->mmCodigo->Lines->Count;
+		int i = 0, num = 1, loc = 0, tam = frmCodigo->mmCodigo->Lines->Count;
 
 		do{
 			if (frmCodigo->mmCodigo->Lines->Strings[i] == "$TRANSP"+IntToStr(num)) {
-				SelecTransp->Items->Add()->Text = "TRANSP"+IntToStr(num);
-				num++;
+
+				loc = i + 1;
+				while (comentario(frmCodigo->mmCodigo->Lines->Strings[loc]))	loc++;
+
+				try{
+					if (StrToInt(frmCodigo->mmCodigo->Lines->Strings[loc]) > 0 && StrToInt(frmCodigo->mmCodigo->Lines->Strings[loc]) < 8 ) {
+
+						SelecTransp->Items->Add()->Text = "TRANSP"+IntToStr(num);
+						TBitmap* imagem;
+
+						if (StrToInt(frmCodigo->mmCodigo->Lines->Strings[loc]) == 1) imagem = tpTipo1->Bitmap;
+						else if (StrToInt(frmCodigo->mmCodigo->Lines->Strings[loc]) == 2) imagem = tpTipo2->Bitmap;
+						else if (StrToInt(frmCodigo->mmCodigo->Lines->Strings[loc]) == 3) imagem = tpTipo3->Bitmap;
+						else if (StrToInt(frmCodigo->mmCodigo->Lines->Strings[loc]) == 4) imagem = tpTipo4->Bitmap;
+						else if (StrToInt(frmCodigo->mmCodigo->Lines->Strings[loc]) == 5) imagem = tpTipo5->Bitmap;
+						else if (StrToInt(frmCodigo->mmCodigo->Lines->Strings[loc]) == 6) imagem = tpTipo6->Bitmap;
+						else if (StrToInt(frmCodigo->mmCodigo->Lines->Strings[loc]) == 7) imagem = tpTipo7->Bitmap;
+
+						SelecTransp->Items->Item[num]->Bitmap = imagem;
+						num++;
+						loc++;
+					}
+				} catch (...){
+					throw Exception ("Erro na identificação do tipo na transparência #"+IntToStr(num)+". Dado inválido.");
+				}
 			}
 			i++;
 		}while (i < tam);
@@ -2489,7 +2571,6 @@ void __fastcall TfrmPrincipal::btAbrirProjClick(TObject *Sender)
 		}
 
 		SelecTransp->Selected = SelecTransp->Items->Item[Transp];
-		Transp = 0;
 		CarregarTransp(Transp);
 	}
 	else {
@@ -2500,118 +2581,124 @@ void __fastcall TfrmPrincipal::btAbrirProjClick(TObject *Sender)
 void __fastcall TfrmPrincipal::btNovoProjClick(TObject *Sender)
 {
 
-	String arqa, arqb;
+	int escSalva = MessageBox (0, L"Está certo de que deseja reiniciar a aplicação?\nEsta ação não poderá ser desfeita.", L"Aviso - Ninterpres", MB_YESNO+MB_ICONQUESTION);
+	if (escSalva == 6) {
 
-	PWSTR pszPath;
-	if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pszPath)))
-	{
-		String NSNPTEMP = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres");
-		CoTaskMemFree(pszPath);
+		Transp = 0;
+		String arqa, arqb;
+		PWSTR pszPath;
 
-		arqb = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSNV");
-		arqa = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSST");
+		if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pszPath)))
+		{
+			String NSNPTEMP = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres");
+			CoTaskMemFree(pszPath);
 
-		if (!TFile::Exists(arqb+".nps")) {
-			throw Exception ("ERRO 000009: O modelo de apresentação novo não pode ser encontrado.\nPara corrigir este problema, por favor, reinicie o programa.\nPara maiores informações à respeito deste erro, por favor visite nossa docwiki.");
+			arqb = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSNV");
+			arqa = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSST");
+
+			if (!TFile::Exists(arqb+".nps")) {
+				throw Exception ("ERRO 000009: O modelo de apresentação novo não pode ser encontrado.\nPara corrigir este problema, por favor, reinicie o programa.\nPara maiores informações à respeito deste erro, por favor visite nossa docwiki.");
+			}
+			if (!TFile::Exists(arqa+".stl")) {
+				throw Exception ("ERRO 000010: O modelo de estilos novo não pode ser encontrado.\nPara corrigir este problema, por favor, reinicie o programa.\nPara maiores informações à respeito deste erro, por favor visite nossa docwiki.");
+			}
 		}
-		if (!TFile::Exists(arqa+".stl")) {
-			throw Exception ("ERRO 000010: O modelo de estilos novo não pode ser encontrado.\nPara corrigir este problema, por favor, reinicie o programa.\nPara maiores informações à respeito deste erro, por favor visite nossa docwiki.");
-		}
+
+		frmCodigo->mmCodigo->Lines->Clear();
+		frmCodigo->mmCodigo->Lines->LoadFromFile(arqb+".nps");
+		frmCodigo->mmEstilo->Lines->Clear();
+		frmCodigo->mmEstilo->Lines->LoadFromFile(arqa+".stl");
+		SelecTransp->BeginUpdate();
+		SelecTransp->Items->Clear();
+		SelecTransp->Items->Add()->Text = "CAPA";
+		SelecTransp->Items->Item[Transp]->Bitmap = frmCarregar->ImgCapa->Bitmap;
+		SelecTransp->EndUpdate();
+
+			if (frmCodigo->mmCodigo->Lines->Strings[1] != "Nintersoft") {
+				edtApresAutor->Text = frmCodigo->mmCodigo->Lines->Strings[1];
+			}
+			else {
+				edtApresAutor->Text = "";
+			}
+
+			int LOCLIN = LocDet("COR_TRANSP");
+			vsTransp->Fill->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+			listaCorApresenta->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+
+			LOCLIN = LocDet("APL_BORDA");
+			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSBD") {
+				vsTransp->Stroke->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+				cbBorda->IsChecked = true;
+			}
+			else {
+				vsTransp->Stroke->Color = CorBordaTransp;
+				cbBorda->IsChecked = false;
+			}
+
+			LOCLIN = LocDet("APL_FONTE");
+			int LOCLIN2 = LocDet("APL_TODOS");
+			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN2] == "NSTT" && frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSFT") {
+				LOCLIN = LocDet("COR_FONTE");
+				lblTitulo->TextSettings->FontColor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+				lblTranspTexto->TextSettings->FontColor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+				lblImgLeg->TextSettings->FontColor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+				listaCorTexto->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+				cbTodos->IsChecked = true;
+				cbFonte->IsChecked = true;
+			}
+			else {
+				lblTitulo->TextSettings->FontColor = CorBordaTransp;
+				lblTranspTexto->TextSettings->FontColor = CorBordaTransp;
+				lblImgLeg->TextSettings->FontColor = CorBordaTransp;
+				listaCorTexto->Color = CorBordaTransp;
+				cbTodos->IsChecked = false;
+				cbFonte->IsChecked = false;
+			}
+
+			LOCLIN = LocDet("TAM_FONTE");
+			float TamConv = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+			lblTranspTexto->TextSettings->Font->Size = TamConv;
+			edtTamFonte->Text = FloatToStr(TamConv);
+			baTamFonte->Value = TamConv;
+
+			LOCLIN = LocDet("MSTR_TRANSP");
+			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSFN") {
+				opMostrarNSTransp->IsChecked = true;
+			}
+			else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSFN") {
+				opMostrarNSTransp->IsChecked = false;
+			}
+			else {
+				throw Exception ("ERRO 000010: Falha nas configurações especiais (Última transparência).\nPara maiores informações sobre este erro visite nossa DocWiki.");
+			}
+
+			LOCLIN = LocDet("MSTR_LOGO");
+			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSLG") {
+				opMostrarLogoNS->IsChecked = true;
+			}
+			else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSLG") {
+				opMostrarLogoNS->IsChecked = false;
+			}
+			else {
+				throw Exception ("ERRO 000011: Falha nas configurações especiais (Logo NS).\nPara maiores informações sobre este erro visite nossa DocWiki.");
+			}
+
+			LOCLIN = LocDet("MSTR_DATA");
+			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSDT") {
+				opMostrarDataAtual->IsChecked = true;
+			}
+			else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSDT") {
+				opMostrarDataAtual->IsChecked = false;
+			}
+			else {
+				throw Exception ("ERRO 000012: Falha nas configurações especiais (Data).\nPara maiores informações sobre este erro visite nossa DocWiki.");
+			}
+
+		edTranspTitulo->Text = "";
+		Transp = 0;
+		CarregarTransp(Transp);
+		salvo = false;
 	}
-
-	frmCodigo->mmCodigo->Lines->Clear();
-	frmCodigo->mmCodigo->Lines->LoadFromFile(arqb+".nps");
-	frmCodigo->mmEstilo->Lines->Clear();
-	frmCodigo->mmEstilo->Lines->LoadFromFile(arqa+".stl");
-	SelecTransp->BeginUpdate();
-	SelecTransp->Items->Clear();
-	SelecTransp->Items->Add()->Text = "CAPA";
-	SelecTransp->EndUpdate();
-
-		if (frmCodigo->mmCodigo->Lines->Strings[1] != "Nintersoft") {
-			edtApresAutor->Text = frmCodigo->mmCodigo->Lines->Strings[1];
-		}
-		else {
-			edtApresAutor->Text = "";
-		}
-
-		int LOCLIN = LocDet("COR_TRANSP");
-		vsTransp->Fill->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
-		listaCorApresenta->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
-
-		LOCLIN = LocDet("APL_BORDA");
-		if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSBD") {
-			vsTransp->Stroke->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
-			cbBorda->IsChecked = true;
-		}
-		else {
-			vsTransp->Stroke->Color = CorBordaTransp;
-			cbBorda->IsChecked = false;
-		}
-
-		LOCLIN = LocDet("APL_FONTE");
-		int LOCLIN2 = LocDet("APL_TODOS");
-		if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN2] == "NSTT" && frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSFT") {
-			LOCLIN = LocDet("COR_FONTE");
-			lblTitulo->TextSettings->FontColor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
-			lblTranspTexto->TextSettings->FontColor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
-			lblImgLeg->TextSettings->FontColor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
-			listaCorTexto->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
-			cbTodos->IsChecked = true;
-			cbFonte->IsChecked = true;
-		}
-		else {
-			lblTitulo->TextSettings->FontColor = CorBordaTransp;
-			lblTranspTexto->TextSettings->FontColor = CorBordaTransp;
-			lblImgLeg->TextSettings->FontColor = CorBordaTransp;
-			listaCorTexto->Color = CorBordaTransp;
-			cbTodos->IsChecked = false;
-			cbFonte->IsChecked = false;
-		}
-
-		LOCLIN = LocDet("TAM_FONTE");
-		float TamConv = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
-		lblTranspTexto->TextSettings->Font->Size = TamConv;
-		edtTamFonte->Text = FloatToStr(TamConv);
-		baTamFonte->Value = TamConv;
-
-		LOCLIN = LocDet("MSTR_TRANSP");
-		if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSFN") {
-			opMostrarNSTransp->IsChecked = true;
-		}
-		else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSFN") {
-			opMostrarNSTransp->IsChecked = false;
-		}
-		else {
-			throw Exception ("ERRO 000010: Falha nas configurações especiais (Última transparência).\nPara maiores informações sobre este erro visite nossa DocWiki.");
-		}
-
-		LOCLIN = LocDet("MSTR_LOGO");
-		if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSLG") {
-			opMostrarLogoNS->IsChecked = true;
-		}
-		else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSLG") {
-			opMostrarLogoNS->IsChecked = false;
-		}
-		else {
-			throw Exception ("ERRO 000011: Falha nas configurações especiais (Logo NS).\nPara maiores informações sobre este erro visite nossa DocWiki.");
-		}
-
-		LOCLIN = LocDet("MSTR_DATA");
-		if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSDT") {
-			opMostrarDataAtual->IsChecked = true;
-		}
-		else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSDT") {
-			opMostrarDataAtual->IsChecked = false;
-		}
-		else {
-			throw Exception ("ERRO 000012: Falha nas configurações especiais (Data).\nPara maiores informações sobre este erro visite nossa DocWiki.");
-		}
-
-	edTranspTitulo->Text = "";
-	Transp = 0;
-	CarregarTransp(Transp);
-	salvo = false;
 
 }
 //---------------------------------------------------------------------------
@@ -3493,3 +3580,338 @@ void TfrmPrincipal::CarregarAbertura(String argumento)
 	CarregarTransp(Transp);
 }
 //---------------------------------------------------------------------------
+void __fastcall TfrmPrincipal::btSalvarComoMouseDown(TObject *Sender, TMouseButton Button,
+		  TShiftState Shift, float X, float Y)
+{
+	spClique->Position->X = btSalvarComo->Position->X;
+	spClique->Position->Y = btSalvarComo->Position->Y;
+	spClique->Width = btSalvarComo->Width;
+	spClique->Height = btSalvarComo->Height;
+	spClique->Visible = true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btSalvarComoMouseLeave(TObject *Sender)
+{
+	spClique->Visible = false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btSalvarComoMouseUp(TObject *Sender, TMouseButton Button,
+		  TShiftState Shift, float X, float Y)
+{
+	spClique->Visible = false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btSalvarCriptMouseDown(TObject *Sender, TMouseButton Button,
+		  TShiftState Shift, float X, float Y)
+{
+	spClique->Position->X = btSalvarCript->Position->X;
+	spClique->Position->Y = btSalvarCript->Position->Y;
+	spClique->Width = btSalvarCript->Width;
+	spClique->Height = btSalvarCript->Height;
+	spClique->Visible = true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btSalvarCriptMouseLeave(TObject *Sender)
+{
+	spClique->Visible = false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btSalvarCriptMouseUp(TObject *Sender, TMouseButton Button,
+          TShiftState Shift, float X, float Y)
+{
+	spClique->Visible = false;
+}
+//---------------------------------------------------------------------------
+void __fastcall TfrmPrincipal::btSalvarCriptClick(TObject *Sender)
+{
+	frmCript->Show();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::btSalvarComoClick(TObject *Sender)
+{
+	int escSalva = MessageBox (0, L"Você gostaria de exportar a apresentação concluída?\nCaso não deseje, você irá salvá-la no modo de edição.\nPara maiores informações visite nossa docwiki.", L"Aviso - Ninterpres", MB_YESNO+MB_ICONQUESTION);
+	if (escSalva == 6) {
+
+		TZipFile* ArquivoPronto = new TZipFile();
+
+		if (frmCodigo->mmCodigo->Lines->Strings[0] != "Apresentação sem título") {
+			dsExportar->FileName = frmCodigo->mmCodigo->Lines->Strings[0];
+		}
+		else {
+			dsExportar->FileName = "Apresentação sem título - Ninterpres";
+		}
+
+		if (salvo) {
+			String bin = System::Ioutils::TPath::Combine(locSalvo, L"BIN");
+			TDirectory::Copy(L"BIN", bin);
+			String arq = System::Ioutils::TPath::Combine(locSalvo, L"NSCA.nps");
+			frmCodigo->mmCodigo->Lines->SaveToFile(arq);
+			String arqb = System::Ioutils::TPath::Combine(locSalvo, L"NSST.stl");
+			frmCodigo->mmEstilo->Lines->SaveToFile(arqb);
+//			String atalho = System::Ioutils::TPath::Combine(locSalvo, L"Ninterpres-a.exe");
+//			TFile::Copy(L"Atalho.exe", atalho);
+
+			if (dsExportar->Execute()) {
+					ArquivoPronto->ZipDirectoryContents(dsExportar->FileName,locSalvo);
+					ArquivoPronto->Free();
+					if (TDirectory::Exists(bin)) {
+						TDirectory::Delete(bin, true);
+					}
+  /*					if (TFile::Exists(atalho)) {
+						TFile::Delete(atalho);
+					} */
+			}
+			else {
+				if (TDirectory::Exists(bin)) {
+					TDirectory::Delete(bin, true);
+				}
+				throw Exception("Você cancelou a operação!\nCaso esta ação não tenha sido sua, por favor, considere os dados apresentados a seguir:\nERRO 000102: Não foi possível executar a operação de exportação.\nPara maiores informações sobre este erro visite nossa DocWiki.");
+			}
+
+		}
+		else {
+			if (frmCodigo->mmCodigo->Lines->Strings[0] != "Apresentação sem título") {
+				dsExportar->FileName = frmCodigo->mmCodigo->Lines->Strings[0];
+			}
+			else {
+				dsExportar->FileName = "Apresentação sem título - Ninterpres";
+			}
+			if (dsExportar->Execute()) {
+				PWSTR pszPath;
+				if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pszPath)))
+				{
+					String NSNPTEMP = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres\\TEMP");
+					CoTaskMemFree(pszPath);
+
+					String bin = System::Ioutils::TPath::Combine(NSNPTEMP, L"BIN");
+					TDirectory::Copy(L"BIN", bin);
+					String arq = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSCA.nps");
+					frmCodigo->mmCodigo->Lines->SaveToFile(arq);
+					String arqb = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSST.stl");
+					frmCodigo->mmEstilo->Lines->SaveToFile(arqb);
+//					String atalho = System::Ioutils::TPath::Combine(NSNPTEMP, L"Ninterpres-a.exe");
+//					TFile::Copy(L"Atalho.exe", atalho);
+
+					ArquivoPronto->ZipDirectoryContents(dsExportar->FileName,NSNPTEMP);
+					ArquivoPronto->Free();
+
+					TFile::Delete(arq);
+					TDirectory::Delete(bin, true);
+//					TFile::Delete(atalho);
+				}
+			}
+			else {
+				throw Exception("Você cancelou a operação!\nCaso esta ação não tenha sido sua, por favor, considere os dados apresentados a seguir:\nERRO 000102: Não foi possível executar a operação de exportação.\nPara maiores informações sobre este erro visite nossa DocWiki.");
+			}
+		}
+	}
+	else {
+
+		if (frmCodigo->mmCodigo->Lines->Strings[0] != "Apresentação sem título") {
+			dsSalvarProj->FileName = frmCodigo->mmCodigo->Lines->Strings[0];
+		}
+		else {
+			dsSalvarProj->FileName = "Apresentação sem título";
+		}
+		if (dsSalvarProj->Execute()) {
+
+			String arq, arqb, NSNPTEMP;
+
+			if (salvo) {
+				delete ProjAtual;
+				delete ProjSecun;
+				TDirectory::Copy(locSalvo, dsSalvarProj->FileName);
+				locSalvo = dsSalvarProj->FileName;
+				arq = System::Ioutils::TPath::Combine(locSalvo, L"NSCA.nps");
+				arqb = System::Ioutils::TPath::Combine(locSalvo, "NSST.stl");
+				frmCodigo->mmCodigo->Lines->SaveToFile(arq);
+				frmCodigo->mmEstilo->Lines->SaveToFile(arqb);
+				salvo = false;
+			}
+			else {
+				PWSTR pszPath;
+				if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pszPath)))
+				{
+					NSNPTEMP = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres\\TEMP");
+					CoTaskMemFree(pszPath);
+
+					arq = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSCA.nps");
+					arqb = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSST.stl");
+					frmCodigo->mmCodigo->Lines->SaveToFile(arq);
+					frmCodigo->mmEstilo->Lines->SaveToFile(arqb);
+
+					TDirectory::Move(NSNPTEMP, dsSalvarProj->FileName);
+
+
+				}
+			}
+
+			arq = System::Ioutils::TPath::Combine(dsSalvarProj->FileName, L"NSCA.nps");
+			arqb = System::Ioutils::TPath::Combine(dsSalvarProj->FileName, L"NSST.stl");
+			salvo = true;
+			locSalvo = dsSalvarProj->FileName;
+			ProjAtual = new TFileStream(arq, TFileMode::fmOpen);
+			ProjSecun = new TFileStream(arqb, TFileMode::fmOpen);
+		}
+		else {
+			salvo = true;
+			throw Exception("Você cancelou a operação!\nCaso esta ação não tenha sido sua, por favor, considere os dados apresentados a seguir:\nERRO 000100: Não foi possível executar a operação de salvamento de arquivo.\nPara maiores informações sobre este erro visite nossa DocWiki.");
+		}
+	}
+}
+//---------------------------------------------------------------------------
+void TfrmPrincipal::SalvaCript(){
+	int escSalva = MessageBox (0, L"Você gostaria de exportar a apresentação concluída?\nCaso não deseje, você irá salvá-la no modo de edição.\nPara maiores informações visite nossa docwiki.", L"Aviso - Ninterpres", MB_YESNO+MB_ICONQUESTION);
+	if (escSalva == 6) {
+
+		dsExportar->FileName = frmCodigo->mmCodigo->Lines->Strings[0];
+
+		CriptLib::Encriptar::Subst(frmCript->edtOrig->Text, frmCript->edtSenha->Text, frmCodigo->mmCodigo);
+		CriptLib::Encriptar::Subst(frmCript->edtOrig->Text, frmCript->edtSenha->Text, frmCodigo->mmEstilo);
+
+		TZipFile* ArquivoPronto = new TZipFile();
+
+		if (salvo) {
+			String bin = System::Ioutils::TPath::Combine(locSalvo, L"BIN");
+			TDirectory::Copy(L"BIN", bin);
+			String arq = System::Ioutils::TPath::Combine(locSalvo, L"NSCA.nps");
+			frmCodigo->mmCodigo->Lines->SaveToFile(arq);
+			String arqb = System::Ioutils::TPath::Combine(locSalvo, L"NSST.stl");
+			frmCodigo->mmEstilo->Lines->SaveToFile(arqb);
+//			String atalho = System::Ioutils::TPath::Combine(locSalvo, L"Ninterpres-a.exe");
+//			TFile::Copy(L"Atalho.exe", atalho);
+
+			if (dsExportar->Execute()) {
+					ArquivoPronto->ZipDirectoryContents(dsExportar->FileName,locSalvo);
+					ArquivoPronto->Free();
+					if (TDirectory::Exists(bin)) {
+						TDirectory::Delete(bin, true);
+					}
+  /*					if (TFile::Exists(atalho)) {
+						TFile::Delete(atalho);
+					} */
+			}
+			else {
+				if (TDirectory::Exists(bin)) {
+					TDirectory::Delete(bin, true);
+				}
+				throw Exception("Você cancelou a operação!\nCaso esta ação não tenha sido sua, por favor, considere os dados apresentados a seguir:\nERRO 000102: Não foi possível executar a operação de exportação.\nPara maiores informações sobre este erro visite nossa DocWiki.");
+			}
+
+		}
+		else {
+			String frase = frmCodigo->mmCodigo->Lines->Strings[0];
+			CriptLib::Decriptar::Subst(frmCript->edtOrig->Text, frmCript->edtSenha->Text, frase);
+			dsExportar->FileName = frase;
+			if (dsExportar->Execute()) {
+				PWSTR pszPath;
+				if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pszPath)))
+				{
+					String NSNPTEMP = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres\\TEMP");
+					CoTaskMemFree(pszPath);
+
+					String bin = System::Ioutils::TPath::Combine(NSNPTEMP, L"BIN");
+					TDirectory::Copy(L"BIN", bin);
+					String arq = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSCA.nps");
+					frmCodigo->mmCodigo->Lines->SaveToFile(arq);
+					String arqb = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSST.stl");
+					frmCodigo->mmEstilo->Lines->SaveToFile(arqb);
+//					String atalho = System::Ioutils::TPath::Combine(NSNPTEMP, L"Ninterpres-a.exe");
+//					TFile::Copy(L"Atalho.exe", atalho);
+
+					ArquivoPronto->ZipDirectoryContents(dsExportar->FileName,NSNPTEMP);
+					ArquivoPronto->Free();
+
+					TFile::Delete(arq);
+					TDirectory::Delete(bin, true);
+//					TFile::Delete(atalho);
+				}
+			}
+			else {
+				throw Exception("Você cancelou a operação!\nCaso esta ação não tenha sido sua, por favor, considere os dados apresentados a seguir:\nERRO 000102: Não foi possível executar a operação de exportação.\nPara maiores informações sobre este erro visite nossa DocWiki.");
+			}
+		}
+
+		CriptLib::Decriptar::Subst(frmCript->edtSenha->Text, frmCodigo->mmCodigo);
+		CriptLib::Decriptar::Subst(frmCript->edtSenha->Text, frmCodigo->mmEstilo);
+
+	}
+	else {
+
+		dsExportar->FileName = frmCodigo->mmCodigo->Lines->Strings[0];
+
+		CriptLib::Encriptar::Subst(frmCript->edtOrig->Text, frmCript->edtSenha->Text, frmCodigo->mmCodigo);
+		CriptLib::Encriptar::Subst(frmCript->edtOrig->Text, frmCript->edtSenha->Text, frmCodigo->mmEstilo);
+
+		if (dsSalvarProj->Execute()) {
+
+			String arq, arqb, NSNPTEMP;
+
+			if (salvo) {
+				delete ProjAtual;
+				delete ProjSecun;
+				TDirectory::Copy(locSalvo, dsSalvarProj->FileName);
+				locSalvo = dsSalvarProj->FileName;
+				arq = System::Ioutils::TPath::Combine(locSalvo, L"NSCA.nps");
+				arqb = System::Ioutils::TPath::Combine(locSalvo, "NSST.stl");
+				frmCodigo->mmCodigo->Lines->SaveToFile(arq);
+				frmCodigo->mmEstilo->Lines->SaveToFile(arqb);
+				salvo = false;
+			}
+			else {
+				PWSTR pszPath;
+				if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pszPath)))
+				{
+					NSNPTEMP = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres\\TEMP");
+					CoTaskMemFree(pszPath);
+
+					arq = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSCA.nps");
+					arqb = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSST.stl");
+					frmCodigo->mmCodigo->Lines->SaveToFile(arq);
+					frmCodigo->mmEstilo->Lines->SaveToFile(arqb);
+
+					TDirectory::Move(NSNPTEMP, dsSalvarProj->FileName);
+				}
+			}
+
+			salvo = true;
+			arq = System::Ioutils::TPath::Combine(dsSalvarProj->FileName, L"NSCA.nps");
+			arqb = System::Ioutils::TPath::Combine(dsSalvarProj->FileName, L"NSST.stl");
+			locSalvo = dsSalvarProj->FileName;
+			ProjAtual = new TFileStream(arq, TFileMode::fmOpen);
+			ProjSecun = new TFileStream(arqb, TFileMode::fmOpen);
+		}
+		else {
+			salvo = true;
+			throw Exception("Você cancelou a operação!\nCaso esta ação não tenha sido sua, por favor, considere os dados apresentados a seguir:\nERRO 000100: Não foi possível executar a operação de salvamento de arquivo.\nPara maiores informações sobre este erro visite nossa DocWiki.");
+		}
+
+		CriptLib::Decriptar::Subst(frmCript->edtSenha->Text, frmCodigo->mmCodigo);
+		CriptLib::Decriptar::Subst(frmCript->edtSenha->Text, frmCodigo->mmEstilo);
+
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmPrincipal::vsTranspResize(TObject *Sender)
+{
+	float trPos[2], brTam[2], trTam[2];
+	brTam[0] = frmPrincipal->brTransp->Width;
+	brTam[1] = frmPrincipal->brTransp->Height;
+	trTam[0] = frmPrincipal->vsTransp->Width;
+	trTam[1] = frmPrincipal->vsTransp->Height;
+
+	if (brTam[0] >= trTam[0]) frmPrincipal->corFundo->Width = brTam[0];
+	else frmPrincipal->corFundo->Width = trTam[0] + 40;
+
+	if (brTam[1] >= trTam[1]) frmPrincipal->corFundo->Height = brTam[1];
+	else frmPrincipal->corFundo->Height = trTam[1] + 40;
+}
+//---------------------------------------------------------------------------
+

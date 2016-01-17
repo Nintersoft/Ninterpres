@@ -1,0 +1,90 @@
+﻿object frmCript: TfrmCript
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = Single
+  Caption = 'Form1'
+  ClientHeight = 164
+  ClientWidth = 561
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object GroupBox1: TGroupBox
+    Size.Width = 177.000000000000000000
+    Size.Height = 113.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'Tipo de criptografia'
+    TabOrder = 1
+    object slBásico: TRadioButton
+      IsChecked = True
+      Position.X = 16.000000000000000000
+      Position.Y = 24.000000000000000000
+      Size.Width = 145.000000000000000000
+      Size.Height = 19.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Text = 'B'#225'sica (2 chaves)'
+    end
+  end
+  object cxSenhas: TGroupBox
+    Position.X = 176.000000000000000000
+    Size.Width = 385.000000000000000000
+    Size.Height = 113.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'Informa'#231#245'es de criptografia'
+    TabOrder = 2
+    object lblOrig: TLabel
+      Position.X = 16.000000000000000000
+      Position.Y = 40.000000000000000000
+      Size.Width = 97.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Original'
+    end
+    object lblSenha: TLabel
+      Position.X = 16.000000000000000000
+      Position.Y = 72.000000000000000000
+      Size.Width = 97.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Senha'
+    end
+    object edtOrig: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 2
+      Position.X = 112.000000000000000000
+      Position.Y = 40.000000000000000000
+      Size.Width = 257.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object edtSenha: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 3
+      Position.X = 112.000000000000000000
+      Position.Y = 72.000000000000000000
+      Size.Width = 257.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+    end
+  end
+  object Button1: TButton
+    Position.X = 288.000000000000000000
+    Position.Y = 120.000000000000000000
+    Size.Width = 121.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
+    Text = 'Salvar encriptado'
+  end
+  object btCancelar: TButton
+    Position.X = 160.000000000000000000
+    Position.Y = 120.000000000000000000
+    Size.Width = 121.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 5
+    Text = 'Cancelar'
+  end
+end

@@ -48,6 +48,8 @@ __published:	// IDE-managed Components
 	TMemo *mmDados;
 	TTimer *Controle;
 	TIdCookieManager *gerWebAt;
+	TLabel *lblExt;
+	TLabel *lblExtNome;
 	void __fastcall btAtualizarClick(TObject *Sender);
 	void __fastcall btSiteClick(TObject *Sender);
 	void __fastcall btFacebookClick(TObject *Sender);

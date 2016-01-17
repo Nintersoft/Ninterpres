@@ -11,21 +11,24 @@
 #include "Configuracoes.h"
 #include "Sobre.h"
 #include "ImgConf.h"
+#include "CriptLib.h"
+#include "Cript.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.fmx"
 #pragma resource ("*.Windows.fmx", _PLAT_MSWINDOWS)
-
+#pragma comment (lib, "CriptLib.lib")
 TfrmCarregar *frmCarregar;
 //---------------------------------------------------------------------------
 int cont = 0;
-bool estilo = false;
+bool Existe, estilo = false, borda = false;
 //---------------------------------------------------------------------------
 __fastcall TfrmCarregar::TfrmCarregar(TComponent* Owner)
 	: TForm(Owner)
 {
 	usarad = true;
 	sans = false;
+	Existe = false;
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
@@ -90,8 +93,6 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 
 		lblEstado->Text = "Aplicando configurações do usuário...";
 
-		bool Existe = false;
-
 		String NSNPARQCONF = System::Ioutils::TPath::Combine(NSNPCONF, L"CONF");
 
 		if (TFile::Exists(NSNPARQCONF+".conf")) {
@@ -115,9 +116,6 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 
 		}
 
-		if (true) {
-
-		}
 		if (Existe) ReconfiguraCont(5000);
 		else ReconfiguraCont(1000);
 		if (System::ParamCount() > 1) cont++;
@@ -133,12 +131,39 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 	}
 
 	else if (cont == 4) {
+		lblEstado->Text = "Lendo extensões...";
+
+		frmSobre->Height += 33;
+		frmSobre->btAtualizar->Position->Y += 33;
+		frmSobre->btFacebook->Position->Y += 33;
+		frmSobre->btSite->Position->Y += 33;
+		frmSobre->lblExt->Visible = true;
+		frmSobre->lblExtNome->Visible = true;
+		frmSobre->lblExtNome->Text = "CriptLib V" + CriptLib::Info::Ver();
+
+		ReconfiguraCont(1500);
+		cont++;
+	}
+
+	else if (cont == 5) {
 		lblEstado->Text = "Ajustando a interface...";
 		if (estilo){
-			AplicaEstilos(1);
 			ReconfiguraCont(3500);
+			AplicaEstilos(1);
 		}
 		else ReconfiguraCont(1500);
+		if (!Existe) {
+			ReconfiguraCont(3500);
+			frmConfig->csEstilo->ItemIndex = 0;
+			frmPrincipal->BorderStyle = TFmxFormBorderStyle::Sizeable;
+			frmPrincipal->WindowState = TWindowState::wsMaximized;
+			frmPrincipal->lblTituloForm->Visible = false;
+			frmPrincipal->btMinimizar->Visible = false;
+			frmPrincipal->btMaximizar->Visible = false;
+			frmPrincipal->btFechar->Visible = false;
+			frmPrincipal->btFecharEf->Visible = false;
+			AplicaEstilos(1);
+		}
 		frmPrincipal->AjusteVisual();
 		cont++;
 	}
@@ -147,8 +172,21 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 
 		lblEstado->Text = "Carregando...";
 		if (estilo)	AplicaEstilos(2);
+		if (!Existe) AplicaEstilos(2);
+		frmPrincipal->listaPrevTransp->BeginUpdate();
+		frmPrincipal->listaPrevTransp->ItemIndex = 2;
+		frmPrincipal->listaPrevTransp->Repaint();
+		frmPrincipal->listaPrevTransp->EndUpdate();
+		frmPrincipal->listaPrevTransp->Selected->Repaint();
+		frmPrincipal->CarregarTransp(frmPrincipal->SelecTransp->Selected->Index);
+		frmPrincipal->CarregarTransp(frmPrincipal->SelecTransp->Selected->Index);
 		cont++;
 		Application->MainForm->Show();
+		Application->MainForm->WindowState = TWindowState::wsMaximized;
+		if (!borda) {
+			Application->MainForm->Height -= 40;
+			frmPrincipal->corFundo->Stroke->Color = frmPrincipal->corFundo->Fill->Color;
+		}
 		tmConfigurar->Enabled = false;
 		frmCarregar->Close();
 		frmPrincipal->redimencionar = true;
@@ -258,6 +296,7 @@ void TfrmCarregar::AplicarConfig()
 	int pos = StrToInt(frmConfig->mmConfig->Lines->Strings[6]);
 	if (pos == 0) {
 		estilo = true;
+		borda = true;
 		frmConfig->csEstilo->ItemIndex = pos;
 		frmPrincipal->BorderStyle = TFmxFormBorderStyle::Sizeable;
 		frmPrincipal->WindowState = TWindowState::wsMaximized;
@@ -267,7 +306,13 @@ void TfrmCarregar::AplicarConfig()
 		frmPrincipal->btFechar->Visible = false;
 		frmPrincipal->btFecharEf->Visible = false;
 	}
+	else if (pos == 1) {
+		frmConfig->csEstilo->ItemIndex = pos;
+		frmPrincipal->btDeslizarEdtD->StyleLookup = frmPrincipal->btDeslizarVisD->StyleLookup;
+		frmPrincipal->btDeslizarEdtE->StyleLookup = frmPrincipal->btDeslizarVisE->StyleLookup;
+	}
 	else if (pos == 2) {
+		borda = true;
 		frmConfig->csEstilo->ItemIndex = pos;
 		frmPrincipal->BorderStyle = TFmxFormBorderStyle::Sizeable;
 		frmPrincipal->WindowState = TWindowState::wsMaximized;
@@ -286,6 +331,9 @@ void TfrmCarregar::AplicarConfig()
 		frmConfig->listaCorTema->BeginUpdate();
 		frmConfig->listaCorTema->Color = cor;
 		frmConfig->listaCorTema->EndUpdate();
+
+		frmPrincipal->btDeslizarEdtD->StyleLookup = frmPrincipal->btDeslizarVisD->StyleLookup;
+		frmPrincipal->btDeslizarEdtE->StyleLookup = frmPrincipal->btDeslizarVisE->StyleLookup;
 
 		frmPrincipal->corAbaAjuda->BeginUpdate();
 		frmPrincipal->corAbaAjuda->Fill->Color = cor;
@@ -451,6 +499,12 @@ void TfrmCarregar::AplicaEstilos(int Passo)
 		frmPrincipal->tbTeste->Visible = false;
 		frmPrincipal->Abas->Height = 154;
 		frmPrincipal->reduc = 16;
+		frmPrincipal->btDeslizarAjdD->StyleLookup = frmPrincipal->btDeslizarEdtD->StyleLookup;
+		frmPrincipal->btDeslizarAjdE->StyleLookup = frmPrincipal->btDeslizarEdtE->StyleLookup;
+		frmPrincipal->btDeslizarAqvD->StyleLookup = frmPrincipal->btDeslizarEdtD->StyleLookup;
+		frmPrincipal->btDeslizarAqvE->StyleLookup = frmPrincipal->btDeslizarEdtE->StyleLookup;
+		frmPrincipal->btDeslizarVisD->StyleLookup = frmPrincipal->btDeslizarEdtD->StyleLookup;
+		frmPrincipal->btDeslizarVisE->StyleLookup = frmPrincipal->btDeslizarEdtE->StyleLookup;
 		frmPrincipal->EndUpdate();
 
 		//----------------------------- Sobre -----------------------------------
@@ -465,6 +519,8 @@ void TfrmCarregar::AplicaEstilos(int Passo)
 		frmSobre->lblProg->FontColor = TAlphaColor(TAlphaColorRec::Black);
 		frmSobre->lblVersao->FontColor = TAlphaColor(TAlphaColorRec::Black);
 		frmSobre->lblVersaoProg->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmSobre->lblExt->FontColor = TAlphaColor(TAlphaColorRec::Black);
+		frmSobre->lblExtNome->FontColor = TAlphaColor(TAlphaColorRec::Black);
 		frmSobre->EndUpdate();
 
 		//---------------------------- Codigo -----------------------------------
@@ -473,6 +529,8 @@ void TfrmCarregar::AplicaEstilos(int Passo)
 		frmCodigo->btAlterar->FontColor = TAlphaColor(TAlphaColorRec::Orange);
 		frmCodigo->btEstilo->FontColor = TAlphaColor(TAlphaColorRec::Orange);
 		frmCodigo->btVerificar->FontColor = TAlphaColor(TAlphaColorRec::Orange);
+		frmCodigo->Linha1->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
+		frmCodigo->Linha2->Stroke->Color = TAlphaColor(TAlphaColorRec::Orange);
 		frmCodigo->EndUpdate();
 
 		//---------------------------- Config -----------------------------------
@@ -514,6 +572,11 @@ void TfrmCarregar::AplicaEstilos(int Passo)
 		frmImgConf->BeginUpdate();
 		frmImgConf->StyleBook = frmCarregar->Estilos;
 		frmImgConf->EndUpdate();
+
+		//------------------------- Img: Config ---------------------------------
+		frmCript->BeginUpdate();
+		frmCript->StyleBook = frmCarregar->Estilos;
+		frmCript->EndUpdate();
 
 	}
 	else {

@@ -7,10 +7,11 @@
 USEFORM("ImgConf.cpp", frmImgConf);
 USEFORM("Sobre.cpp", frmSobre);
 USEFORM("Principal.cpp", frmPrincipal);
-USEFORM("Carregar.cpp", frmCarregar);
 USEFORM("Codigo.cpp", frmCodigo);
-USEFORM("Idiomas\Tradutor.cpp", frmTradutor);
+USEFORM("Carregar.cpp", frmCarregar);
 USEFORM("Configuracoes.cpp", frmConfig);
+USEFORM("Idiomas\Tradutor.cpp", frmTradutor);
+USEFORM("Cript.cpp", frmCript);
 //---------------------------------------------------------------------------
 extern "C" int FMXmain()
 {
@@ -24,6 +25,7 @@ extern "C" int FMXmain()
 		Application->CreateForm(__classid(TfrmImgConf), &frmImgConf);
 		Application->CreateForm(__classid(TfrmSobre), &frmSobre);
 		Application->CreateForm(__classid(TfrmTradutor), &frmTradutor);
+		Application->CreateForm(__classid(TfrmCript), &frmCript);
 		Application->Run();
 	}
 	catch (Exception &exception)

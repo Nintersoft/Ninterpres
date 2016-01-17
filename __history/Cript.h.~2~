@@ -1,0 +1,25 @@
+//---------------------------------------------------------------------------
+
+#ifndef CriptH
+#define CriptH
+//---------------------------------------------------------------------------
+#include <System.Classes.hpp>
+#include <FMX.Controls.hpp>
+#include <FMX.Forms.hpp>
+#include <FMX.StdCtrls.hpp>
+#include <FMX.Types.hpp>
+//---------------------------------------------------------------------------
+class TfrmCript : public TForm
+{
+__published:	// IDE-managed Components
+	TGroupBox *GroupBox1;
+	TGroupBox *cxSenhas;
+	TRadioButton *slBásico;
+private:	// User declarations
+public:		// User declarations
+	__fastcall TfrmCript(TComponent* Owner);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TfrmCript *frmCript;
+//---------------------------------------------------------------------------
+#endif

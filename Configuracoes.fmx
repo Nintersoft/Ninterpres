@@ -88,14 +88,14 @@ object frmConfig: TfrmConfig
     Size.Width = 561.000000000000000000
     Size.Height = 441.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 0
+    TabIndex = 1
     TabOrder = 11
     TabPosition = Top
     object abaDesenv: TTabItem
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 187.000000000000000000
       Size.Height = 24.000000000000000000
       Size.PlatformDefault = False
@@ -233,7 +233,7 @@ object frmConfig: TfrmConfig
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      IsSelected = True
       Size.Width = 187.000000000000000000
       Size.Height = 24.000000000000000000
       Size.PlatformDefault = False
@@ -301,7 +301,7 @@ object frmConfig: TfrmConfig
             'Bordas estilizadas (Cl'#225'ssico Ninterpres)'
             'Padr'#227'o do sistema (Recomenda-se para windows 8+)'
             'Personalizado (Arranjo cl'#225'ssico Ninterpres)')
-          ItemIndex = 1
+          ItemIndex = 0
           Position.X = 128.000000000000000000
           Position.Y = 32.000000000000000000
           Size.Width = 329.000000000000000000
