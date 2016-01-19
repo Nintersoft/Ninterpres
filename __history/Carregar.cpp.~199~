@@ -12,6 +12,7 @@
 #include "Sobre.h"
 #include "ImgConf.h"
 #include "CriptLib.h"
+#include "Cript.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.fmx"
@@ -20,7 +21,7 @@
 TfrmCarregar *frmCarregar;
 //---------------------------------------------------------------------------
 int cont = 0;
-bool Existe, estilo = false;
+bool Existe, estilo = false, borda = false;
 //---------------------------------------------------------------------------
 __fastcall TfrmCarregar::TfrmCarregar(TComponent* Owner)
 	: TForm(Owner)
@@ -182,6 +183,10 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 		cont++;
 		Application->MainForm->Show();
 		Application->MainForm->WindowState = TWindowState::wsMaximized;
+		if (!borda) {
+			Application->MainForm->Height -= 40;
+			frmPrincipal->corFundo->Stroke->Color = frmPrincipal->corFundo->Fill->Color;
+		}
 		tmConfigurar->Enabled = false;
 		frmCarregar->Close();
 		frmPrincipal->redimencionar = true;
@@ -291,6 +296,7 @@ void TfrmCarregar::AplicarConfig()
 	int pos = StrToInt(frmConfig->mmConfig->Lines->Strings[6]);
 	if (pos == 0) {
 		estilo = true;
+		borda = true;
 		frmConfig->csEstilo->ItemIndex = pos;
 		frmPrincipal->BorderStyle = TFmxFormBorderStyle::Sizeable;
 		frmPrincipal->WindowState = TWindowState::wsMaximized;
@@ -301,10 +307,12 @@ void TfrmCarregar::AplicarConfig()
 		frmPrincipal->btFecharEf->Visible = false;
 	}
 	else if (pos == 1) {
+		frmConfig->csEstilo->ItemIndex = pos;
 		frmPrincipal->btDeslizarEdtD->StyleLookup = frmPrincipal->btDeslizarVisD->StyleLookup;
 		frmPrincipal->btDeslizarEdtE->StyleLookup = frmPrincipal->btDeslizarVisE->StyleLookup;
 	}
 	else if (pos == 2) {
+		borda = true;
 		frmConfig->csEstilo->ItemIndex = pos;
 		frmPrincipal->BorderStyle = TFmxFormBorderStyle::Sizeable;
 		frmPrincipal->WindowState = TWindowState::wsMaximized;
@@ -564,6 +572,11 @@ void TfrmCarregar::AplicaEstilos(int Passo)
 		frmImgConf->BeginUpdate();
 		frmImgConf->StyleBook = frmCarregar->Estilos;
 		frmImgConf->EndUpdate();
+
+		//------------------------- Img: Config ---------------------------------
+		frmCript->BeginUpdate();
+		frmCript->StyleBook = frmCarregar->Estilos;
+		frmCript->EndUpdate();
 
 	}
 	else {

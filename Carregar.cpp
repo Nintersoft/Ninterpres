@@ -188,7 +188,7 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 			frmPrincipal->corFundo->Stroke->Color = frmPrincipal->corFundo->Fill->Color;
 		}
 		tmConfigurar->Enabled = false;
-		frmCarregar->Close();
+		frmCarregar->Hide();
 		frmPrincipal->redimencionar = true;
 		if (!usarad) frmPrincipal->DefineTemp();
 	}
@@ -586,4 +586,9 @@ void TfrmCarregar::AplicaEstilos(int Passo)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TfrmCarregar::FormClose(TObject *Sender, TCloseAction &Action)
+{
+	Application->Terminate();
+}
+//---------------------------------------------------------------------------
 

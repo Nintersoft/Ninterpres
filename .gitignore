@@ -4,6 +4,16 @@
 *.o
 *.obj
 
+# Strange files
+*.#00
+*.ilc
+*.ild
+*.ilf
+*.ils
+*.map
+*.pch
+*.tds
+
 # Precompiled Headers
 *.gch
 *.pch

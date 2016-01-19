@@ -18,7 +18,7 @@ object frmSobre: TfrmSobre
   object lblEstado: TLabel
     StyledSettings = [Family, Style]
     Position.X = 16.000000000000000000
-    Position.Y = 144.000000000000000000
+    Position.Y = 176.000000000000000000
     Size.Width = 465.000000000000000000
     Size.Height = 25.000000000000000000
     Size.PlatformDefault = False
@@ -65,12 +65,12 @@ object frmSobre: TfrmSobre
     StyledSettings = [Family]
     Position.X = 160.000000000000000000
     Position.Y = 48.000000000000000000
-    Size.Width = 137.000000000000000000
+    Size.Width = 121.000000000000000000
     Size.Height = 25.000000000000000000
     Size.PlatformDefault = False
     TextSettings.Font.Size = 18.000000000000000000
     TextSettings.FontColor = claWhite
-    Text = '0.9.0.0 - Beta'
+    Text = '0.9.4.3 - Beta'
   end
   object lblDesenvolvedor: TLabel
     StyledSettings = [Family]
@@ -345,7 +345,7 @@ object frmSobre: TfrmSobre
   end
   object Indicador: TAniIndicator
     Enabled = True
-    Position.X = 272.000000000000000000
+    Position.X = 288.000000000000000000
     Position.Y = 48.000000000000000000
     Size.Width = 33.000000000000000000
     Size.Height = 33.000000000000000000
@@ -364,10 +364,34 @@ object frmSobre: TfrmSobre
   end
   object Controle: TTimer
     Enabled = False
-    Interval = 2000
+    Interval = 3000
     OnTimer = ControleTimer
     Left = 472
     Top = 80
+  end
+  object lblExt: TLabel
+    StyledSettings = [Family, Style]
+    Position.X = 16.000000000000000000
+    Position.Y = 144.000000000000000000
+    Size.Width = 129.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Size = 18.000000000000000000
+    TextSettings.FontColor = claWhite
+    Text = 'Extens'#245'es:'
+    Visible = False
+  end
+  object lblExtNome: TLabel
+    StyledSettings = [Family, Style]
+    Position.X = 160.000000000000000000
+    Position.Y = 144.000000000000000000
+    Size.Width = 313.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Size = 18.000000000000000000
+    TextSettings.FontColor = claWhite
+    Text = 'Sem extens'#245'es'
+    Visible = False
   end
   object gerWebArq: TIdHTTP
     IOHandler = gerSegSSL

@@ -2,4 +2,18 @@ inherited frmCarregar_Windows: TfrmCarregar_Windows
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = ''
   DesignerMasterStyle = 0
+  inherited lblEstado: TLabel [0]
+  end
+  inherited AniIndicator1: TAniIndicator [1]
+  end
+  inherited tmConfigurar: TTimer [2]
+  end
+  inherited Estilos: TStyleBook [3]
+  end
+  inherited btFechar: TImage [4]
+  end
+  inherited ImgCapa: TImage [5]
+  end
+  inherited corFundoCarr: TRectangle [6]
+  end
 end

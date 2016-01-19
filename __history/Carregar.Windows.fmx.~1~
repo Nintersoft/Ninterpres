@@ -1,0 +1,5 @@
+inherited frmCarregar_Windows: TfrmCarregar_Windows
+  BorderIcons = [biSystemMenu, biMinimize]
+  Caption = ''
+  DesignerMasterStyle = 0
+end

@@ -70,7 +70,7 @@ object frmSobre: TfrmSobre
     Size.PlatformDefault = False
     TextSettings.Font.Size = 18.000000000000000000
     TextSettings.FontColor = claWhite
-    Text = '0.9.4.3 - Beta'
+    Text = '0.9.5.1 - Beta'
   end
   object lblDesenvolvedor: TLabel
     StyledSettings = [Family]

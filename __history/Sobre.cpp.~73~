@@ -23,17 +23,15 @@ __fastcall TfrmSobre::TfrmSobre(TComponent* Owner)
 void __fastcall TfrmSobre::btAtualizarClick(TObject *Sender)
 {
 	frmSobre->BeginUpdate();
-	btAtualizar->Position->Y += 45;
-	btSite->Position->Y += 45;
-	btFacebook->Position->Y += 45;
+	btAtualizar->Visible = false;
+	btSite->Visible = false;
+	btFacebook->Visible = false;
 	lblEstado->Text = "Verificando atualizações...";
-	frmSobre->Height += 45;
 	lblEstado->Visible = true;
 	Indicador->Visible = true;
-	frmSobre->Updating();
-	frmSobre->UpdateActions();
-	frmSobre->EndUpdate();
 	Application->ProcessMessages();
+	frmSobre->EndUpdate();
+	Sleep(1000);
 	Controle->Enabled = true;
 }
 //---------------------------------------------------------------------------
@@ -121,14 +119,13 @@ void TfrmSobre::Principal()
 	} catch (...) {
 		lblEstado->Text = L"Erro";
 		frmSobre->BeginUpdate();
-		btAtualizar->Position->Y -= 45;
-		btSite->Position->Y -= 45;
-		btFacebook->Position->Y -= 45;
-		frmSobre->Height -= 45;
+		btAtualizar->Visible = true;
+		btSite->Visible = true;
+		btFacebook->Visible = true;
 		frmSobre->Updating();
 		frmSobre->UpdateActions();
-		frmSobre->EndUpdate();
 		Application->ProcessMessages();
+		frmSobre->EndUpdate();
 		lblEstado->Visible = false;
 		Indicador->Visible = false;
 		novo = "Adquirindo ";
@@ -155,14 +152,13 @@ void TfrmSobre::Principal()
 			Application->Terminate();
 		} catch (...) {
 			frmSobre->BeginUpdate();
-			btAtualizar->Position->Y -= 45;
-			btSite->Position->Y -= 45;
-			btFacebook->Position->Y -= 45;
-			frmSobre->Height -= 45;
+			btAtualizar->Visible = true;
+			btSite->Visible = true;
+			btFacebook->Visible = true;
 			frmSobre->Updating();
 			frmSobre->UpdateActions();
-			frmSobre->EndUpdate();
 			Application->ProcessMessages();
+			frmSobre->EndUpdate();
 			lblEstado->Visible = false;
 			Indicador->Visible = false;
 			lblEstado->Text = L"Erro";
@@ -171,10 +167,9 @@ void TfrmSobre::Principal()
 	}
 
 	frmSobre->BeginUpdate();
-	btAtualizar->Position->Y -= 45;
-	btSite->Position->Y -= 45;
-	btFacebook->Position->Y -= 45;
-	frmSobre->Height -= 45;
+	btAtualizar->Visible = true;
+	btSite->Visible = true;
+	btFacebook->Visible = true;
 	frmSobre->Updating();
 	frmSobre->UpdateActions();
 	frmSobre->EndUpdate();
@@ -236,7 +231,7 @@ void __fastcall TfrmSobre::FormCreate(TObject *Sender)
 		LONG Style = GetWindowLong(hWnd, GWL_EXSTYLE);
 		SetWindowLong(hWnd, GWL_EXSTYLE, Style | WS_EX_APPWINDOW);
 	}
-	verat = 2;
+	verat = 3;
 	novo = "Adquirindo ";
 	arq = "";
 }
