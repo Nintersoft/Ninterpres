@@ -218,12 +218,12 @@ void __fastcall TfrmPrincipal::edtApresTituloExit(TObject *Sender)
 {
 	if (edtApresTitulo->Text != "") {
 		frmPrincipal->Caption = edtApresTitulo->Text + " - Ninterpres";
-		frmPrincipal->lblTituloForm->Text = edtApresTitulo->Text + " - Ninterpres";
+		lblTituloForm->Text = edtApresTitulo->Text + " - Ninterpres";
 		frmCodigo->mmCodigo->Lines->Strings[0] = edtApresTitulo->Text;
 	}
 	else {
 		frmPrincipal->Caption = "Apresentação sem título - Ninterpres";
-		frmPrincipal->lblTituloForm->Text = "Apresentação sem título - Ninterpres";
+		lblTituloForm->Text = "Apresentação sem título - Ninterpres";
 		frmCodigo->mmCodigo->Lines->Strings[0] = "Apresentação sem título";
 		edtApresTitulo->Text = "Apresentação sem título";
 
@@ -251,7 +251,7 @@ void __fastcall TfrmPrincipal::lblTranspTipoMouseLeave(TObject *Sender)
 
 void __fastcall TfrmPrincipal::btSelecVisualizarClick(TObject *Sender)
 {
-	Abas->ActiveTab = frmPrincipal->AbaVisualizar;
+	Abas->ActiveTab = AbaVisualizar;
 	FundoAbaSelec->Visible = true;
 	FundoAbaSelec->Position->X = btSelecVisualizar->Position->X;
 }
@@ -259,7 +259,7 @@ void __fastcall TfrmPrincipal::btSelecVisualizarClick(TObject *Sender)
 
 void __fastcall TfrmPrincipal::btSelecEditarClick(TObject *Sender)
 {
-	Abas->ActiveTab = frmPrincipal->AbaEditar;
+	Abas->ActiveTab = AbaEditar;
 	FundoAbaSelec->Visible = true;
 	FundoAbaSelec->Position->X = btSelecEditar->Position->X;
 }
@@ -267,7 +267,7 @@ void __fastcall TfrmPrincipal::btSelecEditarClick(TObject *Sender)
 
 void __fastcall TfrmPrincipal::btSelecAjudaClick(TObject *Sender)
 {
-	Abas->ActiveTab = frmPrincipal->AbaAjuda;
+	Abas->ActiveTab = AbaAjuda;
 	FundoAbaSelec->Visible = true;
 	FundoAbaSelec->Position->X = btSelecAjuda->Position->X;
 }
@@ -275,7 +275,7 @@ void __fastcall TfrmPrincipal::btSelecAjudaClick(TObject *Sender)
 
 void __fastcall TfrmPrincipal::btSelecArquivoClick(TObject *Sender)
 {
-	Abas->ActiveTab = frmPrincipal->AbaArquivo;
+	Abas->ActiveTab = AbaArquivo;
 	FundoAbaSelec->Visible = false;
 }
 //---------------------------------------------------------------------------
@@ -284,7 +284,7 @@ void __fastcall TfrmPrincipal::btSelecArquivoClick(TObject *Sender)
 void __fastcall TfrmPrincipal::FormShow(TObject *Sender)
 {
 
-	CorFundoTransp = frmPrincipal->vsTransp->Fill->Color;
+	CorFundoTransp = vsTransp->Fill->Color;
 
 	TSize Tamanho = Screen->Size();
 	frmPrincipal->Width = Tamanho.Width;
@@ -309,7 +309,7 @@ void __fastcall TfrmPrincipal::FormShow(TObject *Sender)
 	}
 	else {
 		if (reduc != 0) frmPrincipal->UpdateStyleBook();
-		frmPrincipal->CarregarTransp(frmPrincipal->SelecTransp->Selected->Index);
+		CarregarTransp(SelecTransp->Selected->Index);
 	}
 
 	int COR = listaCorApresenta->Color;
@@ -355,29 +355,29 @@ void __fastcall TfrmPrincipal::btLimpDadosClick(TObject *Sender)
 void __fastcall TfrmPrincipal::brTranspResize(TObject *Sender)
 {
 	float trPos[2], brTam[2], trTam[2];
-	brTam[0] = frmPrincipal->brTransp->Width;
-	brTam[1] = frmPrincipal->brTransp->Height;
-	trTam[0] = frmPrincipal->vsTransp->Width;
-	trTam[1] = frmPrincipal->vsTransp->Height;
+	brTam[0] = brTransp->Width;
+	brTam[1] = brTransp->Height;
+	trTam[0] = vsTransp->Width;
+	trTam[1] = vsTransp->Height;
 
 	if (brTam[0] >= trTam[0]) {
 		trPos[0] = (brTam[0] - trTam[0])/2;
-		frmPrincipal->vsTransp->Position->X = trPos[0];
-		frmPrincipal->corFundo->Width = brTam[0];
+		vsTransp->Position->X = trPos[0];
+		corFundo->Width = brTam[0];
 	}
 	else {
-		frmPrincipal->vsTransp->Position->X = 20;
-		frmPrincipal->corFundo->Width = trTam[0] + 40;
+		vsTransp->Position->X = 20;
+		corFundo->Width = trTam[0] + 40;
 	}
 
 	if (brTam[1] >= trTam[1]) {
 		trPos[1] = (brTam[1] - trTam[1])/2;
-		frmPrincipal->vsTransp->Position->Y = trPos[1];
-		frmPrincipal->corFundo->Height = brTam[1];
+		vsTransp->Position->Y = trPos[1];
+		corFundo->Height = brTam[1];
 	}
 	else {
-		frmPrincipal->vsTransp->Position->Y = 20;
-        frmPrincipal->corFundo->Height = trTam[1] + 40;
+		vsTransp->Position->Y = 20;
+		corFundo->Height = trTam[1] + 40;
 	}
 
 }
@@ -387,25 +387,25 @@ void __fastcall TfrmPrincipal::FormCreate(TObject *Sender)
 {
 
 	float trPos[2], brTam[2], trTam[2];
-	brTam[0] = frmPrincipal->brTransp->Width;
-	brTam[1] = frmPrincipal->brTransp->Height;
-	trTam[0] = frmPrincipal->vsTransp->Width;
-	trTam[1] = frmPrincipal->vsTransp->Height;
+	brTam[0] = brTransp->Width;
+	brTam[1] = brTransp->Height;
+	trTam[0] = vsTransp->Width;
+	trTam[1] = vsTransp->Height;
 
 	if (brTam[0] >= trTam[0]) {
 		trPos[0] = (brTam[0] - trTam[0])/2;
-		frmPrincipal->vsTransp->Position->X = trPos[0];
+		vsTransp->Position->X = trPos[0];
 	}
 	else {
-		frmPrincipal->vsTransp->Position->X = 20;
+		vsTransp->Position->X = 20;
 	}
 
 	if (brTam[1] >= trTam[1]) {
 		trPos[1] = (brTam[1] - trTam[1])/2;
-		frmPrincipal->vsTransp->Position->Y = trPos[1];
+		vsTransp->Position->Y = trPos[1];
 	}
 	else {
-		frmPrincipal->vsTransp->Position->Y = 20;
+		vsTransp->Position->Y = 20;
 	}
 
 	prim = true;
@@ -532,11 +532,11 @@ void __fastcall TfrmPrincipal::edTranspTituloExit(TObject *Sender)
 		if (edTranspTitulo->Text != "") {
 			frmCodigo->mmCodigo->Lines->Strings[0] = edtApresTitulo->Text;
 			frmPrincipal->Caption = edtApresTitulo->Text + " - Ninterpres";
-			frmPrincipal->lblTituloForm->Text = edtApresTitulo->Text + " - Ninterpres";
+			lblTituloForm->Text = edtApresTitulo->Text + " - Ninterpres";
 		}
 		else {
 			frmPrincipal->Caption = "Apresentação sem título - Ninterpres";
-			frmPrincipal->lblTituloForm->Text = "Apresentação sem título - Ninterpres";
+			lblTituloForm->Text = "Apresentação sem título - Ninterpres";
 			frmCodigo->mmCodigo->Lines->Strings[0] = "Apresentação sem título";
 			edtApresTitulo->Text = "Apresentação sem título";
 		}
@@ -691,7 +691,7 @@ bool res = true;
 
 
 	int pos = tam;
-	frmPrincipal->SelecTransp->Items->Add()->Text = "TRANSP" + IntToStr(num);
+	SelecTransp->Items->Add()->Text = "TRANSP" + IntToStr(num);
 	frmCodigo->mmCodigo->Lines->Insert(pos, "!(FDT)");
 	frmCodigo->mmCodigo->Lines->Insert(pos, "*.*");
 	frmCodigo->mmCodigo->Lines->Insert(pos, "*.*");
@@ -700,7 +700,7 @@ bool res = true;
 	frmCodigo->mmCodigo->Lines->Insert(pos, IntToStr(tpEscolha));
 	frmCodigo->mmCodigo->Lines->Insert(pos, "$TRANSP" + IntToStr(num));
 	Transp = num;
-	frmPrincipal->mmTranspCont->ReadOnly = false;
+	mmTranspCont->ReadOnly = false;
 	SelecTransp->Selected = SelecTransp->Items->Item[Transp];
 
 	TBitmap * imagem;
@@ -796,8 +796,8 @@ void TfrmPrincipal::CarregarTransp (int indice)
 					arq = System::Ioutils::TPath::Combine(arqz, L"CAPA");
 
 					if (TFile::Exists(arq+ext)) {
-						frmPrincipal->imgTransp->Bitmap->LoadFromFile(arq+ext);
-						frmPrincipal->edCamTranspImg->Text = arq+ext;
+						imgTransp->Bitmap->LoadFromFile(arq+ext);
+						edCamTranspImg->Text = arq+ext;
 					}
 					else {
 						throw Exception ("ERRO 000003: O arquivo de imagem não foi salvo corretamente.\nVerifique este erro clicando na aba Visualizar e depois no botão 'Código'.\nPara maiores informações à respeito deste erro, por favor visite nossa docwiki.");
@@ -827,32 +827,32 @@ void TfrmPrincipal::CarregarTransp (int indice)
 						arq = System::Ioutils::TPath::Combine(NSNPTEMP, L"CAPA");
 
 						if (TFile::Exists(arq+ext)) {
-							frmPrincipal->imgTransp->Bitmap->LoadFromFile(arq+ext);
-							frmPrincipal->edCamTranspImg->Text = arq+ext;
+							imgTransp->Bitmap->LoadFromFile(arq+ext);
+							edCamTranspImg->Text = arq+ext;
 						}
 						else {
 							throw Exception ("ERRO 000003: O arquivo de imagem não foi salvo corretamente.\nVerifique este erro clicando na aba Visualizar e depois no botão 'Código'.\nPara maiores informações à respeito deste erro, por favor visite nossa docwiki.");
 						}
 					}
 				}
-				frmPrincipal->imgTransp->Visible = true;
+				imgTransp->Visible = true;
 				loc++;
 				pos++;
 			}
 			else if (pos == 0 && frmCodigo->mmCodigo->Lines->Strings[loc] == "*.*") {
 				loc++;
 				pos++;
-				frmPrincipal->imgTransp->Visible = false;
-				frmPrincipal->edCamTranspImg->Text = "";
+				imgTransp->Visible = false;
+				edCamTranspImg->Text = "";
 			}
 			else if (pos == 1 && frmCodigo->mmCodigo->Lines->Strings[loc] != "*.*") {
-				frmPrincipal->lblImgLeg->Text = frmCodigo->mmCodigo->Lines->Strings[loc];
+				lblImgLeg->Text = frmCodigo->mmCodigo->Lines->Strings[loc];
 				frmImgConf->edtImgLeg->Text =  frmCodigo->mmCodigo->Lines->Strings[loc];
 				loc++;
 				pos++;
 			}
 			else if (pos == 1 && frmCodigo->mmCodigo->Lines->Strings[loc] == "*.*") {
-				frmPrincipal->lblImgLeg->Text = "";
+				lblImgLeg->Text = "";
 				frmImgConf->edtImgLeg->Text = "";
 				loc++;
 				pos++;
@@ -863,28 +863,28 @@ void TfrmPrincipal::CarregarTransp (int indice)
 
 		do {
 			if (pos == 0 && frmCodigo->mmCodigo->Lines->Strings[0] != "Apresentação sem título") {
-				frmPrincipal->lblTitulo->Text = frmCodigo->mmCodigo->Lines->Strings[0];
-				frmPrincipal->edTranspTitulo->Text = frmCodigo->mmCodigo->Lines->Strings[0];
+				lblTitulo->Text = frmCodigo->mmCodigo->Lines->Strings[0];
+				edTranspTitulo->Text = frmCodigo->mmCodigo->Lines->Strings[0];
 				pos++;
 			}
 			else if (pos == 0) {
-				frmPrincipal->edtApresTitulo->Text = "Apresentação sem título";
-				frmPrincipal->lblTitulo->Text =  "Digite o título da apresentação";
+				edtApresTitulo->Text = "Apresentação sem título";
+				lblTitulo->Text =  "Digite o título da apresentação";
 				pos++;
 			}
 			else if (pos == 1 && frmCodigo->mmCodigo->Lines->Strings[1] != "Nintersoft") {
-				frmPrincipal->lblTranspTexto->Text = frmCodigo->mmCodigo->Lines->Strings[1];
-				frmPrincipal->mmTranspCont->Text =  frmCodigo->mmCodigo->Lines->Strings[1];
+				lblTranspTexto->Text = frmCodigo->mmCodigo->Lines->Strings[1];
+				mmTranspCont->Text =  frmCodigo->mmCodigo->Lines->Strings[1];
 				pos++;
 			}
 			else if (pos == 1) {
-				frmPrincipal->lblTranspTexto->Text = "Nome do Autor, Nome do Segundo Autor, Nome do Terceiro Autor, Nome do Autor nºx.";
-				frmPrincipal->mmTranspCont->Lines->Clear();
+				lblTranspTexto->Text = "Nome do Autor, Nome do Segundo Autor, Nome do Terceiro Autor, Nome do Autor nºx.";
+				mmTranspCont->Lines->Clear();
 				pos++;
 			}
 		} while (pos < 2);
 
-		frmPrincipal->mmTranspCont->ReadOnly = true;
+		mmTranspCont->ReadOnly = true;
 
 	}
 	else {
@@ -913,14 +913,14 @@ void TfrmPrincipal::CarregarTransp (int indice)
 				throw Exception ("Erro na configuração do tipo de transparência!");
 			}
 			else if (pos == 1 && frmCodigo->mmCodigo->Lines->Strings[loc] != "*.*") {
-				frmPrincipal->lblTitulo->Text = frmCodigo->mmCodigo->Lines->Strings[loc];
-				frmPrincipal->edTranspTitulo->Text = frmCodigo->mmCodigo->Lines->Strings[loc];
+				lblTitulo->Text = frmCodigo->mmCodigo->Lines->Strings[loc];
+				edTranspTitulo->Text = frmCodigo->mmCodigo->Lines->Strings[loc];
 				loc++;
 				pos++;
 			}
 			else if (pos == 1 && frmCodigo->mmCodigo->Lines->Strings[loc] == "*.*") {
-				frmPrincipal->lblTitulo->Text = "Digite o título da transparência";
-				frmPrincipal->edTranspTitulo->Text = "";
+				lblTitulo->Text = "Digite o título da transparência";
+				edTranspTitulo->Text = "";
 				loc++;
 				pos++;
 			}
@@ -946,15 +946,15 @@ void TfrmPrincipal::CarregarTransp (int indice)
 					arq = System::Ioutils::TPath::Combine(arqz, arqt);
 
 					if (TFile::Exists(arq+ext)) {
-						frmPrincipal->imgTransp->Bitmap->LoadFromFile(arq+ext);
-						frmPrincipal->edCamTranspImg->Text = arq+ext;
+						imgTransp->Bitmap->LoadFromFile(arq+ext);
+						edCamTranspImg->Text = arq+ext;
 					}
 					else {
 						frmPrincipal->edCamTranspImg->Text = "ERRO 000003";
 						throw Exception ("ERRO 000003: O arquivo de imagem não foi salvo corretamente.\nVerifique este erro clicando na aba Visualizar e depois no botão 'Código'.\nPara maiores informações à respeito deste erro, por favor visite nossa docwiki.");
 					}
 
-					frmPrincipal->imgTransp->Visible = true;
+					imgTransp->Visible = true;
 				}
 				else {
 					PWSTR pszPath;
@@ -981,35 +981,35 @@ void TfrmPrincipal::CarregarTransp (int indice)
 						arq = System::Ioutils::TPath::Combine(NSNPTEMP, arqt);
 
 						if (TFile::Exists(arq+ext)) {
-							frmPrincipal->imgTransp->Bitmap->LoadFromFile(arq+ext);
-							frmPrincipal->edCamTranspImg->Text = arq+ext;
+							imgTransp->Bitmap->LoadFromFile(arq+ext);
+							edCamTranspImg->Text = arq+ext;
 						}
 						else {
-							frmPrincipal->edCamTranspImg->Text = "ERRO 000003";
+							edCamTranspImg->Text = "ERRO 000003";
 							throw Exception ("ERRO 000003: O arquivo de imagem não foi salvo corretamente.\nVerifique este erro clicando na aba Visualizar e depois no botão 'Código'.\nPara maiores informações à respeito deste erro, por favor visite nossa docwiki.");
 						}
 
 					}
 				}
-				frmPrincipal->imgTransp->Visible = true;
+				imgTransp->Visible = true;
 				loc++;
 				pos++;
 			}
 			else if (pos == 2 && frmCodigo->mmCodigo->Lines->Strings[loc] == "*.*") {
-				frmPrincipal->imgTransp->Visible = false;
-				frmPrincipal->edCamTranspImg->Text = "";
+				imgTransp->Visible = false;
+				edCamTranspImg->Text = "";
 				loc++;
 				pos++;
 			}
 			else if (pos == 3 && frmCodigo->mmCodigo->Lines->Strings[loc] != "*.*") {
-				frmPrincipal->lblImgLeg->Text = frmCodigo->mmCodigo->Lines->Strings[loc];
+				lblImgLeg->Text = frmCodigo->mmCodigo->Lines->Strings[loc];
 				frmImgConf->edtImgLeg->Text = frmCodigo->mmCodigo->Lines->Strings[loc];
 				primVar = true;
 				loc++;
 				pos++;
 			}
 			else if (pos == 3 && frmCodigo->mmCodigo->Lines->Strings[loc] == "*.*") {
-				frmPrincipal->lblImgLeg->Text = "";
+				lblImgLeg->Text = "";
 				frmImgConf->edtImgLeg->Text = "";
 				primVar = true;
 				loc++;
@@ -1018,8 +1018,8 @@ void TfrmPrincipal::CarregarTransp (int indice)
 			else if (pos == 4 && frmCodigo->mmCodigo->Lines->Strings[loc] != "*.*") {
 
 				if (primVar) {
-					frmPrincipal->mmTranspCont->BeginUpdate();
-					frmPrincipal->mmTranspCont->Lines->Clear();
+					mmTranspCont->BeginUpdate();
+					mmTranspCont->Lines->Clear();
 					primVar = false;
 				}
 
@@ -1029,7 +1029,7 @@ void TfrmPrincipal::CarregarTransp (int indice)
 					loc++;
 					}
 
-					frmPrincipal->mmTranspCont->Lines->Add(frmCodigo->mmCodigo->Lines->Strings[loc]);
+					mmTranspCont->Lines->Add(frmCodigo->mmCodigo->Lines->Strings[loc]);
 					loc++;
 
 					while (comentario(frmCodigo->mmCodigo->Lines->Strings[loc])){
@@ -1038,27 +1038,27 @@ void TfrmPrincipal::CarregarTransp (int indice)
 
 				}while (frmCodigo->mmCodigo->Lines->Strings[loc] != "!(FDT)");
 
-				frmPrincipal->mmTranspCont->EndUpdate();
-				frmPrincipal->mmTranspCont->Repaint();
-				frmPrincipal->mmTranspCont->GoToTextEnd();
-				frmPrincipal->lblTranspTexto->Text = frmPrincipal->mmTranspCont->Text;
+				mmTranspCont->EndUpdate();
+				mmTranspCont->Repaint();
+				mmTranspCont->GoToTextEnd();
+				lblTranspTexto->Text = mmTranspCont->Text;
 				pos++;
 
 			}
 			else if (pos == 4 && frmCodigo->mmCodigo->Lines->Strings[loc] == "*.*") {
-				frmPrincipal->lblTranspTexto->Text = "Digite seu conteúdo de texto para esta transparência aqui.";
-				frmPrincipal->mmTranspCont->Lines->Clear();
+				lblTranspTexto->Text = "Digite seu conteúdo de texto para esta transparência aqui.";
+				mmTranspCont->Lines->Clear();
 				loc++;
 				pos++;
 			}
 		} while (frmCodigo->mmCodigo->Lines->Strings[loc] != "!(FDT)");
 
-		frmPrincipal->mmTranspCont->ReadOnly = false;
+		mmTranspCont->ReadOnly = false;
 
 	}
 
-	frmPrincipal->lblTranspAtual->Text = IntToStr(frmPrincipal->SelecTransp->Selected->Index + 1);
-	frmPrincipal->lblQtdTransp->Text = IntToStr(frmPrincipal->SelecTransp->Items->Count);
+	lblTranspAtual->Text = IntToStr(SelecTransp->Selected->Index + 1);
+	lblQtdTransp->Text = IntToStr(SelecTransp->Items->Count);
 
 }
 //---------------------------------------------------------------------------
@@ -1221,21 +1221,21 @@ void TfrmPrincipal::ModificarDados (int transp)
 			loc++;
 		}
 		else if (pos == 1) {
-			if (frmPrincipal->edTranspTitulo->Text == "") {
+			if (edTranspTitulo->Text == "") {
 				frmCodigo->mmCodigo->BeginUpdate();
 				frmCodigo->mmCodigo->Lines->Strings[loc] = "*.*";
 				frmCodigo->mmCodigo->EndUpdate();
 			}
 			else {
 				frmCodigo->mmCodigo->BeginUpdate();
-				frmCodigo->mmCodigo->Lines->Strings[loc] = frmPrincipal->edTranspTitulo->Text;
+				frmCodigo->mmCodigo->Lines->Strings[loc] = edTranspTitulo->Text;
 				frmCodigo->mmCodigo->EndUpdate();
 			}
 			pos++;
 			loc++;
 		}
 		else if (pos == 2) {
-			if (frmPrincipal->edCamTranspImg->Text == "") {
+			if (edCamTranspImg->Text == "") {
 				frmCodigo->mmCodigo->BeginUpdate();
 				frmCodigo->mmCodigo->Lines->Strings[loc] = "*.*";
 				frmCodigo->mmCodigo->EndUpdate();
@@ -1249,7 +1249,7 @@ void TfrmPrincipal::ModificarDados (int transp)
 			loc++;
 		}
 		else if (pos == 3) {
-			if (frmPrincipal->lblImgLeg->Text == "" | frmPrincipal->lblImgLeg->Text == "(Legenda da imagem)") {
+			if (lblImgLeg->Text == "" | lblImgLeg->Text == "(Legenda da imagem)") {
 				frmCodigo->mmCodigo->BeginUpdate();
 				frmCodigo->mmCodigo->Lines->Strings[loc] = "*.*";
 				frmCodigo->mmCodigo->EndUpdate();
@@ -1263,7 +1263,7 @@ void TfrmPrincipal::ModificarDados (int transp)
 			loc++;
 		}
 		else if (pos == 4) {
-			if (frmPrincipal->mmTranspCont->Text == "") {
+			if (mmTranspCont->Text == "") {
 				frmCodigo->mmCodigo->BeginUpdate();
 				while (frmCodigo->mmCodigo->Lines->Strings[loc] != "!(FDT)") {
 					while (comentario(frmCodigo->mmCodigo->Lines->Strings[loc])){
@@ -1290,11 +1290,11 @@ void TfrmPrincipal::ModificarDados (int transp)
 				}
 				frmCodigo->mmCodigo->EndUpdate();
 
-				int tam2 = frmPrincipal->mmTranspCont->Lines->Count - 1;
+				int tam2 = mmTranspCont->Lines->Count - 1;
 
 				frmCodigo->mmCodigo->BeginUpdate();
 				for (int i = tam2 ; i >= 0; i--) {
-					frmCodigo->mmCodigo->Lines->Insert(loc, frmPrincipal->mmTranspCont->Lines->Strings[i]);
+					frmCodigo->mmCodigo->Lines->Insert(loc, mmTranspCont->Lines->Strings[i]);
 				}
 				frmCodigo->mmCodigo->EndUpdate();
 			}
@@ -1340,7 +1340,7 @@ void __fastcall TfrmPrincipal::btExcluidadosClick(TObject *Sender)
 {
 	int Exclui = MessageBox (0, L"Você realmente deseja remover a imagem?\nCaso você esteja editando a capa esta ação será automaticamente salva.", L"Aviso - Ninterpres", MB_YESNO+MB_ICONQUESTION);
 	if (Exclui == 6) {
-		frmPrincipal->imgTransp->Visible = false;
+		imgTransp->Visible = false;
 		if (Transp == 0) {
 			int loc, tam = frmCodigo->mmCodigo->Lines->Count;
 			for (int i = 0; i < tam; i++) {
@@ -1364,14 +1364,14 @@ void __fastcall TfrmPrincipal::btExcluidadosClick(TObject *Sender)
 
 		}
 		else {
-			frmPrincipal->edCamTranspImg->Text = "";
+			edCamTranspImg->Text = "";
 		}
 	}
 }
 //---------------------------------------------------------------------------
 void TfrmPrincipal::RearranjoTransp (int estilo){
 
-	float AltTransp = frmPrincipal->vsTransp->Height, LargTransp = frmPrincipal->vsTransp->Width;
+	float AltTransp = vsTransp->Height, LargTransp = vsTransp->Width;
 	float ValorHorzM = 0.00585651 * LargTransp; //Porcentagem correspondente à 8 em 1366
 	float ValorHorz = 0.00781250 * LargTransp;  //Porcentagem correspondente à 8 em 1024
 	float ValorVert = 0.01041667 * AltTransp;   //Porcentagem correspondente à 8 em 768
@@ -1383,47 +1383,47 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 
 			int LOCLIN = LocDet("COR_TRANSP");
 			int cor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
-			frmPrincipal->vsTransp->Fill->Color = cor;
+			vsTransp->Fill->Color = cor;
 
-			if (frmPrincipal->cbBorda->IsChecked) {
+			if (cbBorda->IsChecked) {
 				vsTransp->Stroke->Color = cor;
 			}
 			else {
 				vsTransp->Stroke->Color = CorBordaTransp;
 			}
 
-			frmPrincipal->lblTitulo->Position->Y = AltTransp/2;
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTitulo->Position->X = (3 * ValorHorzM);
-			else frmPrincipal->lblTitulo->Position->X = (3 * ValorHorz);
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTitulo->Width = (vsTransp->Width - (3 * ValorHorzM));
-			else frmPrincipal->lblTitulo->Width = (vsTransp->Width - (3 * ValorHorz));
-			frmPrincipal->lblTitulo->TextSettings->HorzAlign = 0x1;
-			frmPrincipal->lblTitulo->Height = tamFonteTitulo;
-			frmPrincipal->lblTitulo->Font->Size = tamFonteTitulo;
+			lblTitulo->Position->Y = AltTransp/2;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTitulo->Position->X = (3 * ValorHorzM);
+			else lblTitulo->Position->X = (3 * ValorHorz);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTitulo->Width = (vsTransp->Width - (3 * ValorHorzM));
+			else lblTitulo->Width = (vsTransp->Width - (3 * ValorHorz));
+			lblTitulo->TextSettings->HorzAlign = 0x1;
+			lblTitulo->Height = tamFonteTitulo;
+			lblTitulo->Font->Size = tamFonteTitulo;
 
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Width = LargTransp - (4 * ValorHorzM);
-			else frmPrincipal->lblTranspTexto->Width = LargTransp - (4 * ValorHorz);
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Position->X = ValorHorzM * 3;
-			else frmPrincipal->lblTranspTexto->Position->X = ValorHorz * 3;
-			frmPrincipal->lblTranspTexto->Position->Y = AltTransp/2 + ValorVert + frmPrincipal->lblTitulo->Height;
-			frmPrincipal->lblTranspTexto->Font->Size = tamFonteBasica;
-			frmPrincipal->lblTranspTexto->Height = tamFonteBasica * RealTamFonte * 2;
-			frmPrincipal->lblTranspTexto->TextSettings->VertAlign = 0x1;
-			frmPrincipal->lblTranspTexto->TextSettings->HorzAlign = 0x1;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Width = LargTransp - (4 * ValorHorzM);
+			else lblTranspTexto->Width = LargTransp - (4 * ValorHorz);
+			if (Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Position->X = ValorHorzM * 3;
+			else lblTranspTexto->Position->X = ValorHorz * 3;
+			lblTranspTexto->Position->Y = AltTransp/2 + ValorVert + lblTitulo->Height;
+			lblTranspTexto->Font->Size = tamFonteBasica;
+			lblTranspTexto->Height = tamFonteBasica * RealTamFonte * 2;
+			lblTranspTexto->TextSettings->VertAlign = 0x1;
+			lblTranspTexto->TextSettings->HorzAlign = 0x1;
 
-			frmPrincipal->imgTransp->Position->X = 0;
-			frmPrincipal->imgTransp->Position->Y = 0;
-			frmPrincipal->imgTransp->Width = LargTransp;
-			frmPrincipal->imgTransp->Height = AltTransp;
-			frmPrincipal->imgTransp->WrapMode = TImageWrapMode::iwStretch;
+			imgTransp->Position->X = 0;
+			imgTransp->Position->Y = 0;
+			imgTransp->Width = LargTransp;
+			imgTransp->Height = AltTransp;
+			imgTransp->WrapMode = TImageWrapMode::iwStretch;
 
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Width = LargTransp - (ValorHorzM * 4);
-			else frmPrincipal->lblImgLeg->Width = LargTransp - (ValorHorz * 4);
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Position->X = ValorHorzM * 3;
-			else frmPrincipal->lblImgLeg->Position->X = ValorHorz * 3;
-			frmPrincipal->lblImgLeg->TextSettings->HorzAlign = 0x2;
-			frmPrincipal->lblImgLeg->Position->Y = AltTransp - ValorVert * 3 - frmPrincipal->lblImgLeg->Height;
-			frmPrincipal->lblImgLeg->Visible = true;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Width = LargTransp - (ValorHorzM * 4);
+			else lblImgLeg->Width = LargTransp - (ValorHorz * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Position->X = ValorHorzM * 3;
+			else lblImgLeg->Position->X = ValorHorz * 3;
+			lblImgLeg->TextSettings->HorzAlign = 0x2;
+			lblImgLeg->Position->Y = AltTransp - ValorVert * 3 - lblImgLeg->Height;
+			lblImgLeg->Visible = true;
 
 		}
 		else if (estilo == 1) {
@@ -1433,61 +1433,61 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 
 			LOCLIN = LocDet("APL_TODOS");
 			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSTT") {
-				frmPrincipal->vsTransp->Fill->Color = cor;
-					if (frmPrincipal->cbBorda->IsChecked) {
-						frmPrincipal->vsTransp->Stroke->Color = cor;
+				vsTransp->Fill->Color = cor;
+					if (cbBorda->IsChecked) {
+						vsTransp->Stroke->Color = cor;
 					}
 					else {
-						frmPrincipal->vsTransp->Stroke->Color = CorBordaTransp;
+						vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
 			else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
-				frmPrincipal->vsTransp->Fill->Color = CorFundoTransp;
-					if (frmPrincipal->cbBorda->IsChecked) {
-						frmPrincipal->vsTransp->Stroke->Color = CorFundoTransp;
+				vsTransp->Fill->Color = CorFundoTransp;
+					if (cbBorda->IsChecked) {
+						vsTransp->Stroke->Color = CorFundoTransp;
 					}
 					else {
-						frmPrincipal->vsTransp->Stroke->Color = CorBordaTransp;
+						vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
 			else {
 				throw Exception ("ERRO 00009: Há um problema no código de compilação.\nPor favor, verifique a linha 5 do arquivo .nps.\nPara maiores informações sobre este erro visite nossa DocWiki.");
 			}
 
-			frmPrincipal->lblTitulo->Width = LargTransp;
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTitulo->Position->Y = (ValorHorzM * 3);
-			else frmPrincipal->lblTitulo->Position->Y = (ValorHorz * 3);
-			frmPrincipal->lblTitulo->Position->X = 0;
-			frmPrincipal->lblTitulo->Width = vsTransp->Width;
-			frmPrincipal->lblTitulo->TextSettings->HorzAlign = 0x0;
-			frmPrincipal->lblTitulo->Height = tamFonteTitulo;
-			frmPrincipal->lblTitulo->Font->Size = tamFonteTitulo;
+			lblTitulo->Width = LargTransp;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTitulo->Position->Y = (ValorHorzM * 3);
+			else lblTitulo->Position->Y = (ValorHorz * 3);
+			lblTitulo->Position->X = 0;
+			lblTitulo->Width = vsTransp->Width;
+			lblTitulo->TextSettings->HorzAlign = 0x0;
+			lblTitulo->Height = tamFonteTitulo;
+			lblTitulo->Font->Size = tamFonteTitulo;
 
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Width = LargTransp/2 - (ValorHorzM * 4);
-			else frmPrincipal->imgTransp->Width = LargTransp/2 - (ValorHorz * 4);
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Position->X = LargTransp / 2 + ValorHorzM;
-			else frmPrincipal->imgTransp->Position->X = LargTransp / 2 + ValorHorz;
-			frmPrincipal->imgTransp->Height = AltTransp - (ValorVert * 14) - frmPrincipal->lblImgLeg->Height - (ValorVert * 4);
-			frmPrincipal->imgTransp->Position->Y = (ValorVert * 13) + (ValorVert/4);
-			frmPrincipal->imgTransp->WrapMode = TImageWrapMode::iwFit;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Width = LargTransp/2 - (ValorHorzM * 4);
+			else imgTransp->Width = LargTransp/2 - (ValorHorz * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Position->X = LargTransp / 2 + ValorHorzM;
+			else imgTransp->Position->X = LargTransp / 2 + ValorHorz;
+			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - (ValorVert * 4);
+			imgTransp->Position->Y = (ValorVert * 13) + (ValorVert/4);
+			imgTransp->WrapMode = TImageWrapMode::iwFit;
 
-			frmPrincipal->lblImgLeg->TextSettings->HorzAlign = 0x0;
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Width = LargTransp/2 - ValorHorzM * 4;
-			else frmPrincipal->lblImgLeg->Width = LargTransp/2 - ValorHorz * 4;
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Position->X = LargTransp / 2 + ValorHorzM * 2;
-			else frmPrincipal->lblImgLeg->Position->X = LargTransp / 2 + ValorHorz * 2;
-			frmPrincipal->lblImgLeg->Position->Y = frmPrincipal->imgTransp->Position->Y + frmPrincipal->imgTransp->Height + ValorVert;
-			frmPrincipal->lblImgLeg->Visible = true;
+			lblImgLeg->TextSettings->HorzAlign = 0x0;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Width = LargTransp/2 - ValorHorzM * 4;
+			else lblImgLeg->Width = LargTransp/2 - ValorHorz * 4;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Position->X = LargTransp / 2 + ValorHorzM * 2;
+			else lblImgLeg->Position->X = LargTransp / 2 + ValorHorz * 2;
+			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
+			lblImgLeg->Visible = true;
 
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
-			else frmPrincipal->lblTranspTexto->Width = LargTransp/2 - (ValorHorz * 4);
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Position->X = ValorHorzM * 3;
-			else frmPrincipal->lblTranspTexto->Position->X = ValorHorz * 3;
-			frmPrincipal->lblTranspTexto->Height = frmPrincipal->imgTransp->Height;
-			frmPrincipal->lblTranspTexto->Font->Size = tamFonteBasica;
-			frmPrincipal->lblTranspTexto->Position->Y = (ValorVert * 13) + (ValorVert/4);
-			frmPrincipal->lblTranspTexto->TextSettings->VertAlign = 0x0;
-			frmPrincipal->lblTranspTexto->TextSettings->HorzAlign = 0x2;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
+			else lblTranspTexto->Width = LargTransp/2 - (ValorHorz * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Position->X = ValorHorzM * 3;
+			else lblTranspTexto->Position->X = ValorHorz * 3;
+			lblTranspTexto->Height = imgTransp->Height;
+			lblTranspTexto->Font->Size = tamFonteBasica;
+			lblTranspTexto->Position->Y = (ValorVert * 13) + (ValorVert/4);
+			lblTranspTexto->TextSettings->VertAlign = 0x0;
+			lblTranspTexto->TextSettings->HorzAlign = 0x2;
 
 		}
 		else if (estilo == 2) {
@@ -1497,60 +1497,60 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 
 			LOCLIN = LocDet("APL_TODOS");
 			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSTT") {
-				frmPrincipal->vsTransp->Fill->Color = cor;
-					if (frmPrincipal->cbBorda->IsChecked) {
-						frmPrincipal->vsTransp->Stroke->Color = cor;
+				vsTransp->Fill->Color = cor;
+					if (cbBorda->IsChecked) {
+						vsTransp->Stroke->Color = cor;
 					}
 					else {
-						frmPrincipal->vsTransp->Stroke->Color = CorBordaTransp;
+						vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
 			else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
-				frmPrincipal->vsTransp->Fill->Color = CorFundoTransp;
-					if (frmPrincipal->cbBorda->IsChecked) {
-						frmPrincipal->vsTransp->Stroke->Color = CorFundoTransp;
+				vsTransp->Fill->Color = CorFundoTransp;
+					if (cbBorda->IsChecked) {
+						vsTransp->Stroke->Color = CorFundoTransp;
 					}
 					else {
-						frmPrincipal->vsTransp->Stroke->Color = CorBordaTransp;
+						vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
 			else {
 				throw Exception ("ERRO 00009: Há um problema no código de compilação.\nPor favor, verifique a linha 5 do arquivo .nps.\nPara maiores informações sobre este erro visite nossa DocWiki.");
 			}
 
-			frmPrincipal->lblTitulo->Width = LargTransp;
-			frmPrincipal->lblTitulo->Position->Y = ValorVert * 3;
-			frmPrincipal->lblTitulo->Width = vsTransp->Width;
-			frmPrincipal->lblTitulo->Position->X = 0;
-			frmPrincipal->lblTitulo->TextSettings->HorzAlign = 0x0;
-			frmPrincipal->lblTitulo->Height = tamFonteTitulo;
-			frmPrincipal->lblTitulo->Font->Size = tamFonteTitulo;
+			lblTitulo->Width = LargTransp;
+			lblTitulo->Position->Y = ValorVert * 3;
+			lblTitulo->Width = vsTransp->Width;
+			lblTitulo->Position->X = 0;
+			lblTitulo->TextSettings->HorzAlign = 0x0;
+			lblTitulo->Height = tamFonteTitulo;
+			lblTitulo->Font->Size = tamFonteTitulo;
 
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Width = LargTransp/2 - ValorHorzM * 4;
-			else frmPrincipal->imgTransp->Width = LargTransp/2 - ValorHorz * 4;
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Position->X = ValorHorzM * 3;
-			else frmPrincipal->imgTransp->Position->X = ValorHorz * 3;
-			frmPrincipal->imgTransp->Height = AltTransp - (ValorVert * 14) - frmPrincipal->lblImgLeg->Height - (ValorVert * 4);
-			frmPrincipal->imgTransp->Position->Y = (ValorVert * 13) + (ValorVert/4);
-			frmPrincipal->imgTransp->WrapMode = TImageWrapMode::iwFit;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Width = LargTransp/2 - ValorHorzM * 4;
+			else imgTransp->Width = LargTransp/2 - ValorHorz * 4;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Position->X = ValorHorzM * 3;
+			else imgTransp->Position->X = ValorHorz * 3;
+			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - (ValorVert * 4);
+			imgTransp->Position->Y = (ValorVert * 13) + (ValorVert/4);
+			imgTransp->WrapMode = TImageWrapMode::iwFit;
 
-			frmPrincipal->lblImgLeg->TextSettings->HorzAlign = 0x0;
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Width = LargTransp/2 - (ValorHorzM * 4);
-			else frmPrincipal->lblImgLeg->Width = LargTransp/2 - (ValorHorz * 4);
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Position->X = ValorHorz * 3;
-			else frmPrincipal->lblImgLeg->Position->X = ValorHorz * 3;
-			frmPrincipal->lblImgLeg->Position->Y = frmPrincipal->imgTransp->Position->Y + frmPrincipal->imgTransp->Height + ValorVert;
-			frmPrincipal->lblImgLeg->Visible = true;
+			lblImgLeg->TextSettings->HorzAlign = 0x0;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Width = LargTransp/2 - (ValorHorzM * 4);
+			else lblImgLeg->Width = LargTransp/2 - (ValorHorz * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Position->X = ValorHorz * 3;
+			else lblImgLeg->Position->X = ValorHorz * 3;
+			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
+			lblImgLeg->Visible = true;
 
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
-			else frmPrincipal->lblTranspTexto->Width = LargTransp/2 - (ValorHorz * 4);
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Position->X = LargTransp / 2 + ValorHorzM;
-			else frmPrincipal->lblTranspTexto->Position->X = LargTransp / 2 + ValorHorzM;
-			frmPrincipal->lblTranspTexto->Font->Size = tamFonteBasica;
-			frmPrincipal->lblTranspTexto->Height = frmPrincipal->imgTransp->Height;
-			frmPrincipal->lblTranspTexto->Position->Y = (ValorVert * 13) + (ValorVert/4);
-			frmPrincipal->lblTranspTexto->TextSettings->VertAlign = 0x0;
-			frmPrincipal->lblTranspTexto->TextSettings->HorzAlign = 0x1;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
+			else lblTranspTexto->Width = LargTransp/2 - (ValorHorz * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Position->X = LargTransp / 2 + ValorHorzM;
+			else lblTranspTexto->Position->X = LargTransp / 2 + ValorHorzM;
+			lblTranspTexto->Font->Size = tamFonteBasica;
+			lblTranspTexto->Height = imgTransp->Height;
+			lblTranspTexto->Position->Y = (ValorVert * 13) + (ValorVert/4);
+			lblTranspTexto->TextSettings->VertAlign = 0x0;
+			lblTranspTexto->TextSettings->HorzAlign = 0x1;
 
 		}
 		else if (estilo == 3) {
@@ -1560,60 +1560,60 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 
 			LOCLIN = LocDet("APL_TODOS");
 			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSTT") {
-				frmPrincipal->vsTransp->Fill->Color = cor;
-					if (frmPrincipal->cbBorda->IsChecked) {
-						frmPrincipal->vsTransp->Stroke->Color = cor;
+				vsTransp->Fill->Color = cor;
+					if (cbBorda->IsChecked) {
+						vsTransp->Stroke->Color = cor;
 					}
 					else {
-						frmPrincipal->vsTransp->Stroke->Color = CorBordaTransp;
+						vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
 			else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
-				frmPrincipal->vsTransp->Fill->Color = CorFundoTransp;
-					if (frmPrincipal->cbBorda->IsChecked) {
-						frmPrincipal->vsTransp->Stroke->Color = CorFundoTransp;
+				vsTransp->Fill->Color = CorFundoTransp;
+					if (cbBorda->IsChecked) {
+						vsTransp->Stroke->Color = CorFundoTransp;
 					}
 					else {
-						frmPrincipal->vsTransp->Stroke->Color = CorBordaTransp;
+						vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
 			else {
 				throw Exception ("ERRO 00009: Há um problema no código de compilação.\nPor favor, verifique a linha 5 do arquivo .nps.\nPara maiores informações sobre este erro visite nossa DocWiki.");
 			}
 
-			frmPrincipal->lblTitulo->Width = LargTransp;
-			frmPrincipal->lblTitulo->Position->Y = AltTransp - (ValorVert * 11);
-			frmPrincipal->lblTitulo->Position->X = 0;
-			frmPrincipal->lblTitulo->Width = vsTransp->Width;
-			frmPrincipal->lblTitulo->TextSettings->HorzAlign = 0x0;
-			frmPrincipal->lblTitulo->Height = tamFonteTitulo;
-			frmPrincipal->lblTitulo->Font->Size = tamFonteTitulo;
+			lblTitulo->Width = LargTransp;
+			lblTitulo->Position->Y = AltTransp - (ValorVert * 11);
+			lblTitulo->Position->X = 0;
+			lblTitulo->Width = vsTransp->Width;
+			lblTitulo->TextSettings->HorzAlign = 0x0;
+			lblTitulo->Height = tamFonteTitulo;
+			lblTitulo->Font->Size = tamFonteTitulo;
 
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Width = LargTransp/2 - (3 * ValorHorzM);
-			else frmPrincipal->imgTransp->Width = LargTransp/2 - (3 * ValorHorz);
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Position->X = LargTransp / 2 + ValorHorzM;
-			else frmPrincipal->imgTransp->Position->X = LargTransp / 2 + ValorHorz;
-			frmPrincipal->imgTransp->Height = AltTransp - (ValorVert * 14) - frmPrincipal->lblImgLeg->Height - 32;
-			frmPrincipal->imgTransp->Position->Y = ValorVert * 3;
-			frmPrincipal->imgTransp->WrapMode = TImageWrapMode::iwFit;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Width = LargTransp/2 - (3 * ValorHorzM);
+			else imgTransp->Width = LargTransp/2 - (3 * ValorHorz);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Position->X = LargTransp / 2 + ValorHorzM;
+			else imgTransp->Position->X = LargTransp / 2 + ValorHorz;
+			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - 32;
+			imgTransp->Position->Y = ValorVert * 3;
+			imgTransp->WrapMode = TImageWrapMode::iwFit;
 
-			frmPrincipal->lblImgLeg->TextSettings->HorzAlign = 0x0;
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Width = LargTransp/2 - (ValorHorzM * 4);
-			else frmPrincipal->lblImgLeg->Width = LargTransp/2 - (ValorHorz * 4);
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Position->X = LargTransp / 2 + ValorHorzM;
-			else frmPrincipal->lblImgLeg->Position->X = LargTransp / 2 + ValorHorz;
-			frmPrincipal->lblImgLeg->Position->Y = frmPrincipal->imgTransp->Position->Y + frmPrincipal->imgTransp->Height + ValorVert;
-			frmPrincipal->lblImgLeg->Visible = true;
+			lblImgLeg->TextSettings->HorzAlign = 0x0;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Width = LargTransp/2 - (ValorHorzM * 4);
+			else lblImgLeg->Width = LargTransp/2 - (ValorHorz * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Position->X = LargTransp / 2 + ValorHorzM;
+			else lblImgLeg->Position->X = LargTransp / 2 + ValorHorz;
+			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
+			lblImgLeg->Visible = true;
 
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
-			else frmPrincipal->lblTranspTexto->Width = LargTransp/2 - (ValorHorz * 4);
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Position->X = ValorHorzM * 3;
-			else frmPrincipal->lblTranspTexto->Position->X = ValorHorz * 3;
-			frmPrincipal->lblTranspTexto->Font->Size = tamFonteBasica;
-			frmPrincipal->lblTranspTexto->Height = frmPrincipal->imgTransp->Height;
-			frmPrincipal->lblTranspTexto->Position->Y = ValorVert * 3;
-			frmPrincipal->lblTranspTexto->TextSettings->VertAlign = 0x0;
-			frmPrincipal->lblTranspTexto->TextSettings->HorzAlign = 0x2;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
+			else lblTranspTexto->Width = LargTransp/2 - (ValorHorz * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Position->X = ValorHorzM * 3;
+			else lblTranspTexto->Position->X = ValorHorz * 3;
+			lblTranspTexto->Font->Size = tamFonteBasica;
+			lblTranspTexto->Height = imgTransp->Height;
+			lblTranspTexto->Position->Y = ValorVert * 3;
+			lblTranspTexto->TextSettings->VertAlign = 0x0;
+			lblTranspTexto->TextSettings->HorzAlign = 0x2;
 
 		}
 		else if (estilo == 4) {
@@ -1623,60 +1623,60 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 
 			LOCLIN = LocDet("APL_TODOS");
 			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSTT") {
-				frmPrincipal->vsTransp->Fill->Color = cor;
-					if (frmPrincipal->cbBorda->IsChecked) {
-						frmPrincipal->vsTransp->Stroke->Color = cor;
+				vsTransp->Fill->Color = cor;
+					if (cbBorda->IsChecked) {
+						vsTransp->Stroke->Color = cor;
 					}
 					else {
-						frmPrincipal->vsTransp->Stroke->Color = CorBordaTransp;
+						vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
 			else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
-				frmPrincipal->vsTransp->Fill->Color = CorFundoTransp;
-					if (frmPrincipal->cbBorda->IsChecked) {
-						frmPrincipal->vsTransp->Stroke->Color = CorFundoTransp;
+				vsTransp->Fill->Color = CorFundoTransp;
+					if (cbBorda->IsChecked) {
+						vsTransp->Stroke->Color = CorFundoTransp;
 					}
 					else {
-						frmPrincipal->vsTransp->Stroke->Color = CorBordaTransp;
+						vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
 			else {
 				throw Exception ("ERRO 00009: Há um problema no código de compilação.\nPor favor, verifique a linha 5 do arquivo .nps.\nPara maiores informações sobre este erro visite nossa DocWiki.");
 			}
 
-			frmPrincipal->lblTitulo->Width = LargTransp;
-			frmPrincipal->lblTitulo->Position->Y = AltTransp - (ValorVert * 11);
-			frmPrincipal->lblTitulo->Position->X = 0;
-			frmPrincipal->lblTitulo->Width = vsTransp->Width;
-			frmPrincipal->lblTitulo->TextSettings->HorzAlign = 0x0;
-			frmPrincipal->lblTitulo->Height = tamFonteTitulo;
-			frmPrincipal->lblTitulo->Font->Size = tamFonteTitulo;
+			lblTitulo->Width = LargTransp;
+			lblTitulo->Position->Y = AltTransp - (ValorVert * 11);
+			lblTitulo->Position->X = 0;
+			lblTitulo->Width = vsTransp->Width;
+			lblTitulo->TextSettings->HorzAlign = 0x0;
+			lblTitulo->Height = tamFonteTitulo;
+			lblTitulo->Font->Size = tamFonteTitulo;
 
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Width = LargTransp/2 - (4 * ValorHorzM);
-			else frmPrincipal->imgTransp->Width = LargTransp/2 - (4 * ValorHorz);
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Position->X = ValorHorzM * 3;
-			else frmPrincipal->imgTransp->Position->X = ValorHorz * 3;
-			frmPrincipal->imgTransp->Height = AltTransp - (ValorVert * 14) - frmPrincipal->lblImgLeg->Height - (ValorVert * 4);
-			frmPrincipal->imgTransp->Position->Y = ValorVert * 3;
-			frmPrincipal->imgTransp->WrapMode = TImageWrapMode::iwFit;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Width = LargTransp/2 - (4 * ValorHorzM);
+			else imgTransp->Width = LargTransp/2 - (4 * ValorHorz);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Position->X = ValorHorzM * 3;
+			else imgTransp->Position->X = ValorHorz * 3;
+			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - (ValorVert * 4);
+			imgTransp->Position->Y = ValorVert * 3;
+			imgTransp->WrapMode = TImageWrapMode::iwFit;
 
-			frmPrincipal->lblImgLeg->TextSettings->HorzAlign = 0x0;
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Width = LargTransp/2 - (ValorHorzM * 4);
-			else frmPrincipal->lblImgLeg->Width = LargTransp/2 - (ValorHorz * 4);
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Position->X = ValorHorzM * 3;
-			else frmPrincipal->lblImgLeg->Position->X = ValorHorz * 3;
-			frmPrincipal->lblImgLeg->Position->Y = frmPrincipal->imgTransp->Position->Y + frmPrincipal->imgTransp->Height + ValorVert;
-			frmPrincipal->lblImgLeg->Visible = true;
+			lblImgLeg->TextSettings->HorzAlign = 0x0;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Width = LargTransp/2 - (ValorHorzM * 4);
+			else lblImgLeg->Width = LargTransp/2 - (ValorHorz * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Position->X = ValorHorzM * 3;
+			else lblImgLeg->Position->X = ValorHorz * 3;
+			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
+			lblImgLeg->Visible = true;
 
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
-			else frmPrincipal->lblTranspTexto->Width = LargTransp/2 - (ValorHorz * 4);
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Position->X = LargTransp / 2 + ValorHorzM;
-			else frmPrincipal->lblTranspTexto->Position->X = LargTransp / 2 + ValorHorz;
-			frmPrincipal->lblTranspTexto->Font->Size = tamFonteBasica;
-			frmPrincipal->lblTranspTexto->Height = frmPrincipal->imgTransp->Height;
-			frmPrincipal->lblTranspTexto->Position->Y = (ValorVert * 3);
-			frmPrincipal->lblTranspTexto->TextSettings->VertAlign = 0x0;
-			frmPrincipal->lblTranspTexto->TextSettings->HorzAlign = 0x1;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
+			else lblTranspTexto->Width = LargTransp/2 - (ValorHorz * 4);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Position->X = LargTransp / 2 + ValorHorzM;
+			else lblTranspTexto->Position->X = LargTransp / 2 + ValorHorz;
+			lblTranspTexto->Font->Size = tamFonteBasica;
+			lblTranspTexto->Height = imgTransp->Height;
+			lblTranspTexto->Position->Y = (ValorVert * 3);
+			lblTranspTexto->TextSettings->VertAlign = 0x0;
+			lblTranspTexto->TextSettings->HorzAlign = 0x1;
 
 		}
 		else if (estilo == 5) {
@@ -1686,54 +1686,54 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 
 			LOCLIN = LocDet("APL_TODOS");
 			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSTT") {
-				frmPrincipal->vsTransp->Fill->Color = cor;
-					if (frmPrincipal->cbBorda->IsChecked) {
-						frmPrincipal->vsTransp->Stroke->Color = cor;
+				vsTransp->Fill->Color = cor;
+					if (cbBorda->IsChecked) {
+						vsTransp->Stroke->Color = cor;
 					}
 					else {
-						frmPrincipal->vsTransp->Stroke->Color = CorBordaTransp;
+						vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
 			else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
-				frmPrincipal->vsTransp->Fill->Color = CorFundoTransp;
-					if (frmPrincipal->cbBorda->IsChecked) {
-						frmPrincipal->vsTransp->Stroke->Color = CorFundoTransp;
+				vsTransp->Fill->Color = CorFundoTransp;
+					if (cbBorda->IsChecked) {
+						vsTransp->Stroke->Color = CorFundoTransp;
 					}
 					else {
-						frmPrincipal->vsTransp->Stroke->Color = CorBordaTransp;
+						vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
 			else {
 				throw Exception ("ERRO 00009: Há um problema no código de compilação.\nPor favor, verifique a linha 5 do arquivo .nps.\nPara maiores informações sobre este erro visite nossa DocWiki.");
 			}
 
-			frmPrincipal->lblTitulo->Width = LargTransp;
-			frmPrincipal->lblTitulo->Position->Y = (ValorVert * 3);
-			frmPrincipal->lblTitulo->Position->X = 0;
-			frmPrincipal->lblTitulo->Width = vsTransp->Width;
-			frmPrincipal->lblTitulo->TextSettings->HorzAlign = 0x0;
-			frmPrincipal->lblTitulo->Height = tamFonteTitulo;
-			frmPrincipal->lblTitulo->Font->Size = tamFonteTitulo;
+			lblTitulo->Width = LargTransp;
+			lblTitulo->Position->Y = (ValorVert * 3);
+			lblTitulo->Position->X = 0;
+			lblTitulo->Width = vsTransp->Width;
+			lblTitulo->TextSettings->HorzAlign = 0x0;
+			lblTitulo->Height = tamFonteTitulo;
+			lblTitulo->Font->Size = tamFonteTitulo;
 
-			frmPrincipal->imgTransp->Width = 0;
-			frmPrincipal->imgTransp->Position->X = 0;
-			frmPrincipal->imgTransp->Height = 0;
-			frmPrincipal->imgTransp->Position->Y = 0;
+			imgTransp->Width = 0;
+			imgTransp->Position->X = 0;
+			imgTransp->Height = 0;
+			imgTransp->Position->Y = 0;
 
-			frmPrincipal->lblImgLeg->Width = 0;
-			frmPrincipal->lblImgLeg->Position->X = 0;
-			frmPrincipal->lblImgLeg->Position->Y = 0;
-			frmPrincipal->lblImgLeg->Visible = false;
+			lblImgLeg->Width = 0;
+			lblImgLeg->Position->X = 0;
+			lblImgLeg->Position->Y = 0;
+			lblImgLeg->Visible = false;
 
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Width = LargTransp - (ValorHorzM * 6);
-			else frmPrincipal->lblTranspTexto->Width = LargTransp - (ValorHorz * 6);
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblTranspTexto->Position->X = (ValorHorzM * 3);
-			else frmPrincipal->lblTranspTexto->Position->X = (ValorHorz * 3);
-			frmPrincipal->lblTranspTexto->Font->Size = tamFonteBasica;
-			frmPrincipal->lblTranspTexto->Height = AltTransp - (ValorVert * 17);
-			frmPrincipal->lblTranspTexto->Position->Y = (ValorVert * 13) + (ValorVert/4);
-			frmPrincipal->lblTranspTexto->TextSettings->VertAlign = 0x0;
-			frmPrincipal->lblTranspTexto->TextSettings->HorzAlign = 0x0;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Width = LargTransp - (ValorHorzM * 6);
+			else lblTranspTexto->Width = LargTransp - (ValorHorz * 6);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Position->X = (ValorHorzM * 3);
+			else lblTranspTexto->Position->X = (ValorHorz * 3);
+			lblTranspTexto->Font->Size = tamFonteBasica;
+			lblTranspTexto->Height = AltTransp - (ValorVert * 17);
+			lblTranspTexto->Position->Y = (ValorVert * 13) + (ValorVert/4);
+			lblTranspTexto->TextSettings->VertAlign = 0x0;
+			lblTranspTexto->TextSettings->HorzAlign = 0x0;
 
 		}
 		else if (estilo == 6) {
@@ -1743,58 +1743,58 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 
 			LOCLIN = LocDet("APL_TODOS");
 			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSTT") {
-				frmPrincipal->vsTransp->Fill->Color = cor;
-					if (frmPrincipal->cbBorda->IsChecked) {
-						frmPrincipal->vsTransp->Stroke->Color = cor;
+				vsTransp->Fill->Color = cor;
+					if (cbBorda->IsChecked) {
+						vsTransp->Stroke->Color = cor;
 					}
 					else {
-						frmPrincipal->vsTransp->Stroke->Color = CorBordaTransp;
+						vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
 			else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
-				frmPrincipal->vsTransp->Fill->Color = CorFundoTransp;
-					if (frmPrincipal->cbBorda->IsChecked) {
-						frmPrincipal->vsTransp->Stroke->Color = CorFundoTransp;
+				vsTransp->Fill->Color = CorFundoTransp;
+					if (cbBorda->IsChecked) {
+						vsTransp->Stroke->Color = CorFundoTransp;
 					}
 					else {
-						frmPrincipal->vsTransp->Stroke->Color = CorBordaTransp;
+						vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
 			else {
 				throw Exception ("ERRO 00009: Há um problema no código de compilação.\nPor favor, verifique a linha 5 do arquivo .nps.\nPara maiores informações sobre este erro visite nossa DocWiki.");
 			}
 
-			frmPrincipal->lblTitulo->Width = LargTransp;
-			frmPrincipal->lblTitulo->Position->Y = ValorVert * 3;
-			frmPrincipal->lblTitulo->Position->X = 0;
-			frmPrincipal->lblTitulo->Width = vsTransp->Width;
-			frmPrincipal->lblTitulo->TextSettings->HorzAlign = 0x0;
-			frmPrincipal->lblTitulo->Height = tamFonteTitulo;
-			frmPrincipal->lblTitulo->Font->Size = tamFonteTitulo;
+			lblTitulo->Width = LargTransp;
+			lblTitulo->Position->Y = ValorVert * 3;
+			lblTitulo->Position->X = 0;
+			lblTitulo->Width = vsTransp->Width;
+			lblTitulo->TextSettings->HorzAlign = 0x0;
+			lblTitulo->Height = tamFonteTitulo;
+			lblTitulo->Font->Size = tamFonteTitulo;
 
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Width = LargTransp - (ValorHorzM * 6);
-			else frmPrincipal->imgTransp->Width = LargTransp - (ValorHorz * 6);
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Position->X = ValorHorzM * 3;
-			else frmPrincipal->imgTransp->Position->X = ValorHorz * 3;
-			frmPrincipal->imgTransp->Height = AltTransp - (ValorVert * 14) - frmPrincipal->lblImgLeg->Height - (ValorVert * 4);
-			frmPrincipal->imgTransp->Position->Y = (ValorVert * 13) + (ValorVert/4);
-			frmPrincipal->imgTransp->WrapMode = TImageWrapMode::iwFit;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Width = LargTransp - (ValorHorzM * 6);
+			else imgTransp->Width = LargTransp - (ValorHorz * 6);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Position->X = ValorHorzM * 3;
+			else imgTransp->Position->X = ValorHorz * 3;
+			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - (ValorVert * 4);
+			imgTransp->Position->Y = (ValorVert * 13) + (ValorVert/4);
+			imgTransp->WrapMode = TImageWrapMode::iwFit;
 
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Width = LargTransp - (ValorHorzM * 6);
-			else frmPrincipal->lblImgLeg->Width = LargTransp - (ValorHorz * 6);
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Position->X = ValorHorzM * 3;
-			else frmPrincipal->lblImgLeg->Position->X = ValorHorz * 3;
-			frmPrincipal->lblImgLeg->Position->Y = frmPrincipal->imgTransp->Position->Y + frmPrincipal->imgTransp->Height + ValorVert;
-			frmPrincipal->lblImgLeg->Visible = true;
-			frmPrincipal->lblImgLeg->TextSettings->HorzAlign = 0x0;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Width = LargTransp - (ValorHorzM * 6);
+			else lblImgLeg->Width = LargTransp - (ValorHorz * 6);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Position->X = ValorHorzM * 3;
+			else lblImgLeg->Position->X = ValorHorz * 3;
+			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
+			lblImgLeg->Visible = true;
+			lblImgLeg->TextSettings->HorzAlign = 0x0;
 
-			frmPrincipal->lblTranspTexto->Font->Size = tamFonteBasica;
-			frmPrincipal->lblTranspTexto->Width = 0;
-			frmPrincipal->lblTranspTexto->Position->X = 0;
-			frmPrincipal->lblTranspTexto->Height = 0;
-			frmPrincipal->lblTranspTexto->Position->Y = 0;
-			frmPrincipal->lblTranspTexto->TextSettings->VertAlign = 0x0;
-			frmPrincipal->lblTranspTexto->TextSettings->HorzAlign = 0x0;
+			lblTranspTexto->Font->Size = tamFonteBasica;
+			lblTranspTexto->Width = 0;
+			lblTranspTexto->Position->X = 0;
+			lblTranspTexto->Height = 0;
+			lblTranspTexto->Position->Y = 0;
+			lblTranspTexto->TextSettings->VertAlign = 0x0;
+			lblTranspTexto->TextSettings->HorzAlign = 0x0;
 
 		}
 		else if (estilo == 7) {
@@ -1804,58 +1804,58 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 
 			LOCLIN = LocDet("APL_TODOS");
 			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSTT") {
-				frmPrincipal->vsTransp->Fill->Color = cor;
-					if (frmPrincipal->cbBorda->IsChecked) {
-						frmPrincipal->vsTransp->Stroke->Color = cor;
+				vsTransp->Fill->Color = cor;
+					if (cbBorda->IsChecked) {
+						vsTransp->Stroke->Color = cor;
 					}
 					else {
-						frmPrincipal->vsTransp->Stroke->Color = CorBordaTransp;
+						vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
 			else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSTT"){
-				frmPrincipal->vsTransp->Fill->Color = CorFundoTransp;
-					if (frmPrincipal->cbBorda->IsChecked) {
-						frmPrincipal->vsTransp->Stroke->Color = CorFundoTransp;
+				vsTransp->Fill->Color = CorFundoTransp;
+					if (cbBorda->IsChecked) {
+						vsTransp->Stroke->Color = CorFundoTransp;
 					}
 					else {
-						frmPrincipal->vsTransp->Stroke->Color = CorBordaTransp;
+						vsTransp->Stroke->Color = CorBordaTransp;
 					}
 			}
 			else {
 				throw Exception ("ERRO 00009: Há um problema no código de compilação.\nPor favor, verifique a linha 5 do arquivo .nps.\nPara maiores informações sobre este erro visite nossa DocWiki.");
 			}
 
-			frmPrincipal->lblTitulo->Width = LargTransp;
-			frmPrincipal->lblTitulo->Position->Y = AltTransp - (ValorVert * 11);
-			frmPrincipal->lblTitulo->Position->X = 0;
-			frmPrincipal->lblTitulo->Width = vsTransp->Width;
-			frmPrincipal->lblTitulo->TextSettings->HorzAlign = 0x0;
-			frmPrincipal->lblTitulo->Height = tamFonteTitulo;
-			frmPrincipal->lblTitulo->Font->Size = tamFonteTitulo;
+			lblTitulo->Width = LargTransp;
+			lblTitulo->Position->Y = AltTransp - (ValorVert * 11);
+			lblTitulo->Position->X = 0;
+			lblTitulo->Width = vsTransp->Width;
+			lblTitulo->TextSettings->HorzAlign = 0x0;
+			lblTitulo->Height = tamFonteTitulo;
+			lblTitulo->Font->Size = tamFonteTitulo;
 
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Width = LargTransp - (ValorHorzM * 6);
-			else frmPrincipal->imgTransp->Width = LargTransp - (ValorHorz * 6);
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->imgTransp->Position->X = ValorHorzM * 3;
-			else frmPrincipal->imgTransp->Position->X = ValorHorz * 3;
-			frmPrincipal->imgTransp->Height = AltTransp - (ValorVert * 14) - frmPrincipal->lblImgLeg->Height - (ValorVert * 4);
-			frmPrincipal->imgTransp->Position->Y = (ValorVert * 3);
-			frmPrincipal->imgTransp->WrapMode = TImageWrapMode::iwFit;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Width = LargTransp - (ValorHorzM * 6);
+			else imgTransp->Width = LargTransp - (ValorHorz * 6);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) imgTransp->Position->X = ValorHorzM * 3;
+			else imgTransp->Position->X = ValorHorz * 3;
+			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - (ValorVert * 4);
+			imgTransp->Position->Y = (ValorVert * 3);
+			imgTransp->WrapMode = TImageWrapMode::iwFit;
 
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Width = LargTransp - (6 * ValorHorzM);
-			else frmPrincipal->lblImgLeg->Width = LargTransp - (6 * ValorHorz);
-			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) frmPrincipal->lblImgLeg->Position->X = ValorHorzM * 3;
-			else frmPrincipal->lblImgLeg->Position->X = ValorHorz * 3;
-			frmPrincipal->lblImgLeg->Position->Y = frmPrincipal->imgTransp->Position->Y + frmPrincipal->imgTransp->Height + ValorVert;
-			frmPrincipal->lblImgLeg->Visible = true;
-			frmPrincipal->lblImgLeg->TextSettings->HorzAlign = 0x0;
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Width = LargTransp - (6 * ValorHorzM);
+			else lblImgLeg->Width = LargTransp - (6 * ValorHorz);
+			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Position->X = ValorHorzM * 3;
+			else lblImgLeg->Position->X = ValorHorz * 3;
+			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
+			lblImgLeg->Visible = true;
+			lblImgLeg->TextSettings->HorzAlign = 0x0;
 
-			frmPrincipal->lblTranspTexto->Font->Size = tamFonteBasica;
-			frmPrincipal->lblTranspTexto->Width = 0;
-			frmPrincipal->lblTranspTexto->Position->X = 0;
-			frmPrincipal->lblTranspTexto->Height = 0;
-			frmPrincipal->lblTranspTexto->Position->Y = 0;
-			frmPrincipal->lblTranspTexto->TextSettings->VertAlign = 0x0;
-			frmPrincipal->lblTranspTexto->TextSettings->HorzAlign = 0x0;
+			lblTranspTexto->Font->Size = tamFonteBasica;
+			lblTranspTexto->Width = 0;
+			lblTranspTexto->Position->X = 0;
+			lblTranspTexto->Height = 0;
+			lblTranspTexto->Position->Y = 0;
+			lblTranspTexto->TextSettings->VertAlign = 0x0;
+			lblTranspTexto->TextSettings->HorzAlign = 0x0;
 
 		}
 
@@ -2785,25 +2785,25 @@ void TfrmPrincipal::AjusteVisual() {
 		tamFonteBasica = edtTamFonte->Value;
 		tamFonteTitulo = 64;
 
-		brTam[0] = frmPrincipal->brTransp->Width;
-		brTam[1] = frmPrincipal->brTransp->Height;
-		trTam[0] = frmPrincipal->vsTransp->Width;
-		trTam[1] = frmPrincipal->vsTransp->Height;
+		brTam[0] = brTransp->Width;
+		brTam[1] = brTransp->Height;
+		trTam[0] = vsTransp->Width;
+		trTam[1] = vsTransp->Height;
 
 		if (brTam[0] >= trTam[0]) {
 			trPos[0] = (brTam[0] - trTam[0])/2;
-			frmPrincipal->vsTransp->Position->X = trPos[0];
+			vsTransp->Position->X = trPos[0];
 		}
 		else {
-			frmPrincipal->vsTransp->Position->X = 20;
+			vsTransp->Position->X = 20;
 		}
 
 		if (brTam[1] >= trTam[1]) {
 			trPos[1] = (brTam[1] - trTam[1])/2;
-			frmPrincipal->vsTransp->Position->Y = trPos[1];
+			vsTransp->Position->Y = trPos[1];
 		}
 		else {
-			frmPrincipal->vsTransp->Position->Y = 20;
+			vsTransp->Position->Y = 20;
 		}
 
 	}
@@ -2835,25 +2835,25 @@ void TfrmPrincipal::AjusteVisual() {
 		tamFonteBasica = edtTamFonte->Value;
 		tamFonteTitulo = 64;
 
-		brTam[0] = frmPrincipal->brTransp->Width;
-		brTam[1] = frmPrincipal->brTransp->Height;
-		trTam[0] = frmPrincipal->vsTransp->Width;
-		trTam[1] = frmPrincipal->vsTransp->Height;
+		brTam[0] = brTransp->Width;
+		brTam[1] = brTransp->Height;
+		trTam[0] = vsTransp->Width;
+		trTam[1] = vsTransp->Height;
 
 		if (brTam[0] >= trTam[0]) {
 			trPos[0] = (brTam[0] - trTam[0])/2;
-			frmPrincipal->vsTransp->Position->X = trPos[0];
+			vsTransp->Position->X = trPos[0];
 		}
 		else {
-			frmPrincipal->vsTransp->Position->X = 20;
+			vsTransp->Position->X = 20;
 		}
 
 		if (brTam[1] >= trTam[1]) {
 			trPos[1] = (brTam[1] - trTam[1])/2;
-			frmPrincipal->vsTransp->Position->Y = trPos[1];
+			vsTransp->Position->Y = trPos[1];
 		}
 		else {
-			frmPrincipal->vsTransp->Position->Y = 20;
+			vsTransp->Position->Y = 20;
 		}
 
 	}
@@ -3640,12 +3640,7 @@ void __fastcall TfrmPrincipal::btSalvarComoClick(TObject *Sender)
 
 		TZipFile* ArquivoPronto = new TZipFile();
 
-		if (frmCodigo->mmCodigo->Lines->Strings[0] != "Apresentação sem título") {
-			dsExportar->FileName = frmCodigo->mmCodigo->Lines->Strings[0];
-		}
-		else {
-			dsExportar->FileName = "Apresentação sem título - Ninterpres";
-		}
+		dsExportar->FileName = frmCodigo->mmCodigo->Lines->Strings[0];
 
 		if (salvo) {
 			String bin = System::Ioutils::TPath::Combine(locSalvo, L"BIN");
@@ -3713,12 +3708,8 @@ void __fastcall TfrmPrincipal::btSalvarComoClick(TObject *Sender)
 	}
 	else {
 
-		if (frmCodigo->mmCodigo->Lines->Strings[0] != "Apresentação sem título") {
-			dsSalvarProj->FileName = frmCodigo->mmCodigo->Lines->Strings[0];
-		}
-		else {
-			dsSalvarProj->FileName = "Apresentação sem título";
-		}
+		dsSalvarProj->FileName = frmCodigo->mmCodigo->Lines->Strings[0];
+
 		if (dsSalvarProj->Execute()) {
 
 			String arq, arqb, NSNPTEMP;
@@ -3767,10 +3758,12 @@ void __fastcall TfrmPrincipal::btSalvarComoClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 void TfrmPrincipal::SalvaCript(){
+
+	dsExportar->FileName = frmCodigo->mmCodigo->Lines->Strings[0];
+	dsSalvarProj->FileName = frmCodigo->mmCodigo->Lines->Strings[0];
+
 	int escSalva = MessageBox (0, L"Você gostaria de exportar a apresentação concluída?\nCaso não deseje, você irá salvá-la no modo de edição.\nPara maiores informações visite nossa docwiki.", L"Aviso - Ninterpres", MB_YESNO+MB_ICONQUESTION);
 	if (escSalva == 6) {
-
-		dsExportar->FileName = frmCodigo->mmCodigo->Lines->Strings[0];
 
 		CriptLib::Encriptar::Subst(frmCript->edtOrig->Text, frmCript->edtSenha->Text, frmCodigo->mmCodigo);
 		CriptLib::Encriptar::Subst(frmCript->edtOrig->Text, frmCript->edtSenha->Text, frmCodigo->mmEstilo);
@@ -3798,6 +3791,8 @@ void TfrmPrincipal::SalvaCript(){
 					} */
 			}
 			else {
+				CriptLib::Decriptar::Subst(frmCript->edtSenha->Text, frmCodigo->mmCodigo);
+				CriptLib::Decriptar::Subst(frmCript->edtSenha->Text, frmCodigo->mmEstilo);
 				if (TDirectory::Exists(bin)) {
 					TDirectory::Delete(bin, true);
 				}
@@ -3806,9 +3801,9 @@ void TfrmPrincipal::SalvaCript(){
 
 		}
 		else {
-			String frase = frmCodigo->mmCodigo->Lines->Strings[0];
-			CriptLib::Decriptar::Subst(frmCript->edtOrig->Text, frmCript->edtSenha->Text, frase);
-			dsExportar->FileName = frase;
+
+			dsExportar->FileName = frmCodigo->mmCodigo->Lines->Strings[0];
+
 			if (dsExportar->Execute()) {
 				PWSTR pszPath;
 				if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pszPath)))
@@ -3834,6 +3829,8 @@ void TfrmPrincipal::SalvaCript(){
 				}
 			}
 			else {
+				CriptLib::Decriptar::Subst(frmCript->edtSenha->Text, frmCodigo->mmCodigo);
+				CriptLib::Decriptar::Subst(frmCript->edtSenha->Text, frmCodigo->mmEstilo);
 				throw Exception("Você cancelou a operação!\nCaso esta ação não tenha sido sua, por favor, considere os dados apresentados a seguir:\nERRO 000102: Não foi possível executar a operação de exportação.\nPara maiores informações sobre este erro visite nossa DocWiki.");
 			}
 		}
@@ -3843,8 +3840,6 @@ void TfrmPrincipal::SalvaCript(){
 
 	}
 	else {
-
-		dsExportar->FileName = frmCodigo->mmCodigo->Lines->Strings[0];
 
 		CriptLib::Encriptar::Subst(frmCript->edtOrig->Text, frmCript->edtSenha->Text, frmCodigo->mmCodigo);
 		CriptLib::Encriptar::Subst(frmCript->edtOrig->Text, frmCript->edtSenha->Text, frmCodigo->mmEstilo);
@@ -3888,6 +3883,8 @@ void TfrmPrincipal::SalvaCript(){
 			ProjSecun = new TFileStream(arqb, TFileMode::fmOpen);
 		}
 		else {
+			CriptLib::Decriptar::Subst(frmCript->edtSenha->Text, frmCodigo->mmCodigo);
+			CriptLib::Decriptar::Subst(frmCript->edtSenha->Text, frmCodigo->mmEstilo);
 			salvo = true;
 			throw Exception("Você cancelou a operação!\nCaso esta ação não tenha sido sua, por favor, considere os dados apresentados a seguir:\nERRO 000100: Não foi possível executar a operação de salvamento de arquivo.\nPara maiores informações sobre este erro visite nossa DocWiki.");
 		}
@@ -3902,16 +3899,16 @@ void TfrmPrincipal::SalvaCript(){
 void __fastcall TfrmPrincipal::vsTranspResize(TObject *Sender)
 {
 	float trPos[2], brTam[2], trTam[2];
-	brTam[0] = frmPrincipal->brTransp->Width;
-	brTam[1] = frmPrincipal->brTransp->Height;
-	trTam[0] = frmPrincipal->vsTransp->Width;
-	trTam[1] = frmPrincipal->vsTransp->Height;
+	brTam[0] = brTransp->Width;
+	brTam[1] = brTransp->Height;
+	trTam[0] = vsTransp->Width;
+	trTam[1] = vsTransp->Height;
 
-	if (brTam[0] >= trTam[0]) frmPrincipal->corFundo->Width = brTam[0];
-	else frmPrincipal->corFundo->Width = trTam[0] + 40;
+	if (brTam[0] >= trTam[0]) corFundo->Width = brTam[0];
+	else corFundo->Width = trTam[0] + 40;
 
-	if (brTam[1] >= trTam[1]) frmPrincipal->corFundo->Height = brTam[1];
-	else frmPrincipal->corFundo->Height = trTam[1] + 40;
+	if (brTam[1] >= trTam[1]) corFundo->Height = brTam[1];
+	else corFundo->Height = trTam[1] + 40;
 }
 //---------------------------------------------------------------------------
 

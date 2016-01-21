@@ -10,7 +10,6 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.fmx"
-#pragma resource ("*.Windows.fmx", _PLAT_MSWINDOWS)
 String novo, arq;
 int temp = 0;
 TfrmSobre *frmSobre;

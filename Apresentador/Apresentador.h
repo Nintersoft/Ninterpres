@@ -38,6 +38,7 @@ public:		// User declarations
 	void RearranjoTransp (int);
 	void Padronizar ();
 	void AjusteVisual();
+	void LerApresentacao();
 	int LocDet(String Valor);
 	int AdquireTam (String Texto);
 

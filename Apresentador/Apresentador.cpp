@@ -5,15 +5,18 @@
 #pragma hdrstop
 
 #include "Apresentador.h"
+#include "Cript.h"
+#include "CriptLib.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.fmx"
+#pragma comment (lib, "CriptLib.lib")
 TfrmApresentacao *frmApresentacao;
 //---------------------------------------------------------------------------
 const float RealTamFonte = 1.3125;
 
 int Transp = 0, CorBordaTransp, num = 1, Transps, Vis = 0, CorFundoTransp, Visualiza = 3;
-bool TranspData, TranspProp, CorBordaDif;
+bool TranspData, TranspProp, CorBordaDif, prim = true;
 TFileStream* ProjAtual;
 TFileStream* ProjSecun;
 //---------------------------------------------------------------------------
@@ -24,71 +27,82 @@ __fastcall TfrmApresentacao::TfrmApresentacao(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TfrmApresentacao::FormShow(TObject *Sender)
 {
+	if (prim) {
 
-	CorBordaTransp = vsTransp->Stroke->Color;
-	CorFundoTransp = vsTransp->Fill->Color;
+		CorBordaTransp = vsTransp->Stroke->Color;
+		CorFundoTransp = vsTransp->Fill->Color;
 
-	if (vsTransp->Height < brTransp->Height) {
-		float dif = brTransp->Height - vsTransp->Height;
-		vsTransp->Position->Y = dif/2;
-	}
-	else if (vsTransp->Height == brTransp->Height) {
-		vsTransp->Position->Y = 0;
-	}
-	if (brTransp->Width > vsTransp->Width) {
-		float dif = brTransp->Width - vsTransp->Width;
-		vsTransp->Position->X = dif/2;
-	}
-	else if (vsTransp->Width == brTransp->Width) {
-		vsTransp->Position->X = 0;
-	}
-
-	if (TFile::Exists("..\\NSCA.nps")) {
-		mmCodigo->BeginUpdate();
-		mmCodigo->Lines->LoadFromFile("..\\NSCA.nps");
-		mmCodigo->EndUpdate();
-		ProjAtual = new TFileStream("..\\NSCA.nps", TFileMode::fmOpen);
-	}
-/*	else if (TFile::Exists("NSCA.nps")) {
-		mmCodigo->Lines->LoadFromFile("NSCA.nps");
-		ProjAtual = new TFileStream("NSCA.nps", TFileMode::fmOpen);
-	}*/
-	else {
-		throw Exception ("ERRO 000020: O arquivo de apresentação não pôde ser lido.\nPor favor, certifique-se de que ele se encontra na pasta principal.\nPara maiores informações, visite nossa DocWiki.");
-	}
-
-	if (TFile::Exists("..\\NSST.stl")) {
-		mmEstilo->BeginUpdate();
-		mmEstilo->Lines->LoadFromFile("..\\NSST.stl");
-		mmEstilo->EndUpdate();
-		ProjSecun = new TFileStream("..\\NSST.stl", TFileMode::fmOpen);
-	}
-/*	else if (TFile::Exists("NSST.stl")) {
-		mmCodigo->Lines->LoadFromFile("NSST.stl");
-		ProjSecun = new TFileStream("NSST.stl", TFileMode::fmOpen);
-	}*/
-	else {
-		throw Exception ("ERRO 000021: O arquivo de estilos não pôde ser lido.\nPor favor, certifique-se de que ele se encontra na pasta principal.\nPara maiores informações, visite nossa DocWiki.");
-	}
-
-	int i = 0, tam = mmCodigo->Lines->Count;
-
-	do{
-		if (mmCodigo->Lines->Strings[i] == "$TRANSP"+IntToStr(num)) {
-			num++;
+		if (vsTransp->Height < brTransp->Height) {
+			float dif = brTransp->Height - vsTransp->Height;
+			vsTransp->Position->Y = dif/2;
 		}
-		i++;
-	}while (i < tam);
+		else if (vsTransp->Height == brTransp->Height) {
+			vsTransp->Position->Y = 0;
+		}
+		if (brTransp->Width > vsTransp->Width) {
+			float dif = brTransp->Width - vsTransp->Width;
+			vsTransp->Position->X = dif/2;
+		}
+		else if (vsTransp->Width == brTransp->Width) {
+			vsTransp->Position->X = 0;
+		}
 
-	int LOCLIN = LocDet("TAM_FONTE");
-	float TamConv = AdquireTam(mmEstilo->Lines->Strings[LOCLIN]);
-	lblTranspTexto->TextSettings->Font->Size = TamConv;
-	tamFonteBasica = TamConv;
+		if (TFile::Exists("..\\NSCA.nps")) {
+			mmCodigo->BeginUpdate();
+			mmCodigo->Lines->LoadFromFile("..\\NSCA.nps");
+			mmCodigo->EndUpdate();
+			ProjAtual = new TFileStream("..\\NSCA.nps", TFileMode::fmOpen);
+		}
+	/*	else if (TFile::Exists("NSCA.nps")) {
+			mmCodigo->Lines->LoadFromFile("NSCA.nps");
+			ProjAtual = new TFileStream("NSCA.nps", TFileMode::fmOpen);
+		}*/
+		else {
+			throw Exception ("ERRO 000020: O arquivo de apresentação não pôde ser lido.\nPor favor, certifique-se de que ele se encontra na pasta principal.\nPara maiores informações, visite nossa DocWiki.");
+		}
 
-	Transps = num - 1;
+		if (TFile::Exists("..\\NSST.stl")) {
+			mmEstilo->BeginUpdate();
+			mmEstilo->Lines->LoadFromFile("..\\NSST.stl");
+			mmEstilo->EndUpdate();
+			ProjSecun = new TFileStream("..\\NSST.stl", TFileMode::fmOpen);
+		}
+	/*	else if (TFile::Exists("NSST.stl")) {
+			mmCodigo->Lines->LoadFromFile("NSST.stl");
+			ProjSecun = new TFileStream("NSST.stl", TFileMode::fmOpen);
+		}*/
+		else {
+			throw Exception ("ERRO 000021: O arquivo de estilos não pôde ser lido.\nPor favor, certifique-se de que ele se encontra na pasta principal.\nPara maiores informações, visite nossa DocWiki.");
+		}
 
-	CarregarTransp(Transp);
-	Padronizar();
+		bool cript = false;
+
+		for (int i = 0; i < mmCodigo->Lines->Count; i++) {
+			if (mmCodigo->Lines->Strings[i] == "CriptB") {
+				cript = true;
+				break;
+			}
+			else if (Pos("CriptB",mmCodigo->Lines->Strings[i]) != 0) {
+				cript = true;
+				break;
+			}
+	/*		else if (Pos("CriptB",mmCodigo->Lines->Strings[i]) != 0) {
+				cript = true;
+				break;
+			}*/ //Reservado para implementações futuras
+		}
+
+		if (cript) {
+			frmCript->Show();
+			frmApresentacao->Visible = false;
+		}
+		else {
+			LerApresentacao();
+		}
+
+		prim = false;
+
+	}
 
 }
 //---------------------------------------------------------------------------
@@ -1126,5 +1140,28 @@ void TfrmApresentacao::AjusteVisual() {
 		}
 
 	}
+}
+//---------------------------------------------------------------------------
+void TfrmApresentacao::LerApresentacao() {
+
+	int i = 0, tam = mmCodigo->Lines->Count;
+
+	do{
+		if (mmCodigo->Lines->Strings[i] == "$TRANSP"+IntToStr(num)) {
+			num++;
+		}
+		i++;
+	}while (i < tam);
+
+	int LOCLIN = LocDet("TAM_FONTE");
+	float TamConv = AdquireTam(mmEstilo->Lines->Strings[LOCLIN]);
+	lblTranspTexto->TextSettings->Font->Size = TamConv;
+	tamFonteBasica = TamConv;
+
+	Transps = num - 1;
+
+	CarregarTransp(Transp);
+	Padronizar();
+
 }
 //---------------------------------------------------------------------------

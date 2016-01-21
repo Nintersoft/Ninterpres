@@ -5,6 +5,7 @@
 #include <tchar.h>
 //---------------------------------------------------------------------------
 USEFORM("Apresentador.cpp", frmApresentacao);
+USEFORM("Cript.cpp", frmCript);
 //---------------------------------------------------------------------------
 extern "C" int FMXmain()
 {
@@ -12,6 +13,7 @@ extern "C" int FMXmain()
 	{
 		Application->Initialize();
 		Application->CreateForm(__classid(TfrmApresentacao), &frmApresentacao);
+		Application->CreateForm(__classid(TfrmCript), &frmCript);
 		Application->Run();
 	}
 	catch (Exception &exception)

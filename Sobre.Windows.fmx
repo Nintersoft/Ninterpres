@@ -1,4 +1,0 @@
-inherited frmSobre_Windows: TfrmSobre_Windows
-  ClientHeight = 198
-  DesignerMasterStyle = 0
-end

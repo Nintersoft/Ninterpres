@@ -16,7 +16,6 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.fmx"
-#pragma resource ("*.Windows.fmx", _PLAT_MSWINDOWS)
 #pragma comment (lib, "CriptLib.lib")
 TfrmCarregar *frmCarregar;
 //---------------------------------------------------------------------------
@@ -178,6 +177,7 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 		frmPrincipal->listaPrevTransp->Repaint();
 		frmPrincipal->listaPrevTransp->EndUpdate();
 		frmPrincipal->listaPrevTransp->Selected->Repaint();
+		frmPrincipal->AjusteVisual();
 		frmPrincipal->CarregarTransp(frmPrincipal->SelecTransp->Selected->Index);
 		frmPrincipal->CarregarTransp(frmPrincipal->SelecTransp->Selected->Index);
 		cont++;
