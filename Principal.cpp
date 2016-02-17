@@ -232,6 +232,14 @@ void __fastcall TfrmPrincipal::edtApresTituloExit(TObject *Sender)
 			edTranspTitulo->Text = "";
 		}
 	}
+	if (frmPrincipal->WindowState == TWindowState::wsMaximized) {
+		frmPrincipal->WindowState = TWindowState::wsNormal;
+		frmPrincipal->WindowState = TWindowState::wsMaximized;
+	}
+	else if (frmPrincipal->WindowState == TWindowState::wsNormal) {
+		frmPrincipal->WindowState = TWindowState::wsMaximized;
+		frmPrincipal->WindowState = TWindowState::wsNormal;
+	}
 }
 //---------------------------------------------------------------------------
 
@@ -3472,18 +3480,41 @@ void TfrmPrincipal::CarregarAbertura(String argumento)
 
 	}
 
-
-
 	salvo = true;
 	SelecTransp->BeginUpdate();
 	SelecTransp->Items->Clear();
 	SelecTransp->Items->Add()->Text = "CAPA";
+	SelecTransp->Items->Item[Transp]->Bitmap = frmCarregar->ImgCapa->Bitmap;
 
-	int i = 0, num = 1, tam = frmCodigo->mmCodigo->Lines->Count;
+	int i = 0, num = 1, loc = 0, tam = frmCodigo->mmCodigo->Lines->Count;
+
 	do{
 		if (frmCodigo->mmCodigo->Lines->Strings[i] == "$TRANSP"+IntToStr(num)) {
-			SelecTransp->Items->Add()->Text = "TRANSP"+IntToStr(num);
-			num++;
+
+			loc = i + 1;
+			while (comentario(frmCodigo->mmCodigo->Lines->Strings[loc]))	loc++;
+
+			try{
+				if (StrToInt(frmCodigo->mmCodigo->Lines->Strings[loc]) > 0 && StrToInt(frmCodigo->mmCodigo->Lines->Strings[loc]) < 8 ) {
+
+					SelecTransp->Items->Add()->Text = "TRANSP"+IntToStr(num);
+					TBitmap* imagem;
+
+					if (StrToInt(frmCodigo->mmCodigo->Lines->Strings[loc]) == 1) imagem = tpTipo1->Bitmap;
+					else if (StrToInt(frmCodigo->mmCodigo->Lines->Strings[loc]) == 2) imagem = tpTipo2->Bitmap;
+					else if (StrToInt(frmCodigo->mmCodigo->Lines->Strings[loc]) == 3) imagem = tpTipo3->Bitmap;
+					else if (StrToInt(frmCodigo->mmCodigo->Lines->Strings[loc]) == 4) imagem = tpTipo4->Bitmap;
+					else if (StrToInt(frmCodigo->mmCodigo->Lines->Strings[loc]) == 5) imagem = tpTipo5->Bitmap;
+					else if (StrToInt(frmCodigo->mmCodigo->Lines->Strings[loc]) == 6) imagem = tpTipo6->Bitmap;
+					else if (StrToInt(frmCodigo->mmCodigo->Lines->Strings[loc]) == 7) imagem = tpTipo7->Bitmap;
+
+					SelecTransp->Items->Item[num]->Bitmap = imagem;
+					num++;
+					loc++;
+				}
+			} catch (...){
+				throw Exception ("Erro na identificação do tipo na transparência #"+IntToStr(num)+". Dado inválido.");
+			}
 		}
 		i++;
 	}while (i < tam);
@@ -3911,4 +3942,5 @@ void __fastcall TfrmPrincipal::vsTranspResize(TObject *Sender)
 	else corFundo->Height = trTam[1] + 40;
 }
 //---------------------------------------------------------------------------
+
 

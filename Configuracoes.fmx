@@ -11,7 +11,9 @@ object frmConfig: TfrmConfig
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop, iPhone, iPad]
+  OnActivate = FormActivate
   OnCreate = FormCreate
+  OnShow = FormShow
   DesignerMasterStyle = 0
   object mmConfig: TMemo
     Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
@@ -62,7 +64,7 @@ object frmConfig: TfrmConfig
     Size.Height = 27.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 7
-    Text = 'Salvar condfigura'#231#245'es como padr'#227'o'
+    Text = 'Salvar configura'#231#245'es como padr'#227'o'
     TextSettings.Font.Size = 16.000000000000000000
     OnChange = cbDefPadChange
   end

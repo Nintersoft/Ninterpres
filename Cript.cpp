@@ -28,3 +28,9 @@ void __fastcall TfrmCript::btCancelarClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TfrmCript::FormShow(TObject *Sender)
+{
+	frmCript->Invalidate();
+}
+//---------------------------------------------------------------------------
+

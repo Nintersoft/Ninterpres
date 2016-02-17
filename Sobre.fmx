@@ -65,12 +65,12 @@ object frmSobre: TfrmSobre
     StyledSettings = [Family]
     Position.X = 160.000000000000000000
     Position.Y = 48.000000000000000000
-    Size.Width = 121.000000000000000000
+    Size.Width = 129.000000000000000000
     Size.Height = 25.000000000000000000
     Size.PlatformDefault = False
     TextSettings.Font.Size = 18.000000000000000000
     TextSettings.FontColor = claWhite
-    Text = '0.9.5.1 - Beta'
+    Text = '0.9.5.3 - Beta'
   end
   object lblDesenvolvedor: TLabel
     StyledSettings = [Family]

@@ -25,6 +25,7 @@ __published:	// IDE-managed Components
 	TButton *btCancelar;
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall btCancelarClick(TObject *Sender);
+	void __fastcall FormShow(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TfrmCript(TComponent* Owner);

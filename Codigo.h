@@ -31,6 +31,9 @@ __published:	// IDE-managed Components
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall mmCodigoChange(TObject *Sender);
 	void __fastcall btAlterarClick(TObject *Sender);
+	void __fastcall FormActivate(TObject *Sender);
+
+
 private:	// User declarations
 public:		// User declarations
 	__fastcall TfrmCodigo(TComponent* Owner);

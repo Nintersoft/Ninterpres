@@ -1,0 +1,41 @@
+//---------------------------------------------------------------------------
+
+#ifndef CarregarH
+#define CarregarH
+//---------------------------------------------------------------------------
+#include <System.Classes.hpp>
+#include <FMX.Controls.hpp>
+#include <FMX.Forms.hpp>
+#include <FMX.Objects.hpp>
+#include <FMX.StdCtrls.hpp>
+#include <FMX.Types.hpp>
+//---------------------------------------------------------------------------
+class TfrmCarregar : public TForm
+{
+__published:	// IDE-managed Components
+	TImage *btFechar;
+	TLabel *lblEstado;
+	TAniIndicator *AniIndicator1;
+	TTimer *tmConfigurar;
+	TStyleBook *Estilos;
+	TImage *ImgCapa;
+	TRectangle *corFundoCarr;
+	void __fastcall tmConfigurarTimer(TObject *Sender);
+	void __fastcall btFecharClick(TObject *Sender);
+	void __fastcall FormShow(TObject *Sender);
+	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
+private:	// User declarations
+public:		// User declarations
+	__fastcall TfrmCarregar(TComponent* Owner);
+	void AplicarConfig();
+	void ReconfiguraCont(int Tempo);
+	void AplicaEstilos(int Passo);
+	String NSNPCONF;
+	String NSNPLOC;
+	String NSNPLOCATL;
+	bool usarad, sans;
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TfrmCarregar *frmCarregar;
+//---------------------------------------------------------------------------
+#endif
