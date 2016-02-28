@@ -14,7 +14,7 @@
 class TfrmCript : public TForm
 {
 __published:	// IDE-managed Components
-	TGroupBox *GroupBox1;
+	TGroupBox *cxSelecCript;
 	TGroupBox *cxSenhas;
 	TRadioButton *slBásico;
 	TButton *Button1;

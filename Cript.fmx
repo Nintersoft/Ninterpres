@@ -11,7 +11,7 @@
   FormFactor.Devices = [Desktop]
   OnShow = FormShow
   DesignerMasterStyle = 0
-  object GroupBox1: TGroupBox
+  object cxSelecCript: TGroupBox
     Size.Width = 177.000000000000000000
     Size.Height = 113.000000000000000000
     Size.PlatformDefault = False

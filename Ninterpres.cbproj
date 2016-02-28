@@ -161,7 +161,7 @@
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <VerInfo_Build>3</VerInfo_Build>
+        <VerInfo_Build>4</VerInfo_Build>
         <VerInfo_Release>5</VerInfo_Release>
         <ILINK_LibraryPath>..\..\..\..\Public\Documents\Embarcadero\Studio\14.0\DCP\;$(BDS)\lib\win32\release\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <LinkPackageStatics>rtl.lib;fmx.lib;xmlrtl.lib;vclx.lib;vcl.lib;vclactnband.lib;IndySystem.lib;IndyProtocols.lib;IndyCore.lib</LinkPackageStatics>
@@ -170,7 +170,7 @@
         <UsePackages>false</UsePackages>
         <DynamicRTL>false</DynamicRTL>
         <VerInfo_Locale>1046</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=Nintersoft;FileDescription=Ninterpres - Criador de apresentações de transparências;FileVersion=0.9.5.3;InternalName=Ninterpres;LegalCopyright=Nintersoft;LegalTrademarks=;OriginalFilename=Ninterpres;ProductName=Ninterpres;ProductVersion=0.9.5.3;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Nintersoft;FileDescription=Ninterpres - Criador de apresentações;FileVersion=0.9.5.4;InternalName=Ninterpres;LegalCopyright=Nintersoft;LegalTrademarks=;OriginalFilename=Ninterpres;ProductName=Ninterpres;ProductVersion=0.9.5.4;Comments=</VerInfo_Keys>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <VerInfo_MinorVer>9</VerInfo_MinorVer>
     </PropertyGroup>
@@ -720,14 +720,14 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
             </Deployment>
             <Platforms>
                 <Platform value="Android">False</Platform>

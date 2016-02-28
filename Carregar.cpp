@@ -49,13 +49,8 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 		String NSNA = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSTEMP.nps");
 		String NSNS = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSSTEMP.stl");;
 
-		if (TFile::Exists(NSNA)){
-			TFile::Delete(NSNA);
-		}
-
-		if (TFile::Exists(NSNS)){
-			TFile::Delete(NSNS);
-		}
+		if (TFile::Exists(NSNA)) TFile::Delete(NSNA);
+		if (TFile::Exists(NSNS)) TFile::Delete(NSNS);
 
 		NSNPCONF = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres\\Config");
 		CoTaskMemFree(pszPath);
@@ -76,13 +71,8 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 		String aprmod = System::Ioutils::TPath::Combine(NSNPLOC, L"NSNV");
 		String aprstl = System::Ioutils::TPath::Combine(NSNPLOC, L"NSST");
 
-		if (!TFile::Exists(aprmod + ".nps")) {
-			frmCodigo->mmCodigo->Lines->SaveToFile(aprmod + ".nps");
-		}
-
-		if (!TFile::Exists(aprstl + ".stl")) {
-			frmCodigo->mmEstilo->Lines->SaveToFile(aprstl + ".stl");
-		}
+		if (!TFile::Exists(aprmod + ".nps")) frmCodigo->mmCodigo->Lines->SaveToFile(aprmod + ".nps");
+		if (!TFile::Exists(aprstl + ".stl")) frmCodigo->mmEstilo->Lines->SaveToFile(aprstl + ".stl");
 
 		cont++;
 
@@ -182,9 +172,9 @@ void __fastcall TfrmCarregar::tmConfigurarTimer(TObject *Sender)
 		frmPrincipal->listaPrevTransp->Selected->Repaint();
 		frmPrincipal->AjusteVisual();
 		frmPrincipal->CarregarTransp(frmPrincipal->SelecTransp->Selected->Index);
-		frmPrincipal->CarregarTransp(frmPrincipal->SelecTransp->Selected->Index);
+		frmPrincipal->vsTransp->Repaint();
 		cont++;
-		Application->MainForm->Show();
+		frmPrincipal->Show();
 		Application->MainForm->WindowState = TWindowState::wsMaximized;
 		if (!borda) {
 			Application->MainForm->Height -= 40;

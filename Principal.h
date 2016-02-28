@@ -23,6 +23,7 @@
 #include <FMX.EditBox.hpp>
 #include <FMX.NumberBox.hpp>
 #include <FMX.Layouts.hpp>
+#include <FMX.ExtCtrls.hpp>
 //---------------------------------------------------------------------------
 class TfrmPrincipal : public TForm
 {
@@ -341,6 +342,8 @@ __published:	// IDE-managed Components
 	void __fastcall btSalvarCriptClick(TObject *Sender);
 	void __fastcall btSalvarComoClick(TObject *Sender);
 	void __fastcall vsTranspResize(TObject *Sender);
+	void __fastcall FormActivate(TObject *Sender);
+
 
 
 

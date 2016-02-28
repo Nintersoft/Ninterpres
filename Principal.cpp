@@ -315,10 +315,6 @@ void __fastcall TfrmPrincipal::FormShow(TObject *Sender)
 		prim = false;
 
 	}
-	else {
-		if (reduc != 0) frmPrincipal->UpdateStyleBook();
-		CarregarTransp(SelecTransp->Selected->Index);
-	}
 
 	int COR = listaCorApresenta->Color;
 	vsTransp->Fill->Color = COR;
@@ -2592,17 +2588,30 @@ void __fastcall TfrmPrincipal::btNovoProjClick(TObject *Sender)
 	int escSalva = MessageBox (0, L"Está certo de que deseja reiniciar a aplicação?\nEsta ação não poderá ser desfeita.", L"Aviso - Ninterpres", MB_YESNO+MB_ICONQUESTION);
 	if (escSalva == 6) {
 
-		Transp = 0;
 		String arqa, arqb;
 		PWSTR pszPath;
+		Transp = 0;
+
+		delete ProjAtual;
+		delete ProjSecun;
 
 		if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pszPath)))
 		{
-			String NSNPTEMP = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres");
+			String NSNPTEMP = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres\\TEMP");
+			String NSNPLOC = System::Ioutils::TPath::Combine(pszPath, L"Nintersoft\\Ninterpres");
 			CoTaskMemFree(pszPath);
 
-			arqb = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSNV");
-			arqa = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSST");
+			arqb = System::Ioutils::TPath::Combine(NSNPLOC, L"NSNV");
+			arqa = System::Ioutils::TPath::Combine(NSNPLOC, L"NSST");
+
+			if (!TDirectory::Exists(NSNPTEMP)) TDirectory::CreateDirectory(NSNPTEMP);
+
+			String NSNA = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSTEMP.nps");
+			String NSNS = System::Ioutils::TPath::Combine(NSNPTEMP, L"NSSTEMP.stl");;
+
+			if (TFile::Exists(NSNA)) TFile::Delete(NSNA);
+			if (TFile::Exists(NSNS)) TFile::Delete(NSNS);
+
 
 			if (!TFile::Exists(arqb+".nps")) {
 				throw Exception ("ERRO 000009: O modelo de apresentação novo não pode ser encontrado.\nPara corrigir este problema, por favor, reinicie o programa.\nPara maiores informações à respeito deste erro, por favor visite nossa docwiki.");
@@ -2619,91 +2628,91 @@ void __fastcall TfrmPrincipal::btNovoProjClick(TObject *Sender)
 		SelecTransp->BeginUpdate();
 		SelecTransp->Items->Clear();
 		SelecTransp->Items->Add()->Text = "CAPA";
-		SelecTransp->Items->Item[Transp]->Bitmap = frmCarregar->ImgCapa->Bitmap;
+		SelecTransp->Items->Item[0]->Bitmap = frmCarregar->ImgCapa->Bitmap;
 		SelecTransp->EndUpdate();
 
-			if (frmCodigo->mmCodigo->Lines->Strings[1] != "Nintersoft") {
-				edtApresAutor->Text = frmCodigo->mmCodigo->Lines->Strings[1];
-			}
-			else {
-				edtApresAutor->Text = "";
-			}
+		if (frmCodigo->mmCodigo->Lines->Strings[1] != "Nintersoft") {
+			edtApresAutor->Text = frmCodigo->mmCodigo->Lines->Strings[1];
+		}
+		else {
+			edtApresAutor->Text = "";
+		}
 
-			int LOCLIN = LocDet("COR_TRANSP");
-			vsTransp->Fill->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
-			listaCorApresenta->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+		int LOCLIN = LocDet("COR_TRANSP");
+		vsTransp->Fill->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+		listaCorApresenta->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
 
-			LOCLIN = LocDet("APL_BORDA");
-			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSBD") {
-				vsTransp->Stroke->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
-				cbBorda->IsChecked = true;
-			}
-			else {
-				vsTransp->Stroke->Color = CorBordaTransp;
-				cbBorda->IsChecked = false;
-			}
+		LOCLIN = LocDet("APL_BORDA");
+		if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSBD") {
+			vsTransp->Stroke->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+			cbBorda->IsChecked = true;
+		}
+		else {
+			vsTransp->Stroke->Color = CorBordaTransp;
+			cbBorda->IsChecked = false;
+		}
 
-			LOCLIN = LocDet("APL_FONTE");
-			int LOCLIN2 = LocDet("APL_TODOS");
-			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN2] == "NSTT" && frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSFT") {
-				LOCLIN = LocDet("COR_FONTE");
-				lblTitulo->TextSettings->FontColor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
-				lblTranspTexto->TextSettings->FontColor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
-				lblImgLeg->TextSettings->FontColor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
-				listaCorTexto->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
-				cbTodos->IsChecked = true;
-				cbFonte->IsChecked = true;
-			}
-			else {
-				lblTitulo->TextSettings->FontColor = CorBordaTransp;
-				lblTranspTexto->TextSettings->FontColor = CorBordaTransp;
-				lblImgLeg->TextSettings->FontColor = CorBordaTransp;
-				listaCorTexto->Color = CorBordaTransp;
-				cbTodos->IsChecked = false;
-				cbFonte->IsChecked = false;
-			}
+		LOCLIN = LocDet("APL_FONTE");
+		int LOCLIN2 = LocDet("APL_TODOS");
+		if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN2] == "NSTT" && frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSFT") {
+			LOCLIN = LocDet("COR_FONTE");
+			lblTitulo->TextSettings->FontColor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+			lblTranspTexto->TextSettings->FontColor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+			lblImgLeg->TextSettings->FontColor = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+			listaCorTexto->Color = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+			cbTodos->IsChecked = true;
+			cbFonte->IsChecked = true;
+		}
+		else {
+			lblTitulo->TextSettings->FontColor = CorBordaTransp;
+			lblTranspTexto->TextSettings->FontColor = CorBordaTransp;
+			lblImgLeg->TextSettings->FontColor = CorBordaTransp;
+			listaCorTexto->Color = CorBordaTransp;
+			cbTodos->IsChecked = false;
+			cbFonte->IsChecked = false;
+		}
 
-			LOCLIN = LocDet("TAM_FONTE");
-			float TamConv = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
-			lblTranspTexto->TextSettings->Font->Size = TamConv;
-			edtTamFonte->Text = FloatToStr(TamConv);
-			baTamFonte->Value = TamConv;
+		LOCLIN = LocDet("TAM_FONTE");
+		float TamConv = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+		lblTranspTexto->TextSettings->Font->Size = TamConv;
+		edtTamFonte->Text = FloatToStr(TamConv);
+		baTamFonte->Value = TamConv;
 
-			LOCLIN = LocDet("MSTR_TRANSP");
-			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSFN") {
-				opMostrarNSTransp->IsChecked = true;
-			}
-			else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSFN") {
-				opMostrarNSTransp->IsChecked = false;
-			}
-			else {
-				throw Exception ("ERRO 000010: Falha nas configurações especiais (Última transparência).\nPara maiores informações sobre este erro visite nossa DocWiki.");
-			}
+		LOCLIN = LocDet("MSTR_TRANSP");
+		if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSFN") {
+			opMostrarNSTransp->IsChecked = true;
+		}
+		else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSFN") {
+			opMostrarNSTransp->IsChecked = false;
+		}
+		else {
+			throw Exception ("ERRO 000010: Falha nas configurações especiais (Última transparência).\nPara maiores informações sobre este erro visite nossa DocWiki.");
+		}
 
-			LOCLIN = LocDet("MSTR_LOGO");
-			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSLG") {
-				opMostrarLogoNS->IsChecked = true;
-			}
-			else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSLG") {
-				opMostrarLogoNS->IsChecked = false;
-			}
-			else {
-				throw Exception ("ERRO 000011: Falha nas configurações especiais (Logo NS).\nPara maiores informações sobre este erro visite nossa DocWiki.");
-			}
+		LOCLIN = LocDet("MSTR_LOGO");
+		if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSLG") {
+			opMostrarLogoNS->IsChecked = true;
+		}
+		else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSLG") {
+			opMostrarLogoNS->IsChecked = false;
+		}
+		else {
+			throw Exception ("ERRO 000011: Falha nas configurações especiais (Logo NS).\nPara maiores informações sobre este erro visite nossa DocWiki.");
+		}
 
-			LOCLIN = LocDet("MSTR_DATA");
-			if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSDT") {
-				opMostrarDataAtual->IsChecked = true;
-			}
-			else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSDT") {
-				opMostrarDataAtual->IsChecked = false;
-			}
-			else {
-				throw Exception ("ERRO 000012: Falha nas configurações especiais (Data).\nPara maiores informações sobre este erro visite nossa DocWiki.");
-			}
+		LOCLIN = LocDet("MSTR_DATA");
+		if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "NSDT") {
+			opMostrarDataAtual->IsChecked = true;
+		}
+		else if (frmCodigo->mmEstilo->Lines->Strings[LOCLIN] == "!NSDT") {
+			opMostrarDataAtual->IsChecked = false;
+		}
+		else {
+			throw Exception ("ERRO 000012: Falha nas configurações especiais (Data).\nPara maiores informações sobre este erro visite nossa DocWiki.");
+		}
 
 		edTranspTitulo->Text = "";
-		Transp = 0;
+		SelecTransp->Selected = SelecTransp->Items->Item[0];
 		CarregarTransp(Transp);
 		salvo = false;
 	}
@@ -3942,5 +3951,12 @@ void __fastcall TfrmPrincipal::vsTranspResize(TObject *Sender)
 	else corFundo->Height = trTam[1] + 40;
 }
 //---------------------------------------------------------------------------
-
+void __fastcall TfrmPrincipal::FormActivate(TObject *Sender)
+{
+	if (!prim) {
+		CarregarTransp(SelecTransp->Selected->Index);
+		vsTransp->Repaint();
+	}
+}
+//---------------------------------------------------------------------------
 
