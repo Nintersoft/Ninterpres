@@ -38,7 +38,7 @@ void __fastcall TfrmImgConf::edtImgLegKeyDown(TObject *Sender, WORD &Key, System
 //---------------------------------------------------------------------------
 void TfrmImgConf::SalvarDepend ()
 {
-	if (edtImgLeg->Text == "") {
+	if (edtImgLeg->Text.IsEmpty()) {
 		frmPrincipal->lblImgLeg->Text = "";
 		frmPrincipal->lblImgLeg->Visible = false;
 		frmImgConf->Close();
@@ -50,7 +50,7 @@ void TfrmImgConf::SalvarDepend ()
 			int loc, pos = 0, tam = frmCodigo->mmCodigo->Lines->Count;
 			for (int i = 0; i < tam; i++) {
 				if (frmCodigo->mmCodigo->Lines->Strings[i] == "$CAPA") {
-					loc = i +1;
+					loc = i + 1;
 					i = tam;
 				}
 			}
@@ -72,6 +72,7 @@ void TfrmImgConf::SalvarDepend ()
 				}
 			} while (frmCodigo->mmCodigo->Lines->Strings[loc] != "!(FDT)");
 		}
+		else frmPrincipal->lblImgLeg->Text = edtImgLeg->Text;
 		frmImgConf->Close();
 	}
 }
@@ -79,6 +80,26 @@ void TfrmImgConf::SalvarDepend ()
 void __fastcall TfrmImgConf::FormShow(TObject *Sender)
 {
 	edtImgLeg->GoToTextEnd();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmImgConf::btSalvarMouseDown(TObject *Sender, TMouseButton Button,
+          TShiftState Shift, float X, float Y)
+{
+	btSalvar->Fill->Color = -12525360;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmImgConf::btSalvarMouseLeave(TObject *Sender)
+{
+	btSalvar->Fill->Color = -16777011;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmImgConf::btSalvarMouseUp(TObject *Sender, TMouseButton Button,
+		  TShiftState Shift, float X, float Y)
+{
+	btSalvar->Fill->Color = -16777011;
 }
 //---------------------------------------------------------------------------
 

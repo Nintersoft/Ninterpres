@@ -292,38 +292,35 @@ void __fastcall TfrmPrincipal::btSelecArquivoClick(TObject *Sender)
 void __fastcall TfrmPrincipal::FormShow(TObject *Sender)
 {
 
-	CorFundoTransp = vsTransp->Fill->Color;
-
-	TSize Tamanho = Screen->Size();
-	frmPrincipal->Width = Tamanho.Width;
-	frmPrincipal->Height = Tamanho.Height - 40;
-
-	btMaximizar->Enabled = false;
-
-	Transp = 0;
-
 	if (prim) {
+		frmPrincipal->Visible = false;
+		frmCarregar->Show();
 
+		CorFundoTransp = vsTransp->Fill->Color;
+
+		TSize Tamanho = Screen->Size();
+		frmPrincipal->Width = Tamanho.Width;
+		frmPrincipal->Height = Tamanho.Height - 40;
+
+		btMaximizar->Enabled = false;
+
+		Transp = 0;
 		SelecTransp->BeginUpdate();
 		SelecTransp->Items->Add()->Text = "CAPA";
 		SelecTransp->Items->Item[Transp]->Bitmap = frmCarregar->ImgCapa->Bitmap;
 		SelecTransp->Selected = SelecTransp->Items->Item[Transp];
 		SelecTransp->EndUpdate();
-
-		frmCarregar->Show();
-		frmPrincipal->Visible = false;
 		prim = false;
 
+		int COR = listaCorApresenta->Color;
+		vsTransp->Fill->Color = COR;
+		int LOCLIN = LocDet("COR_TRANSP");
+		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "COR:"+IntToStr(COR);
+
+		LOCLIN = LocDet("TAM_FONTE");
+		float TamConv = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
+		lblTranspTexto->TextSettings->Font->Size = TamConv;
 	}
-
-	int COR = listaCorApresenta->Color;
-	vsTransp->Fill->Color = COR;
-	int LOCLIN = LocDet("COR_TRANSP");
-	frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "COR:"+IntToStr(COR);
-
-	LOCLIN = LocDet("TAM_FONTE");
-	float TamConv = AdquireTam(frmCodigo->mmEstilo->Lines->Strings[LOCLIN]);
-	lblTranspTexto->TextSettings->Font->Size = TamConv;
 
 }
 //---------------------------------------------------------------------------
@@ -1427,6 +1424,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			else lblImgLeg->Position->X = ValorHorz * 3;
 			lblImgLeg->TextSettings->HorzAlign = 0x2;
 			lblImgLeg->Position->Y = AltTransp - ValorVert * 3 - lblImgLeg->Height;
+			lblImgLeg->Font->Size = tamFonteBasica;
 			lblImgLeg->Visible = true;
 
 		}
@@ -1481,6 +1479,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Position->X = LargTransp / 2 + ValorHorzM * 2;
 			else lblImgLeg->Position->X = LargTransp / 2 + ValorHorz * 2;
 			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
+			lblImgLeg->Font->Size = tamFonteBasica;
 			lblImgLeg->Visible = true;
 
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
@@ -1544,6 +1543,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Position->X = ValorHorz * 3;
 			else lblImgLeg->Position->X = ValorHorz * 3;
 			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
+			lblImgLeg->Font->Size = tamFonteBasica;
 			lblImgLeg->Visible = true;
 
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
@@ -1607,6 +1607,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Position->X = LargTransp / 2 + ValorHorzM;
 			else lblImgLeg->Position->X = LargTransp / 2 + ValorHorz;
 			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
+			lblImgLeg->Font->Size = tamFonteBasica;
 			lblImgLeg->Visible = true;
 
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
@@ -1670,6 +1671,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Position->X = ValorHorzM * 3;
 			else lblImgLeg->Position->X = ValorHorz * 3;
 			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
+			lblImgLeg->Font->Size = tamFonteBasica;
 			lblImgLeg->Visible = true;
 
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
@@ -1727,6 +1729,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			lblImgLeg->Width = 0;
 			lblImgLeg->Position->X = 0;
 			lblImgLeg->Position->Y = 0;
+			lblImgLeg->Font->Size = tamFonteBasica;
 			lblImgLeg->Visible = false;
 
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblTranspTexto->Width = LargTransp - (ValorHorzM * 6);
@@ -1789,6 +1792,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Position->X = ValorHorzM * 3;
 			else lblImgLeg->Position->X = ValorHorz * 3;
 			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
+			lblImgLeg->Font->Size = tamFonteBasica;
 			lblImgLeg->Visible = true;
 			lblImgLeg->TextSettings->HorzAlign = 0x0;
 
@@ -1850,6 +1854,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Position->X = ValorHorzM * 3;
 			else lblImgLeg->Position->X = ValorHorz * 3;
 			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
+			lblImgLeg->Font->Size = tamFonteBasica;
 			lblImgLeg->Visible = true;
 			lblImgLeg->TextSettings->HorzAlign = 0x0;
 
@@ -1894,6 +1899,7 @@ void __fastcall TfrmPrincipal::FormResize(TObject *Sender)
 		LocInDef = Dif;
 	}
 	if (redimencionar) ArranjoBotoes();
+	if (!prim) listaPrevTranspChange(listaPrevTransp);
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmPrincipal::baTamFonteTracking(TObject *Sender)
@@ -3954,9 +3960,14 @@ void __fastcall TfrmPrincipal::vsTranspResize(TObject *Sender)
 void __fastcall TfrmPrincipal::FormActivate(TObject *Sender)
 {
 	if (!prim) {
-		CarregarTransp(SelecTransp->Selected->Index);
 		vsTransp->Repaint();
 	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TfrmPrincipal::listaPrevTranspChange(TObject *Sender)
+{
+	CarregarTransp(SelecTransp->Selected->Index);
+	CarregarTransp(SelecTransp->Selected->Index);
 }
 //---------------------------------------------------------------------------
 

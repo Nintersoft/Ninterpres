@@ -343,6 +343,7 @@ __published:	// IDE-managed Components
 	void __fastcall btSalvarComoClick(TObject *Sender);
 	void __fastcall vsTranspResize(TObject *Sender);
 	void __fastcall FormActivate(TObject *Sender);
+	void __fastcall listaPrevTranspChange(TObject *Sender);
 
 
 

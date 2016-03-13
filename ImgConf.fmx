@@ -48,6 +48,9 @@ object frmImgConf: TfrmImgConf
     Size.Height = 33.000000000000000000
     Size.PlatformDefault = False
     OnClick = btSalvarClick
+    OnMouseDown = btSalvarMouseDown
+    OnMouseUp = btSalvarMouseUp
+    OnMouseLeave = btSalvarMouseLeave
     object lblBtSalvar: TLabel
       StyledSettings = [Family, Style]
       Position.X = 32.000000000000000000

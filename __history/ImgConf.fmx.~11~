@@ -1,0 +1,65 @@
+object frmImgConf: TfrmImgConf
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = Single
+  Caption = 'Configura'#231#245'es de imagem'
+  ClientHeight = 130
+  ClientWidth = 473
+  Fill.Color = claOrange
+  Fill.Kind = Solid
+  Position = MainFormCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop, iPhone, iPad]
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object lblImgLeg: TLabel
+    StyledSettings = [Family, Style]
+    Position.X = 16.000000000000000000
+    Position.Y = 8.000000000000000000
+    Size.Width = 441.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Size = 22.000000000000000000
+    TextSettings.FontColor = claWhite
+    TextSettings.HorzAlign = Center
+    TextSettings.VertAlign = Leading
+    Text = 'Legenda/descri'#231#227'o da imagem usada'
+  end
+  object edtImgLeg: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    TabOrder = 0
+    TextSettings.Font.Size = 14.000000000000000000
+    Position.X = 16.000000000000000000
+    Position.Y = 48.000000000000000000
+    Size.Width = 441.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
+    StyledSettings = [Family, Style, FontColor]
+    OnKeyDown = edtImgLegKeyDown
+  end
+  object btSalvar: TRoundRect
+    Corners = [BottomLeft, BottomRight]
+    Fill.Color = claMediumblue
+    Position.X = 176.000000000000000000
+    Position.Y = 88.000000000000000000
+    Size.Width = 129.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    OnClick = btSalvarClick
+    object lblBtSalvar: TLabel
+      StyledSettings = [Family, Style]
+      Position.X = 32.000000000000000000
+      Size.Width = 72.000000000000000000
+      Size.Height = 33.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 22.000000000000000000
+      TextSettings.FontColor = claWhite
+      TextSettings.HorzAlign = Center
+      TextSettings.VertAlign = Leading
+      Text = 'Salvar'
+      OnClick = btSalvarClick
+    end
+  end
+end

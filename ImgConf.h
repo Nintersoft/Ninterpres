@@ -23,6 +23,11 @@ __published:	// IDE-managed Components
 	void __fastcall edtImgLegKeyDown(TObject *Sender, WORD &Key, System::WideChar &KeyChar,
           TShiftState Shift);
 	void __fastcall FormShow(TObject *Sender);
+	void __fastcall btSalvarMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
+	void __fastcall btSalvarMouseLeave(TObject *Sender);
+	void __fastcall btSalvarMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          float X, float Y);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TfrmImgConf(TComponent* Owner);
