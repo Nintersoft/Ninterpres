@@ -58,7 +58,7 @@ object frmApresentacao: TfrmApresentacao
         WrapMode = Stretch
       end
       object lblTitulo: TLabel
-        StyledSettings = [FontColor]
+        StyledSettings = []
         Position.X = 24.000000000000000000
         Position.Y = 384.000000000000000000
         Size.Width = 977.000000000000000000
@@ -71,11 +71,11 @@ object frmApresentacao: TfrmApresentacao
         Text = 'T'#237'tulo da apresenta'#231#227'o'
       end
       object lblImgLeg: TLabel
-        StyledSettings = [Family, Style, FontColor]
+        StyledSettings = []
         Position.X = 592.000000000000000000
         Position.Y = 720.000000000000000000
         Size.Width = 409.000000000000000000
-        Size.Height = 25.000000000000000000
+        Size.Height = 33.000000000000000000
         Size.PlatformDefault = False
         TextSettings.Font.Size = 18.000000000000000000
         TextSettings.HorzAlign = Trailing
@@ -1410,6 +1410,7 @@ object frmApresentacao: TfrmApresentacao
               98376846ABD118CB6BAFFDFF2DEC8092C9267FDF0000000049454E44AE426082}
           end>
         Anchors = [akRight, akBottom]
+        Opacity = 0.699999988079071000
         Position.X = 8.000000000000000000
         Position.Y = 680.000000000000000000
         Size.Width = 80.000000000000000000

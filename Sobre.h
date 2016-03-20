@@ -73,14 +73,6 @@ __published:	// IDE-managed Components
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall gerWebArqWork(TObject *ASender, TWorkMode AWorkMode, __int64 AWorkCount);
 
-
-
-
-
-
-
-
-
 private:	// User declarations
 public:		// User declarations
 	int verat;

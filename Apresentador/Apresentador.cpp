@@ -350,6 +350,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			imgTransp->Width = LargTransp;
 			imgTransp->Height = AltTransp;
 			imgTransp->WrapMode = TImageWrapMode::iwStretch;
+			imgTransp->Opacity = 0.8;
 
 			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Width = LargTransp - (ValorHorzM * 4);
 			else lblImgLeg->Width = LargTransp - (ValorHorz * 4);
@@ -357,6 +358,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			else lblImgLeg->Position->X = ValorHorz * 3;
 			lblImgLeg->TextSettings->HorzAlign = 0x2;
 			lblImgLeg->Position->Y = AltTransp - ValorVert * 3 - lblImgLeg->Height;
+			lblImgLeg->Font->Size = tamFonteBasica;
 			lblImgLeg->Visible = true;
 
 		}
@@ -404,6 +406,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - (ValorVert * 4);
 			imgTransp->Position->Y = (ValorVert * 13) + (ValorVert/4);
 			imgTransp->WrapMode = TImageWrapMode::iwFit;
+			imgTransp->Opacity = 1;
 
 			lblImgLeg->TextSettings->HorzAlign = 0x0;
 			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Width = LargTransp/2 - ValorHorzM * 4;
@@ -411,6 +414,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Position->X = LargTransp / 2 + ValorHorzM * 2;
 			else lblImgLeg->Position->X = LargTransp / 2 + ValorHorz * 2;
 			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
+			lblImgLeg->Font->Size = tamFonteBasica;
 			lblImgLeg->Visible = true;
 
 			if (Visualiza == 0 | Visualiza == 1 ) lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
@@ -466,6 +470,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - (ValorVert * 4);
 			imgTransp->Position->Y = (ValorVert * 13) + (ValorVert/4);
 			imgTransp->WrapMode = TImageWrapMode::iwFit;
+			imgTransp->Opacity = 1;
 
 			lblImgLeg->TextSettings->HorzAlign = 0x0;
 			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Width = LargTransp/2 - (ValorHorzM * 4);
@@ -473,6 +478,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Position->X = ValorHorz * 3;
 			else lblImgLeg->Position->X = ValorHorz * 3;
 			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
+			lblImgLeg->Font->Size = tamFonteBasica;
 			lblImgLeg->Visible = true;
 
 			if (Visualiza == 0 | Visualiza == 1 ) lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
@@ -528,6 +534,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - 32;
 			imgTransp->Position->Y = ValorVert * 3;
 			imgTransp->WrapMode = TImageWrapMode::iwFit;
+			imgTransp->Opacity = 1;
 
 			lblImgLeg->TextSettings->HorzAlign = 0x0;
 			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Width = LargTransp/2 - (ValorHorzM * 4);
@@ -535,6 +542,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Position->X = LargTransp / 2 + ValorHorzM;
 			else lblImgLeg->Position->X = LargTransp / 2 + ValorHorz;
 			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
+			lblImgLeg->Font->Size = tamFonteBasica;
 			lblImgLeg->Visible = true;
 
 			if (Visualiza == 0 | Visualiza == 1 ) lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
@@ -590,6 +598,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - (ValorVert * 4);
 			imgTransp->Position->Y = ValorVert * 3;
 			imgTransp->WrapMode = TImageWrapMode::iwFit;
+			imgTransp->Opacity = 1;
 
 			lblImgLeg->TextSettings->HorzAlign = 0x0;
 			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Width = LargTransp/2 - (ValorHorzM * 4);
@@ -597,6 +606,7 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Position->X = ValorHorzM * 3;
 			else lblImgLeg->Position->X = ValorHorz * 3;
 			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
+			lblImgLeg->Font->Size = tamFonteBasica;
 			lblImgLeg->Visible = true;
 
 			if (Visualiza == 0 | Visualiza == 1 ) lblTranspTexto->Width = LargTransp/2 - (ValorHorzM * 4);
@@ -708,12 +718,14 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - (ValorVert * 4);
 			imgTransp->Position->Y = (ValorVert * 13) + (ValorVert/4);
 			imgTransp->WrapMode = TImageWrapMode::iwFit;
+			imgTransp->Opacity = 1;
 
 			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Width = LargTransp - (ValorHorzM * 6);
 			else lblImgLeg->Width = LargTransp - (ValorHorz * 6);
 			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Position->X = ValorHorzM * 3;
 			else lblImgLeg->Position->X = ValorHorz * 3;
 			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
+			lblImgLeg->Font->Size = tamFonteBasica;
 			lblImgLeg->Visible = true;
 			lblImgLeg->TextSettings->HorzAlign = 0x0;
 
@@ -768,12 +780,14 @@ void TfrmApresentacao::RearranjoTransp (int estilo){
 			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - (ValorVert * 4);
 			imgTransp->Position->Y = (ValorVert * 3);
 			imgTransp->WrapMode = TImageWrapMode::iwFit;
+			imgTransp->Opacity = 1;
 
 			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Width = LargTransp - (6 * ValorHorzM);
 			else lblImgLeg->Width = LargTransp - (6 * ValorHorz);
 			if (Visualiza == 0 | Visualiza == 1 ) lblImgLeg->Position->X = ValorHorzM * 3;
 			else lblImgLeg->Position->X = ValorHorz * 3;
 			lblImgLeg->Position->Y = imgTransp->Position->Y + imgTransp->Height + ValorVert;
+			lblImgLeg->Font->Size = tamFonteBasica;
 			lblImgLeg->Visible = true;
 			lblImgLeg->TextSettings->HorzAlign = 0x0;
 
@@ -810,15 +824,15 @@ void TfrmApresentacao::Padronizar()
 	int LOCLIN2 = LocDet("APL_TODOS"), LOCAUX = LocDet("COR_FONTE");
 
 	if (mmEstilo->Lines->Strings[LOCLIN2] == "NSTT" && mmEstilo->Lines->Strings[LOCLIN] == "NSFT") {
-		lblTitulo->TextSettings->FontColor = AdquireTam(mmEstilo->Lines->Strings[LOCAUX]);
 		lblTranspTexto->TextSettings->FontColor = AdquireTam(mmEstilo->Lines->Strings[LOCAUX]);
-		lblImgLeg->TextSettings->FontColor = AdquireTam(mmEstilo->Lines->Strings[LOCAUX]);
+		lblTitulo->TextSettings->FontColor = lblTranspTexto->TextSettings->FontColor;
+		lblImgLeg->TextSettings->FontColor = lblTranspTexto->TextSettings->FontColor;
 		CorBordaDif = true;
 	}
 	else {
-		lblTitulo->TextSettings->FontColor = CorBordaTransp;
 		lblTranspTexto->TextSettings->FontColor = CorBordaTransp;
 		lblImgLeg->TextSettings->FontColor = CorBordaTransp;
+		lblTitulo->TextSettings->FontColor = CorBordaTransp;
 		CorBordaDif = false;
 	}
 

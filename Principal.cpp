@@ -20,7 +20,7 @@
 #pragma comment (lib, "CriptLib.lib")
 TfrmPrincipal *frmPrincipal;
 //---------------------------------------------------------------------------
-const float RealTamFonte = 1.3125;
+const float REALTAMFONTE = 1.3125;
 int tpEscolha = 1, Cam = 390, CorBordaTransp, CorFundoTransp, Vis = 0, Dif, LocInDef, LocIn;
 bool prim, salvo = false, confSalvo = false, primeiravez;
 String TranspSelec, locSalvo;
@@ -232,14 +232,8 @@ void __fastcall TfrmPrincipal::edtApresTituloExit(TObject *Sender)
 			edTranspTitulo->Text = "";
 		}
 	}
-	if (frmPrincipal->WindowState == TWindowState::wsMaximized) {
-		frmPrincipal->WindowState = TWindowState::wsNormal;
-		frmPrincipal->WindowState = TWindowState::wsMaximized;
-	}
-	else if (frmPrincipal->WindowState == TWindowState::wsNormal) {
-		frmPrincipal->WindowState = TWindowState::wsMaximized;
-		frmPrincipal->WindowState = TWindowState::wsNormal;
-	}
+	frmPrincipal->Deactivate();
+	frmPrincipal->Activate();
 }
 //---------------------------------------------------------------------------
 
@@ -521,9 +515,7 @@ void __fastcall TfrmPrincipal::edtApresTituloTyping(TObject *Sender)
 
 void __fastcall TfrmPrincipal::edtApresTituloClick(TObject *Sender)
 {
-	if (edtApresTitulo->Text == "Apresentação sem título") {
-		edtApresTitulo->Text = "";
-	}
+	if (edtApresTitulo->Text == "Apresentação sem título")	edtApresTitulo->Text = "";
 }
 //---------------------------------------------------------------------------
 
@@ -534,6 +526,8 @@ void __fastcall TfrmPrincipal::edTranspTituloExit(TObject *Sender)
 			frmCodigo->mmCodigo->Lines->Strings[0] = edtApresTitulo->Text;
 			frmPrincipal->Caption = edtApresTitulo->Text + " - Ninterpres";
 			lblTituloForm->Text = edtApresTitulo->Text + " - Ninterpres";
+			frmPrincipal->Deactivate();
+			frmPrincipal->Activate();
 		}
 		else {
 			frmPrincipal->Caption = "Apresentação sem título - Ninterpres";
@@ -554,9 +548,8 @@ void __fastcall TfrmPrincipal::listaCorApresentaChange(TObject *Sender)
 		vsTransp->Fill->Color = listaCorApresenta->Color;
 		int a = vsTransp->Fill->Color, LOCLIN = LocDet("COR_TRANSP");
 		frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "COR:" + IntToStr(a);
-			if (cbBorda->IsChecked == true) {
-				vsTransp->Stroke->Color = listaCorApresenta->Color;
-			}
+
+		if (cbBorda->IsChecked == true)	vsTransp->Stroke->Color = listaCorApresenta->Color;
 	}
 }
 //---------------------------------------------------------------------------
@@ -1408,7 +1401,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			else lblTranspTexto->Position->X = ValorHorz * 3;
 			lblTranspTexto->Position->Y = AltTransp/2 + ValorVert + lblTitulo->Height;
 			lblTranspTexto->Font->Size = tamFonteBasica;
-			lblTranspTexto->Height = tamFonteBasica * RealTamFonte * 2;
+			lblTranspTexto->Height = tamFonteBasica * REALTAMFONTE * 2;
 			lblTranspTexto->TextSettings->VertAlign = 0x1;
 			lblTranspTexto->TextSettings->HorzAlign = 0x1;
 
@@ -1417,6 +1410,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			imgTransp->Width = LargTransp;
 			imgTransp->Height = AltTransp;
 			imgTransp->WrapMode = TImageWrapMode::iwStretch;
+			imgTransp->Opacity = 0.8;
 
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Width = LargTransp - (ValorHorzM * 4);
 			else lblImgLeg->Width = LargTransp - (ValorHorz * 4);
@@ -1472,6 +1466,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - (ValorVert * 4);
 			imgTransp->Position->Y = (ValorVert * 13) + (ValorVert/4);
 			imgTransp->WrapMode = TImageWrapMode::iwFit;
+			imgTransp->Opacity = 1;
 
 			lblImgLeg->TextSettings->HorzAlign = 0x0;
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Width = LargTransp/2 - ValorHorzM * 4;
@@ -1536,6 +1531,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - (ValorVert * 4);
 			imgTransp->Position->Y = (ValorVert * 13) + (ValorVert/4);
 			imgTransp->WrapMode = TImageWrapMode::iwFit;
+			imgTransp->Opacity = 1;
 
 			lblImgLeg->TextSettings->HorzAlign = 0x0;
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Width = LargTransp/2 - (ValorHorzM * 4);
@@ -1600,6 +1596,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - 32;
 			imgTransp->Position->Y = ValorVert * 3;
 			imgTransp->WrapMode = TImageWrapMode::iwFit;
+			imgTransp->Opacity = 1;
 
 			lblImgLeg->TextSettings->HorzAlign = 0x0;
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Width = LargTransp/2 - (ValorHorzM * 4);
@@ -1664,6 +1661,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - (ValorVert * 4);
 			imgTransp->Position->Y = ValorVert * 3;
 			imgTransp->WrapMode = TImageWrapMode::iwFit;
+			imgTransp->Opacity = 1;
 
 			lblImgLeg->TextSettings->HorzAlign = 0x0;
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Width = LargTransp/2 - (ValorHorzM * 4);
@@ -1786,6 +1784,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - (ValorVert * 4);
 			imgTransp->Position->Y = (ValorVert * 13) + (ValorVert/4);
 			imgTransp->WrapMode = TImageWrapMode::iwFit;
+			imgTransp->Opacity = 1;
 
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Width = LargTransp - (ValorHorzM * 6);
 			else lblImgLeg->Width = LargTransp - (ValorHorz * 6);
@@ -1848,6 +1847,7 @@ void TfrmPrincipal::RearranjoTransp (int estilo){
 			imgTransp->Height = AltTransp - (ValorVert * 14) - lblImgLeg->Height - (ValorVert * 4);
 			imgTransp->Position->Y = (ValorVert * 3);
 			imgTransp->WrapMode = TImageWrapMode::iwFit;
+			imgTransp->Opacity = 1;
 
 			if (listaPrevTransp->Index == 0 | listaPrevTransp->Index == 1 ) lblImgLeg->Width = LargTransp - (6 * ValorHorzM);
 			else lblImgLeg->Width = LargTransp - (6 * ValorHorz);
@@ -1909,6 +1909,7 @@ void __fastcall TfrmPrincipal::baTamFonteTracking(TObject *Sender)
 	frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "TAM:"+FloatToStr(edtTamFonte->Value);
 	AjusteVisual();
 	lblTranspTexto->TextSettings->Font->Size = tamFonteBasica;
+	lblImgLeg->TextSettings->Font->Size = tamFonteBasica;
 }
 //---------------------------------------------------------------------------
 
@@ -1919,6 +1920,7 @@ void __fastcall TfrmPrincipal::edtTamFonteChange(TObject *Sender)
 	frmCodigo->mmEstilo->Lines->Strings[LOCLIN] = "TAM:"+FloatToStr(edtTamFonte->Value);
 	AjusteVisual();
 	lblTranspTexto->TextSettings->Font->Size = tamFonteBasica;
+	lblImgLeg->TextSettings->Font->Size = tamFonteBasica;
 }
 //---------------------------------------------------------------------------
 
@@ -2887,7 +2889,6 @@ void __fastcall TfrmPrincipal::listaPrevTranspItemClick(TCustomListBox * const S
 		  TListBoxItem * const Item)
 {
 	CarregarTransp(SelecTransp->Selected->Index);
-	CarregarTransp(SelecTransp->Selected->Index);
 }
 //---------------------------------------------------------------------------
 
@@ -3805,8 +3806,10 @@ void __fastcall TfrmPrincipal::btSalvarComoClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void TfrmPrincipal::SalvaCript(){
 
-	dsExportar->FileName = frmCodigo->mmCodigo->Lines->Strings[0];
-	dsSalvarProj->FileName = frmCodigo->mmCodigo->Lines->Strings[0];
+	String nomeTemp = frmCodigo->mmCodigo->Lines->Strings[0];
+	CriptLib::Decriptar::Subst(frmCript->edtOrig->Text, frmCript->edtSenha->Text, nomeTemp);
+	dsExportar->FileName = nomeTemp;
+	dsSalvarProj->FileName = nomeTemp;
 
 	int escSalva = MessageBox (0, L"Você gostaria de exportar a apresentação concluída?\nCaso não deseje, você irá salvá-la no modo de edição.\nPara maiores informações visite nossa docwiki.", L"Aviso - Ninterpres", MB_YESNO+MB_ICONQUESTION);
 	if (escSalva == 6) {
@@ -3847,8 +3850,6 @@ void TfrmPrincipal::SalvaCript(){
 
 		}
 		else {
-
-			dsExportar->FileName = frmCodigo->mmCodigo->Lines->Strings[0];
 
 			if (dsExportar->Execute()) {
 				PWSTR pszPath;
@@ -3967,7 +3968,5 @@ void __fastcall TfrmPrincipal::FormActivate(TObject *Sender)
 void __fastcall TfrmPrincipal::listaPrevTranspChange(TObject *Sender)
 {
 	CarregarTransp(SelecTransp->Selected->Index);
-	CarregarTransp(SelecTransp->Selected->Index);
 }
 //---------------------------------------------------------------------------
-

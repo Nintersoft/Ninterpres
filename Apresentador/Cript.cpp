@@ -42,8 +42,12 @@ void __fastcall TfrmCript::FormClose(TObject *Sender, TCloseAction &Action)
 void __fastcall TfrmCript::btConfClick(TObject *Sender)
 {
 	try {
+		String tituloTemp = frmApresentacao->mmCodigo->Lines->Strings[0];
+		String orig = frmApresentacao->mmCodigo->Lines->Strings[frmApresentacao->mmCodigo->Lines->Count - 2];
+		CriptLib::Decriptar::Subst(orig, edtSenha->Text, tituloTemp);
 		CriptLib::Decriptar::Subst(edtSenha->Text, frmApresentacao->mmCodigo);
 		CriptLib::Decriptar::Subst(edtSenha->Text, frmApresentacao->mmEstilo);
+		frmApresentacao->mmCodigo->Lines->Strings[0] = tituloTemp;
 		frmCript->Hide();
 		frmApresentacao->LerApresentacao();
 		frmApresentacao->Show();
